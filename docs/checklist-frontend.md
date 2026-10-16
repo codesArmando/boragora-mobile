@@ -32,7 +32,7 @@ Valores de status: Não iniciada, Em andamento, Aguardando backend, Concluída.
 
 | Pessoa | Entregas | Concluídas |
 |---|---|---|
-| 1 — Acesso, sessão, navegação e notificações | `FND-01`, `FND-05`, `FND-06`, `FND-07`, `ACE-01`, `ACE-02`, `NOT-01` a `NOT-03` | 0 de 9 |
+| 1 — Acesso, sessão, navegação e notificações | `FND-01`, `FND-05`, `FND-06`, `FND-07`, `ACE-01`, `ACE-02`, `NOT-01` a `NOT-03` | 2 de 9 |
 | 2 — Gestão do motorista-chefe | `FND-03`, `GES-01` a `GES-11` | 0 de 12 |
 | 3 — Motorista e listas de consulta | `FND-04`, `FND-08`, `LIS-01`, `LIS-03` a `LIS-06`, `GES-12`, `GES-13`, `ACE-04` | 0 de 10 |
 | 4 — Aluno | `FND-02`, `ALU-01` a `ALU-06`, `LIS-02`, `ACE-03` | 0 de 9 |
@@ -57,7 +57,7 @@ Backend: nenhum.
 - [x] Esqueleto: `api/api.ts` mínimo com `get`, `post`, `put` e `del` (URL base de `EXPO_PUBLIC_API_URL` e JSON), na forma final
 
 **Critérios de aceite**
-- [ ] `npx expo start` abre o app no Expo Go *(verificação manual)*
+- [x] `npx expo start` abre o app no Expo Go *(verificação manual)*
 - [x] `npm run lint` passa sem erro
 
 ### `FND-02` Fontes, tipografia e imagens da marca · pessoa 4
@@ -109,16 +109,16 @@ Backend: nenhum.
 Backend: E0 (pronta) — formato padrão de erro.
 
 **Construção**
-- [ ] `api/api.ts` do esqueleto completado sem mudar a forma de chamar, com tempo limite
-- [ ] Cabeçalho `Authorization` com o token da sessão
-- [ ] Classe `ErroApi` com `status`, `codigo`, `mensagem` e `campos`
-- [ ] Falha de rede convertida em "Sem conexão com o servidor"
-- [ ] Ponto único para avisar a sessão sobre o 401
-- [ ] `types/erro.ts`, `types/auth.ts` e `types/usuario.ts` (os demais tipos são criados por quem usa o endpoint primeiro, seção 2.5 do plano)
+- [x] `api/api.ts` do esqueleto completado sem mudar a forma de chamar, com tempo limite
+- [x] Cabeçalho `Authorization` com o token da sessão
+- [x] Classe `ErroApi` com `status`, `codigo`, `mensagem` e `campos`
+- [x] Falha de rede convertida em "Sem conexão com o servidor"
+- [x] Ponto único para avisar a sessão sobre o 401
+- [x] `types/erro.ts`, `types/auth.ts` e `types/usuario.ts` (os demais tipos são criados por quem usa o endpoint primeiro, seção 2.5 do plano)
 
 **Critérios de aceite**
-- [ ] Resposta 200, erro no formato padrão, erro fora do formato e falha de rede tratados *(teste automatizado)*
-- [ ] `GET /health` responde pelo aparelho *(verificação manual)*
+- [x] Resposta 200, erro no formato padrão, erro fora do formato e falha de rede tratados *(teste automatizado)*
+- [x] `GET /health` responde pelo aparelho *(verificação manual)*
 
 ### `FND-06` Sessão: login, token e expiração · pessoa 1
 Backend: E2 (pronta) — `POST /auth/login`, `POST /auth/cadastro`, `GET /me`, 401 com token expirado.
@@ -616,4 +616,11 @@ Registrar aqui tudo o que for decidido na implementação e não estiver no plan
 | 2026-10-16 | `FND-01` | `api.ts` exporta um objeto `api` (`api.get<T>(caminho)`, `api.post<T>(caminho, corpo)`, `api.put`, `api.del`) | Forma de chamar fixada no esqueleto, para os repositórios não mudarem quando a `FND-05` completar o arquivo |
 | 2026-10-16 | `FND-01` | `medidas.margemTela` = 20, tirado do HTML do protótipo | O valor não está na seção 2.3, mas todas as telas usam essa margem lateral |
 | 2026-10-16 | `FND-01` | Componente `TelaProvisoria` em `components/`, usado por todas as rotas do esqueleto | Cada entrega troca a sua tela provisória pela real; o componente é apagado quando nenhuma rota o usar |
+| 2026-10-16 | `FND-05` | O aviso de 401 à sessão só dispara quando a requisição foi feita com token | O login com senha errada também devolve 401 (`CREDENCIAIS_INVALIDAS`) e não pode encerrar uma sessão que não existe |
+| 2026-10-16 | `FND-05` | Tempo limite de 15 s, tratado como falha de rede ("Sem conexão com o servidor.") | O plano pede tempo limite sem fixar o valor nem a mensagem |
+| 2026-10-16 | `FND-05` | Códigos do próprio app: `SEM_CONEXAO` (`status` 0) e `RESPOSTA_INESPERADA` (resposta fora do formato padrão, com o `status` recebido) | A tela trata qualquer falha como `ErroApi`, sem caso especial |
+| 2026-10-16 | `FND-05` | `ErroApi` em `src/api/ErroApi.ts`; a sessão usa `setAuthToken` e `setUnauthorizedHandler`, de `api.ts` | `types/` não tem classes (seção 2.2); nomes de infraestrutura em inglês |
+| 2026-10-16 | `FND-05` | Tipos com os mesmos nomes dos records do backend (`ErroResposta`, `LoginRequisicao`, `CadastroRequisicao`, `TokenResposta`); `UsuarioResposta` virou `Usuario`. Também `types/health.ts` e `repositories/healthRepository.ts` | Nomes do domínio iguais aos do backend; o `/health` é usado pelo teste de conexão |
+| 2026-10-16 | `FND-05` | Botão "Testar conexão com a API" no mapa de rotas (`app/index.tsx`) | Permite conferir no aparelho o critério do `GET /health`; sai junto com o mapa na `FND-07` |
+| 2026-10-16 | `FND-05` | `jest-expo` 57 com Jest 29, script `npm test` e `"types": ["jest"]` no `tsconfig.json`; `package-lock.json` gerado de novo | O `expo install --fix` da `FND-01` deixou o `expo-modules-core` aninhado em `node_modules/expo/`, e o `jest-expo` não o encontrava. Nenhuma dependência direta mudou de versão |
 

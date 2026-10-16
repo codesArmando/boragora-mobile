@@ -1,4 +1,5 @@
 import { Link, router, useLocalSearchParams, usePathname, type Href } from 'expo-router';
+import type { ReactNode } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -14,9 +15,10 @@ type Props = {
   titulo: string;
   entrega: string;
   links?: LinkProvisorio[];
+  children?: ReactNode;
 };
 
-export function TelaProvisoria({ telas, titulo, entrega, links = [] }: Props) {
+export function TelaProvisoria({ telas, titulo, entrega, links = [], children }: Props) {
   const caminho = usePathname();
   const parametros = useLocalSearchParams();
   const textoParametros = Object.entries(parametros)
@@ -49,6 +51,8 @@ export function TelaProvisoria({ telas, titulo, entrega, links = [] }: Props) {
             ))}
           </View>
         )}
+
+        {children}
       </ScrollView>
     </SafeAreaView>
   );
