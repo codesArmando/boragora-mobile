@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Vincular alunos à turma</title>
+<meta name="viewport" content="width=390">
+<!-- Protótipo Boragora: tela Vincular alunos. Mockup estático de referência visual; não é código do app. -->
+<style>
+@font-face{font-family:'Barlow';font-style:normal;font-weight:400;src:url('../assets/fonts/barlow-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:500;src:url('../assets/fonts/barlow-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:600;src:url('../assets/fonts/barlow-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:700;src:url('../assets/fonts/barlow-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Saira';font-style:normal;font-weight:700;src:url('../assets/fonts/saira-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Saira';font-style:italic;font-weight:700;src:url('../assets/fonts/saira-latin-700-italic.woff2') format('woff2')}
+@font-face{font-family:'Saira';font-style:italic;font-weight:800;src:url('../assets/fonts/saira-latin-800-italic.woff2') format('woff2')}
+x-dc,helmet{display:contents}
+html,body{background:#000}
+</style>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit;color:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #111111; color: #FFFFFF; font-family: 'Barlow', system-ui, sans-serif; font-size: 16px; line-height: 1.35; overflow: hidden">
+<header style="padding: 56px 12px 0; display: flex; align-items: center; gap: 4px">
+<a href="D5-Turma-gerenciar.html" aria-label="Voltar" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+</a>
+<div style="display: flex; flex-direction: column">
+<h1 style="margin: 0; font-family: 'Saira', sans-serif; font-style: italic; font-weight: 800; font-size: 26px; line-height: 1.1">Vincular alunos</h1>
+<div style="font-size: 14px; color: #C4C0B4">Van 2 · Noite</div>
+</div>
+</header>
+<main style="flex: 1; padding: 16px 20px 0; display: flex; flex-direction: column; gap: 8px">
+<div style="height: 52px; box-sizing: border-box; padding: 0 14px; border-radius: 12px; border: 1.5px solid #34322B; background: #1B1A17; display: flex; align-items: center; gap: 10px">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9A968A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+<input type="search" aria-label="Buscar aluno por nome ou e-mail" placeholder="Buscar por nome ou e-mail" style="flex: 1; min-width: 0; height: 48px; border: 0; background: transparent; font-size: 16px; outline: none">
+</div>
+<div style="display: flex; flex-direction: column">
+<label style="min-height: 64px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid #262420; cursor: pointer">
+<input type="checkbox" checked="" style="width: 24px; height: 24px; margin: 0; accent-color: #FFC800; flex-shrink: 0">
+<span style="display: flex; flex-direction: column">
+<span style="font-size: 16px; font-weight: 600">Ana Beatriz Moura</span>
+<span style="font-size: 14px; color: #C4C0B4">Sem turma</span>
+</span>
+</label>
+<label style="min-height: 64px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid #262420; cursor: pointer">
+<input type="checkbox" checked="" style="width: 24px; height: 24px; margin: 0; accent-color: #FFC800; flex-shrink: 0">
+<span style="display: flex; flex-direction: column">
+<span style="font-size: 16px; font-weight: 600">Diego Farias</span>
+<span style="font-size: 14px; color: #C4C0B4">Sem turma</span>
+</span>
+</label>
+<label style="min-height: 64px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid #262420">
+<input type="checkbox" disabled="" style="width: 24px; height: 24px; margin: 0; flex-shrink: 0">
+<span style="display: flex; flex-direction: column">
+<span style="font-size: 16px; font-weight: 500; color: #9A968A">Gustavo Nunes</span>
+<span style="font-size: 14px; color: #FF6B5E">Já está na Van 1 deste grupo</span>
+</span>
+</label>
+<label style="min-height: 64px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid #262420; cursor: pointer">
+<input type="checkbox" style="width: 24px; height: 24px; margin: 0; accent-color: #FFC800; flex-shrink: 0">
+<span style="display: flex; flex-direction: column">
+<span style="font-size: 16px; font-weight: 500">Helena Castro</span>
+<span style="font-size: 14px; color: #C4C0B4">Manhã · Van 2</span>
+</span>
+</label>
+<label style="min-height: 64px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid #262420">
+<input type="checkbox" disabled="" style="width: 24px; height: 24px; margin: 0; flex-shrink: 0">
+<span style="display: flex; flex-direction: column">
+<span style="font-size: 16px; font-weight: 500; color: #9A968A">Isabela Reis</span>
+<span style="font-size: 14px; color: #FF6B5E">Já está na Van 1 deste grupo</span>
+</span>
+</label>
+<label style="min-height: 64px; display: flex; align-items: center; gap: 14px; cursor: pointer">
+<input type="checkbox" style="width: 24px; height: 24px; margin: 0; accent-color: #FFC800; flex-shrink: 0">
+<span style="display: flex; flex-direction: column">
+<span style="font-size: 16px; font-weight: 500">Vitor Sampaio</span>
+<span style="font-size: 14px; color: #C4C0B4">Sem turma</span>
+</span>
+</label>
+</div>
+</main>
+<footer style="padding: 12px 20px 34px; border-top: 1px solid #34322B">
+<a href="D5-Turma-gerenciar.html" style="min-height: 54px; border-radius: 14px; background: #FFC800; color: #111111; font-size: 17px; font-weight: 700; display: flex; align-items: center; justify-content: center">Vincular 2 alunos</a>
+</footer>
+</div>
+</x-dc>
+</body>
+</html>

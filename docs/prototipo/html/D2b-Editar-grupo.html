@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Editar grupo</title>
+<meta name="viewport" content="width=390">
+<!-- Protótipo Boragora: tela Editar grupo. Mockup estático de referência visual; não é código do app. -->
+<style>
+@font-face{font-family:'Barlow';font-style:normal;font-weight:400;src:url('../assets/fonts/barlow-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:500;src:url('../assets/fonts/barlow-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:600;src:url('../assets/fonts/barlow-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:700;src:url('../assets/fonts/barlow-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Saira';font-style:normal;font-weight:700;src:url('../assets/fonts/saira-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Saira';font-style:italic;font-weight:700;src:url('../assets/fonts/saira-latin-700-italic.woff2') format('woff2')}
+@font-face{font-family:'Saira';font-style:italic;font-weight:800;src:url('../assets/fonts/saira-latin-800-italic.woff2') format('woff2')}
+x-dc,helmet{display:contents}
+html,body{background:#000}
+</style>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit;color:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #111111; color: #FFFFFF; font-family: 'Barlow', system-ui, sans-serif; font-size: 16px; line-height: 1.35; overflow: hidden">
+<header style="padding: 56px 12px 0; display: flex; align-items: center; gap: 4px">
+<a href="D8-Grupos.html" aria-label="Voltar" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+</a>
+<h1 style="margin: 0; font-family: 'Saira', sans-serif; font-style: italic; font-weight: 800; font-size: 26px; line-height: 1.1">Editar grupo</h1>
+</header>
+<main style="flex: 1; padding: 16px 24px 0; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="grupo-nome" style="font-size: 14px; font-weight: 600; color: #C4C0B4">Nome do grupo</label>
+<input id="grupo-nome" type="text" value="Noite" style="height: 54px; box-sizing: border-box; padding: 0 16px; border-radius: 12px; border: 1.5px solid #34322B; background: #1B1A17; font-size: 16px; outline: none">
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div id="grupo-periodo" style="font-size: 14px; font-weight: 600; color: #C4C0B4">Período</div>
+<div role="group" aria-labelledby="grupo-periodo" style="display: flex; gap: 6px; padding: 4px; border-radius: 14px; background: #1B1A17; border: 1px solid #34322B">
+<button aria-pressed="false" style="flex: 1; min-height: 44px; border: 0; border-radius: 10px; background: transparent; color: #C4C0B4; font-size: 15px; font-weight: 600; cursor: pointer">Manhã</button>
+<button aria-pressed="false" style="flex: 1; min-height: 44px; border: 0; border-radius: 10px; background: transparent; color: #C4C0B4; font-size: 15px; font-weight: 600; cursor: pointer">Tarde</button>
+<button aria-pressed="true" style="flex: 1; min-height: 44px; border: 0; border-radius: 10px; background: #FFC800; color: #111111; font-size: 15px; font-weight: 700; cursor: pointer">Noite</button>
+</div>
+</div>
+<div style="display: flex; gap: 12px">
+<div style="flex: 1; display: flex; flex-direction: column; gap: 8px">
+<label for="grupo-ida" style="font-size: 14px; font-weight: 600; color: #C4C0B4">Saída da ida</label>
+<input id="grupo-ida" type="text" inputmode="numeric" value="18:10" style="width: 100%; height: 54px; box-sizing: border-box; padding: 0 16px; border-radius: 12px; border: 1.5px solid #34322B; background: #1B1A17; font-family: 'Saira', sans-serif; font-weight: 700; font-size: 22px; outline: none">
+</div>
+<div style="flex: 1; display: flex; flex-direction: column; gap: 8px">
+<label for="grupo-volta" style="font-size: 14px; font-weight: 600; color: #C4C0B4">Saída da volta</label>
+<input id="grupo-volta" type="text" inputmode="numeric" value="22:30" style="width: 100%; height: 54px; box-sizing: border-box; padding: 0 16px; border-radius: 12px; border: 1.5px solid #34322B; background: #1B1A17; font-family: 'Saira', sans-serif; font-weight: 700; font-size: 22px; outline: none">
+</div>
+</div>
+<p style="margin: 0; font-size: 15px; color: #C4C0B4">Os horários valem para todas as vans do grupo. Eles definem até quando o aluno marca a ida e a volta e quando um cancelamento vira tardio.</p>
+</main>
+<footer style="padding: 0 24px 34px; display: flex; flex-direction: column; gap: 12px">
+<a href="D8-Grupos.html" style="min-height: 54px; border-radius: 14px; background: #FFC800; color: #111111; font-size: 17px; font-weight: 700; display: flex; align-items: center; justify-content: center">Salvar alterações</a>
+<button style="width: 100%; min-height: 54px; box-sizing: border-box; border-radius: 14px; border: 1.5px solid #FF6B5E; background: transparent; color: #FF6B5E; font-size: 17px; font-weight: 700; cursor: pointer">Excluir grupo</button>
+<div style="font-size: 14px; color: #9A968A; text-align: center">Só dá para excluir um grupo sem turmas. Exclua as turmas dele antes.</div>
+</footer>
+</div>
+</x-dc>
+</body>
+</html>
