@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Notificações push</title>
+<meta name="viewport" content="width=390">
+<!-- Protótipo Boragora: tela Notificações push. Mockup estático de referência visual; não é código do app. -->
+<style>
+@font-face{font-family:'Barlow';font-style:normal;font-weight:400;src:url('../assets/fonts/barlow-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:500;src:url('../assets/fonts/barlow-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:600;src:url('../assets/fonts/barlow-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:700;src:url('../assets/fonts/barlow-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Saira';font-style:normal;font-weight:700;src:url('../assets/fonts/saira-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Saira';font-style:italic;font-weight:700;src:url('../assets/fonts/saira-latin-700-italic.woff2') format('woff2')}
+@font-face{font-family:'Saira';font-style:italic;font-weight:800;src:url('../assets/fonts/saira-latin-800-italic.woff2') format('woff2')}
+x-dc,helmet{display:contents}
+html,body{background:#000}
+</style>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit;color:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 340px; box-sizing: border-box; padding: 28px 16px; display: flex; flex-direction: column; gap: 24px; background: #111111; color: #FFFFFF; font-family: 'Barlow', system-ui, sans-serif; font-size: 16px; line-height: 1.35; overflow: hidden">
+<section style="display: flex; flex-direction: column; gap: 10px">
+<div style="padding: 0 4px; font-size: 13px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: #9A968A">Lembrete para o aluno</div>
+<div style="padding: 14px; border-radius: 20px; background: #26241F; display: flex; align-items: flex-start; gap: 12px">
+<div style="width: 40px; height: 40px; border-radius: 10px; background: #FFC800; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+<img src="../assets/simbolo-boragora.svg" alt="" style="width: 32px; height: auto; display: block">
+</div>
+<div style="flex: 1; display: flex; flex-direction: column; gap: 2px">
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px">
+<div style="font-size: 16px; font-weight: 700">Vai de van hoje?</div>
+<div style="font-size: 13px; color: #C4C0B4">agora</div>
+</div>
+<div style="font-size: 15px; color: #E4E0D4">Marque ida e volta até 18:10 para entrar na lista do motorista.</div>
+</div>
+</div>
+</section>
+<section style="display: flex; flex-direction: column; gap: 10px">
+<div style="padding: 0 4px; font-size: 13px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: #9A968A">Cancelamento tardio para o motorista</div>
+<div style="padding: 14px; border-radius: 20px; background: #26241F; display: flex; align-items: flex-start; gap: 12px">
+<div style="width: 40px; height: 40px; border-radius: 10px; background: #FFC800; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+<img src="../assets/simbolo-boragora.svg" alt="" style="width: 32px; height: auto; display: block">
+</div>
+<div style="flex: 1; display: flex; flex-direction: column; gap: 2px">
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px">
+<div style="font-size: 16px; font-weight: 700">João Gabriel cancelou a ida para a faculdade!</div>
+<div style="font-size: 13px; color: #C4C0B4; flex-shrink: 0">agora</div>
+</div>
+<div style="font-size: 15px; color: #E4E0D4">Van 2 · Noite · depois da saída das 18:10</div>
+</div>
+</div>
+</section>
+</div>
+</x-dc>
+</body>
+</html>

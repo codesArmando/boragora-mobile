@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Editar turma</title>
+<meta name="viewport" content="width=390">
+<!-- Protótipo Boragora: tela Editar turma. Mockup estático de referência visual; não é código do app. -->
+<style>
+@font-face{font-family:'Barlow';font-style:normal;font-weight:400;src:url('../assets/fonts/barlow-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:500;src:url('../assets/fonts/barlow-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:600;src:url('../assets/fonts/barlow-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:700;src:url('../assets/fonts/barlow-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Saira';font-style:normal;font-weight:700;src:url('../assets/fonts/saira-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Saira';font-style:italic;font-weight:700;src:url('../assets/fonts/saira-latin-700-italic.woff2') format('woff2')}
+@font-face{font-family:'Saira';font-style:italic;font-weight:800;src:url('../assets/fonts/saira-latin-800-italic.woff2') format('woff2')}
+x-dc,helmet{display:contents}
+html,body{background:#000}
+</style>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit;color:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #111111; color: #FFFFFF; font-family: 'Barlow', system-ui, sans-serif; font-size: 16px; line-height: 1.35; overflow: hidden">
+<header style="padding: 56px 12px 0 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px">
+<div style="display: flex; align-items: center; gap: 4px">
+<a href="D5-Turma-gerenciar.html" aria-label="Voltar" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+</a>
+<h1 style="margin: 0; font-family: 'Saira', sans-serif; font-style: italic; font-weight: 800; font-size: 26px; line-height: 1.1">Editar turma</h1>
+</div>
+</header>
+<main style="flex: 1; padding: 12px 24px 0; display: flex; flex-direction: column; gap: 20px">
+<div style="padding: 12px 16px; border-radius: 12px; background: #1B1A17; border: 1px solid #34322B; display: flex; flex-direction: column; gap: 2px">
+<div style="font-size: 13px; color: #9A968A">Grupo</div>
+<div style="font-size: 16px; font-weight: 600">Noite · ida 18:10 · volta 22:30</div>
+<div style="font-size: 14px; color: #9A968A">O grupo não muda depois que a turma é criada.</div>
+</div>
+<div style="flex: 1; display: flex; flex-direction: column; gap: 8px">
+<label for="editar-nome" style="font-size: 14px; font-weight: 600; color: #C4C0B4">Nome da turma</label>
+<input id="editar-nome" type="text" value="Van 2" style="width: 100%; height: 54px; box-sizing: border-box; padding: 0 16px; border-radius: 12px; border: 1.5px solid #34322B; background: #1B1A17; font-size: 16px; outline: none">
+<div style="font-size: 14px; color: #9A968A">Texto livre, até 60 caracteres.</div>
+</div>
+<div style="display: flex; gap: 12px">
+<div style="flex: 1; display: flex; flex-direction: column; gap: 8px">
+<label for="editar-van" style="font-size: 14px; font-weight: 600; color: #C4C0B4">Número da van</label>
+<input id="editar-van" type="text" inputmode="numeric" value="2" style="width: 100%; height: 54px; box-sizing: border-box; padding: 0 16px; border-radius: 12px; border: 1.5px solid #34322B; background: #1B1A17; font-size: 16px; outline: none">
+</div>
+<div style="flex: 1; display: flex; flex-direction: column; gap: 8px">
+<label for="editar-capacidade" style="font-size: 14px; font-weight: 600; color: #C4C0B4">Capacidade</label>
+<input id="editar-capacidade" type="text" inputmode="numeric" value="15" style="width: 100%; height: 54px; box-sizing: border-box; padding: 0 16px; border-radius: 12px; border: 1.5px solid #34322B; background: #1B1A17; font-size: 16px; outline: none">
+</div>
+</div>
+<div style="margin-top: -8px; font-size: 14px; color: #9A968A">O motorista é trocado na tela da turma.</div>
+</main>
+<footer style="padding: 0 24px 34px; display: flex; flex-direction: column; gap: 12px">
+<a href="D5-Turma-gerenciar.html" style="min-height: 54px; border-radius: 14px; background: #FFC800; color: #111111; font-size: 17px; font-weight: 700; display: flex; align-items: center; justify-content: center">Salvar alterações</a>
+<button style="width: 100%; min-height: 54px; box-sizing: border-box; border-radius: 14px; border: 1.5px solid #FF6B5E; background: transparent; color: #FF6B5E; font-size: 17px; font-weight: 700; cursor: pointer">Excluir turma</button>
+<div style="font-size: 14px; color: #9A968A; text-align: center">Excluir apaga os vínculos dos alunos, as viagens e as confirmações desta turma. Não dá para desfazer.</div>
+</footer>
+</div>
+</x-dc>
+</body>
+</html>

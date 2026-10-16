@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Gerenciar turma</title>
+<meta name="viewport" content="width=390">
+<!-- Protótipo Boragora: tela Gerenciar turma. Mockup estático de referência visual; não é código do app. -->
+<style>
+@font-face{font-family:'Barlow';font-style:normal;font-weight:400;src:url('../assets/fonts/barlow-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:500;src:url('../assets/fonts/barlow-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:600;src:url('../assets/fonts/barlow-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:700;src:url('../assets/fonts/barlow-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Saira';font-style:normal;font-weight:700;src:url('../assets/fonts/saira-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Saira';font-style:italic;font-weight:700;src:url('../assets/fonts/saira-latin-700-italic.woff2') format('woff2')}
+@font-face{font-family:'Saira';font-style:italic;font-weight:800;src:url('../assets/fonts/saira-latin-800-italic.woff2') format('woff2')}
+x-dc,helmet{display:contents}
+html,body{background:#000}
+</style>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit;color:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #111111; color: #FFFFFF; font-family: 'Barlow', system-ui, sans-serif; font-size: 16px; line-height: 1.35; overflow: hidden">
+<header style="padding: 56px 12px 0; display: flex; align-items: center; gap: 4px">
+<a href="D3-Turmas.html" aria-label="Voltar" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+</a>
+<h1 style="margin: 0; font-family: 'Saira', sans-serif; font-style: italic; font-weight: 800; font-size: 26px; line-height: 1.1">Van 2 · Noite</h1>
+</header>
+<main style="flex: 1; padding: 16px 20px 0; display: flex; flex-direction: column; gap: 20px">
+<div style="border-radius: 16px; background: #1B1A17; border: 1px solid #34322B; display: flex; flex-direction: column">
+<div style="min-height: 60px; padding: 0 8px 0 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<div style="display: flex; flex-direction: column">
+<div style="font-size: 13px; color: #9A968A">Motorista responsável</div>
+<div style="font-size: 16px; font-weight: 600">Vanderlei Dias</div>
+</div>
+<button style="min-height: 44px; padding: 0 12px; border: 0; background: transparent; font-size: 15px; font-weight: 700; color: #FFC800; cursor: pointer">Trocar</button>
+</div>
+<div style="min-height: 60px; padding: 0 8px 0 16px; border-top: 1px solid #34322B; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<div style="display: flex; flex-direction: column">
+<div style="font-size: 13px; color: #9A968A">Dados da turma</div>
+<div style="font-size: 16px; font-weight: 600">Van nº 2 · 15 lugares</div>
+</div>
+<a href="D5a-Editar-turma.html" style="min-height: 44px; padding: 0 12px; display: flex; align-items: center; font-size: 15px; font-weight: 700; color: #FFC800">Editar</a>
+</div>
+</div>
+<section style="display: flex; flex-direction: column">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<div style="font-size: 13px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: #9A968A">Alunos vinculados · 8</div>
+<a href="D6-Vincular-alunos.html" style="min-height: 44px; padding: 0 14px; border-radius: 22px; background: #FFC800; color: #111111; display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 700">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+Vincular</a>
+</div>
+<ul style="margin: 6px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column">
+<li style="min-height: 50px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #262420; font-size: 16px">Beatriz Souza
+<button aria-label="Remover Beatriz Souza da turma" style="width: 44px; height: 44px; border: 0; background: transparent; color: #9A968A; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+</li>
+<li style="min-height: 50px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #262420; font-size: 16px">Camila Rocha
+<button aria-label="Remover Camila Rocha da turma" style="width: 44px; height: 44px; border: 0; background: transparent; color: #9A968A; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+</li>
+<li style="min-height: 50px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #262420; font-size: 16px">João Gabriel
+<button aria-label="Remover João Gabriel da turma" style="width: 44px; height: 44px; border: 0; background: transparent; color: #9A968A; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+</li>
+<li style="min-height: 50px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #262420; font-size: 16px">Larissa Costa
+<button aria-label="Remover Larissa Costa da turma" style="width: 44px; height: 44px; border: 0; background: transparent; color: #9A968A; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+</li>
+<li style="min-height: 50px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #262420; font-size: 16px">Lucas Pereira
+<button aria-label="Remover Lucas Pereira da turma" style="width: 44px; height: 44px; border: 0; background: transparent; color: #9A968A; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+</li>
+<li style="min-height: 50px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #262420; font-size: 16px">Mariana Alves
+<button aria-label="Remover Mariana Alves da turma" style="width: 44px; height: 44px; border: 0; background: transparent; color: #9A968A; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+</li>
+<li style="min-height: 50px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #262420; font-size: 16px">Pedro Henrique Dias
+<button aria-label="Remover Pedro Henrique Dias da turma" style="width: 44px; height: 44px; border: 0; background: transparent; color: #9A968A; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+</li>
+<li style="min-height: 50px; display: flex; align-items: center; justify-content: space-between; font-size: 16px">Rafael Lima
+<button aria-label="Remover Rafael Lima da turma" style="width: 44px; height: 44px; border: 0; background: transparent; color: #9A968A; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+</li>
+</ul>
+</section>
+</main>
+</div>
+</x-dc>
+</body>
+</html>
