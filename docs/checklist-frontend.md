@@ -18,7 +18,7 @@
 
 | Onda | Entrega | Backend necessário | Status | Concluída em |
 |---|---|---|---|---|
-| 0 | Fundação | E0, E2 e E3 (prontas) | Não iniciada | |
+| 0 | Fundação | E0, E2 e E3 (prontas) | Em andamento | |
 | 1 | Acesso e grupos | E2 e E3 (prontas) | Não iniciada | |
 | 2 | Turmas e vínculos | E4 e E5 | Não iniciada | |
 | 3 | Plano do dia | E6 | Não iniciada | |
@@ -46,19 +46,19 @@ Valores de status: Não iniciada, Em andamento, Aguardando backend, Concluída.
 Backend: nenhum.
 
 **Construção**
-- [ ] Projeto Expo com TypeScript e expo-router no repositório `boragora-mobile`, clonado ao lado do `boragora-api` na pasta `Boragora/`
-- [ ] `CLAUDE.md`, `.claude/settings.json` e `docs/` (plano, checklist e `prototipo/`) na raiz do repositório
-- [ ] ESLint e Prettier configurados
-- [ ] Atalho `@/` apontando para `src/`
-- [ ] `.env.example` com `EXPO_PUBLIC_API_URL`
-- [ ] Pastas `app/`, `assets/` e `src/` com `api/`, `repositories/mocks/`, `types/`, `components/`, `contexts/`, `theme/` e `utils/`
-- [ ] Esqueleto: `theme/cores.ts` e `theme/medidas.ts` com os valores da seção 2.3 do plano
-- [ ] Esqueleto: todos os arquivos de rota da seção 2.2 do plano, com telas provisórias
-- [ ] Esqueleto: `api/api.ts` mínimo com `get`, `post`, `put` e `del` (URL base de `EXPO_PUBLIC_API_URL` e JSON), na forma final
+- [x] Projeto Expo com TypeScript e expo-router no repositório `boragora-mobile`, clonado ao lado do `boragora-api` na pasta `Boragora/`
+- [x] `CLAUDE.md`, `.claude/settings.json` e `docs/` (plano, checklist e `prototipo/`) na raiz do repositório
+- [x] ESLint e Prettier configurados
+- [x] Atalho `@/` apontando para `src/`
+- [x] `.env.example` com `EXPO_PUBLIC_API_URL`
+- [x] Pastas `app/`, `assets/` e `src/` com `api/`, `repositories/mocks/`, `types/`, `components/`, `contexts/`, `theme/` e `utils/`
+- [x] Esqueleto: `theme/cores.ts` e `theme/medidas.ts` com os valores da seção 2.3 do plano
+- [x] Esqueleto: todos os arquivos de rota da seção 2.2 do plano, com telas provisórias
+- [x] Esqueleto: `api/api.ts` mínimo com `get`, `post`, `put` e `del` (URL base de `EXPO_PUBLIC_API_URL` e JSON), na forma final
 
 **Critérios de aceite**
 - [ ] `npx expo start` abre o app no Expo Go *(verificação manual)*
-- [ ] `npm run lint` passa sem erro
+- [x] `npm run lint` passa sem erro
 
 ### `FND-02` Fontes, tipografia e imagens da marca · pessoa 4
 Backend: nenhum.
@@ -605,4 +605,15 @@ Registrar aqui tudo o que for decidido na implementação e não estiver no plan
 
 | Data | Entrega | Decisão | Motivo |
 |---|---|---|---|
-| | | | |
+| 2026-10-16 | `FND-01` | NativeWind 4 (com Tailwind 3) para estilos, configurado antes desta entrega. Os valores da seção 2.3 continuam em `src/theme/` e podem ser expostos ao Tailwind em `tailwind.config.js` na `FND-02` | Escolha da equipe na configuração inicial; o plano não fixa a forma de estilizar |
+| 2026-10-16 | `FND-01` | Script `lint` usa `eslint .` em vez de `expo lint` | `expo lint` falha enquanto `src/` não tem arquivos; `eslint .` usa a mesma configuração (`eslint-config-expo` + Prettier) e cobre o projeto inteiro |
+| 2026-10-16 | `FND-01` | Atalho `@/` definido só com `paths` no `tsconfig.json`, sem `baseUrl` | O TypeScript 6 descontinuou o `baseUrl` |
+| 2026-10-16 | `FND-01` | Rotas ficam em `app/` na raiz, como na seção 2.2 do plano, e não em `src/app/`, como sugere o `AGENTS.md` | Divergência entre documentos; vale o plano |
+| 2026-10-16 | `FND-01` | Removido o `index.ts` do modelo; `expo-font` instalado já nesta entrega; `babel-preset-expo` e `expo` alinhados ao SDK 57 | O `index.ts` importava um `App` inexistente (a entrada é `expo-router/entry`); o `expo-symbols` puxava o `expo-font` 58 e o `expo-doctor` acusava versões incompatíveis |
+| 2026-10-16 | `FND-01` | `_layout.tsx` de pilha em `aluno/grupo/` e `motorista/grupo/`, que não estão na lista de rotas da seção 2.2 | Sem eles, `grupo/index` e `grupo/[grupoId]` viram duas abas separadas no lugar de uma aba com pilha |
+| 2026-10-16 | `FND-01` | Abas importadas de `expo-router/js-tabs` | No expo-router 57, importar `Tabs` de `expo-router` está descontinuado |
+| 2026-10-16 | `FND-01` | Até a `FND-07`, o `app/index.tsx` é um mapa de rotas, e os `_layout.tsx` de `aluno/` e `motorista/` têm abas mínimas (título e cores, sem ícones nem guarda) | Cada trilha consegue abrir as suas telas sem login enquanto a sessão e a navegação não ficam prontas |
+| 2026-10-16 | `FND-01` | `api.ts` exporta um objeto `api` (`api.get<T>(caminho)`, `api.post<T>(caminho, corpo)`, `api.put`, `api.del`) | Forma de chamar fixada no esqueleto, para os repositórios não mudarem quando a `FND-05` completar o arquivo |
+| 2026-10-16 | `FND-01` | `medidas.margemTela` = 20, tirado do HTML do protótipo | O valor não está na seção 2.3, mas todas as telas usam essa margem lateral |
+| 2026-10-16 | `FND-01` | Componente `TelaProvisoria` em `components/`, usado por todas as rotas do esqueleto | Cada entrega troca a sua tela provisória pela real; o componente é apagado quando nenhuma rota o usar |
+

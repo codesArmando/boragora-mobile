@@ -3,16 +3,19 @@
 React Native + Expo + expo-router, em TypeScript. Este repositório é só o app; ele consome a API do repositório `boragora-api`, que precisa estar clonado ao lado deste (`../boragora-api`).
 
 ## Documentos deste repositório
+
 - docs/plano-implementacao-frontend.md — ler a entrega em execução e as seções 1 e 2
 - docs/checklist-frontend.md — marcar os itens conforme forem concluídos
 
 ## Documentos do backend (somente leitura, em ../boragora-api/docs/)
+
 - checklist-backend.md — conferir se a etapa do backend que a entrega usa está concluída
 - plano-implementacao-backend.md — consultar o formato das respostas da API
 - documento-escopo-app-van-v7.md — consultar só em caso de dúvida sobre uma regra
 - Se a pasta não existir, avisar: o repositório boragora-api precisa ser clonado ao lado deste. Não copiar esses documentos para cá.
 
 ## Protótipo das telas (docs/prototipo/)
+
 - Índice em docs/prototipo/README.md: liga cada tela (A1, B3, D5...) ao arquivo e à entrega.
 - Antes de construir uma tela, abrir a imagem dela em docs/prototipo/png/.
 - Para valores exatos (cores, tamanhos, espaçamentos, textos), ler o arquivo de mesmo nome em docs/prototipo/html/.
@@ -22,6 +25,7 @@ React Native + Expo + expo-router, em TypeScript. Este repositório é só o app
 - Se o protótipo e o plano divergirem, vale o plano. Registrar a divergência na tabela de decisões do checklist.
 
 ## Regras de trabalho
+
 - Executar uma entrega por vez, seguindo a seção 9 do plano.
 - Não alterar nada em ../boragora-api: é outro repositório. Se a API não tiver o que a tela precisa, parar e avisar.
 - Camadas: tela (app/) → repositório (src/repositories/) → api (src/api/api.ts). Tela nunca chama fetch.
@@ -29,6 +33,7 @@ React Native + Expo + expo-router, em TypeScript. Este repositório é só o app
 - Endpoint que ainda não existe: usar o objeto fixo de src/repositories/mocks/ e anotar "aguardando EN" no checklist.
 
 ## Comandos
+
 - Iniciar: npx expo start
 - Lint: npm run lint
 - Testes: npm test
