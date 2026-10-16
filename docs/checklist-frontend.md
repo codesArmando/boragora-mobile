@@ -1,10 +1,10 @@
 # Checklist de Acompanhamento do Frontend
 ## Boragora Viagens — App de Controle de Passageiros de Van
 
-**Referência:** `plano-implementacao-frontend.md` (versão 3). Cada entrega abaixo tem o mesmo código da seção 5 do plano. As telas citadas são as do protótipo revisado em 2026-10-13.
+**Referência:** `plano-implementacao-frontend.md` (versão 4). Cada entrega abaixo tem o mesmo código da seção 5 do plano. As telas citadas são as do protótipo revisado em 2026-10-13.
 
 **Como usar:**
-- Marcar `[x]` quando o item estiver concluído. Dentro de cada onda, seguir a ordem das dependências indicada no plano.
+- Marcar `[x]` quando o item estiver concluído. Cada pessoa segue a ordem da sua trilha (seção 3.2 do plano). As ondas abaixo agrupam as entregas pela etapa do backend de que precisam para serem concluídas.
 - Itens de **Construção** são marcados quando o código existe, compila e passa no lint.
 - Itens de **Critérios de aceite** são conferidos no aparelho (ou no emulador) **com o backend real**, por uma pessoa da equipe diferente de quem construiu. A exceção são os itens com a indicação *(teste automatizado)*, que só são marcados com um teste do `jest-expo` passando.
 - Entrega construída com dados falsos, enquanto a etapa do backend não fecha, fica com os critérios desmarcados e a anotação **"aguardando EN"** ao lado do título.
@@ -32,17 +32,17 @@ Valores de status: Não iniciada, Em andamento, Aguardando backend, Concluída.
 
 | Pessoa | Entregas | Concluídas |
 |---|---|---|
-| 1 | `FND-01`, `FND-06`, `FND-07`, `ACE-01` a `ACE-04`, `NOT-01` a `NOT-03` | 0 de 10 |
-| 2 | `FND-02`, `FND-03`, `ALU-01` a `ALU-06`, `GES-05`, `GES-12` | 0 de 10 |
-| 3 | `FND-04`, `FND-08`, `LIS-01` a `LIS-06`, `GES-13` | 0 de 9 |
-| 4 | `FND-05`, `GES-01` a `GES-04`, `GES-06` a `GES-11` | 0 de 11 |
+| 1 — Acesso, sessão, navegação e notificações | `FND-01`, `FND-05`, `FND-06`, `FND-07`, `ACE-01`, `ACE-02`, `NOT-01` a `NOT-03` | 0 de 9 |
+| 2 — Gestão do motorista-chefe | `FND-03`, `GES-01` a `GES-11` | 0 de 12 |
+| 3 — Motorista e listas de consulta | `FND-04`, `FND-08`, `LIS-01`, `LIS-03` a `LIS-06`, `GES-12`, `GES-13`, `ACE-04` | 0 de 10 |
+| 4 — Aluno | `FND-02`, `ALU-01` a `ALU-06`, `LIS-02`, `ACE-03` | 0 de 9 |
 | Todos | `FEC-01` a `FEC-04` | 0 de 4 |
 
 ---
 
 ## Onda 0 — Fundação
 
-### `FND-01` Criar o projeto Expo · pessoa 1
+### `FND-01` Criar o projeto Expo e o esqueleto · pessoa 1
 Backend: nenhum.
 
 **Construção**
@@ -52,16 +52,19 @@ Backend: nenhum.
 - [ ] Atalho `@/` apontando para `src/`
 - [ ] `.env.example` com `EXPO_PUBLIC_API_URL`
 - [ ] Pastas `app/`, `assets/` e `src/` com `api/`, `repositories/mocks/`, `types/`, `components/`, `contexts/`, `theme/` e `utils/`
+- [ ] Esqueleto: `theme/cores.ts` e `theme/medidas.ts` com os valores da seção 2.3 do plano
+- [ ] Esqueleto: todos os arquivos de rota da seção 2.2 do plano, com telas provisórias
+- [ ] Esqueleto: `api/api.ts` mínimo com `get`, `post`, `put` e `del` (URL base de `EXPO_PUBLIC_API_URL` e JSON), na forma final
 
 **Critérios de aceite**
 - [ ] `npx expo start` abre o app no Expo Go *(verificação manual)*
 - [ ] `npm run lint` passa sem erro
 
-### `FND-02` Tema, fontes e imagens da marca · pessoa 2
+### `FND-02` Fontes, tipografia e imagens da marca · pessoa 4
 Backend: nenhum.
 
 **Construção**
-- [ ] `theme/cores.ts`, `theme/tipografia.ts` e `theme/medidas.ts` com os valores da seção 2.3 do plano
+- [ ] `theme/tipografia.ts` com os valores da seção 2.3 do plano (cores e medidas já vêm do esqueleto da `FND-01`)
 - [ ] Barlow e Saira carregadas antes de esconder a tela de abertura
 - [ ] Ícone do app e tela de abertura configurados, a partir de `docs/prototipo/marca/`
 - [ ] Logo e símbolo copiados de `docs/prototipo/assets/` para `assets/`
@@ -102,16 +105,16 @@ Backend: nenhum.
 **Critérios de aceite**
 - [ ] A tela de catálogo reproduz um cartão da C0, a lista da C2 e os quatro cartões da D1 *(verificação manual)*
 
-### `FND-05` `api.ts`, erros e tipos da API · pessoa 4
+### `FND-05` `api.ts` completo, erros e tipos de acesso · pessoa 1
 Backend: E0 (pronta) — formato padrão de erro.
 
 **Construção**
-- [ ] `api/api.ts` com `get`, `post`, `put` e `del`, URL base de `EXPO_PUBLIC_API_URL`, JSON e tempo limite
+- [ ] `api/api.ts` do esqueleto completado sem mudar a forma de chamar, com tempo limite
 - [ ] Cabeçalho `Authorization` com o token da sessão
 - [ ] Classe `ErroApi` com `status`, `codigo`, `mensagem` e `campos`
 - [ ] Falha de rede convertida em "Sem conexão com o servidor"
 - [ ] Ponto único para avisar a sessão sobre o 401
-- [ ] `types/` com um arquivo por recurso: `auth`, `usuario`, `grupo`, `turma`, `aluno`, `plano`, `hoje`, `erro`
+- [ ] `types/erro.ts`, `types/auth.ts` e `types/usuario.ts` (os demais tipos são criados por quem usa o endpoint primeiro, seção 2.5 do plano)
 
 **Critérios de aceite**
 - [ ] Resposta 200, erro no formato padrão, erro fora do formato e falha de rede tratados *(teste automatizado)*
@@ -135,7 +138,6 @@ Backend: E2 (pronta) — `POST /auth/login`, `POST /auth/cadastro`, `GET /me`, 4
 Backend: E2 (pronta) — `papel` e `admin` em `GET /me`.
 
 **Construção**
-- [ ] Todos os arquivos de rota da seção 2.2 do plano, com telas provisórias
 - [ ] Abas do aluno: Hoje, Grupo, Conta
 - [ ] Abas do motorista: Hoje, Grupo, Conta; do chefe: Hoje, Grupo, Gestão, Conta
 - [ ] Aba Gestão escondida para quem não é admin; `gestao/_layout.tsx` recusa quem não é admin
@@ -152,9 +154,9 @@ Backend: E2 (pronta) — `papel` e `admin` em `GET /me`.
 Backend: E3 (pronta) — `GET /grupos`.
 
 **Construção**
-- [ ] `repositories/grupoRepository.ts` com `listarGrupos` e `buscarGrupo`
+- [ ] `repositories/grupoRepository.ts` com `listarGrupos` e `buscarGrupo`, e `types/grupo.ts`
 - [ ] Tela de modelo com os quatro estados (carregando, erro, vazio, com dados) e recarga ao focar
-- [ ] `repositories/mocks/` com o cenário do protótipo (grupos, turmas, motoristas, alunos, plano e listas do dia), tipado com `types/`
+- [ ] `repositories/mocks/` com os grupos do protótipo, tipados com `types/` (cada trilha acrescenta os dados falsos dos seus endpoints)
 - [ ] Padrão documentado de troca entre objeto fixo e chamada real
 
 **Critérios de aceite**
@@ -200,7 +202,7 @@ Backend: nenhum.
 - [ ] O app mostra o Expo push token no aparelho *(verificação manual)*
 - [ ] Uma notificação enviada pela ferramenta de teste do Expo chega ao aparelho *(verificação manual)*
 
-### `GES-01` Tela de gestão (D1) · pessoa 4
+### `GES-01` Tela de gestão (D1) · pessoa 2
 Backend: nenhum.
 
 **Construção**
@@ -210,7 +212,7 @@ Backend: nenhum.
 **Critérios de aceite**
 - [ ] A tela confere com a D1 do protótipo, sem lista nem botão de cadastro *(verificação manual)*
 
-### `GES-02` Lista de grupos (D8) · pessoa 4
+### `GES-02` Lista de grupos (D8) · pessoa 2
 Backend: E3 (pronta) — `GET /grupos` com `totalTurmas`.
 
 **Construção**
@@ -222,7 +224,7 @@ Backend: E3 (pronta) — `GET /grupos` com `totalTurmas`.
 - [ ] Lista os grupos reais da API *(verificação manual)*
 - [ ] Ao voltar de um cadastro ou edição, a lista se atualiza *(verificação manual)*
 
-### `GES-03` Novo grupo (D2) · pessoa 4
+### `GES-03` Novo grupo (D2) · pessoa 2
 Backend: E3 (pronta) — criação; 400 quando a ida não é anterior à volta.
 
 **Construção**
@@ -233,7 +235,7 @@ Backend: E3 (pronta) — criação; 400 quando a ida não é anterior à volta.
 - [ ] Salvar cria o grupo e volta para a D8 *(verificação manual)*
 - [ ] Ida igual ou posterior à volta marca o campo indicado em `campos` *(verificação manual)*
 
-### `GES-04` Editar e excluir grupo (D2b) · pessoa 4
+### `GES-04` Editar e excluir grupo (D2b) · pessoa 2
 Backend: E3 (pronta) — `GET /grupos/{id}`, `PUT` e `DELETE /admin/grupos/{id}`, 409 `GRUPO_COM_TURMAS`.
 
 **Construção**
@@ -291,7 +293,7 @@ Backend: E4 — `GET /admin/turmas`; E5 para `totalAlunos` maior que zero.
 - [ ] Lista as turmas reais, na ordem dos grupos *(verificação manual)*
 - [ ] Tocar em uma turma abre a D5 dela *(verificação manual)*
 
-### `GES-06` Nova turma (D4) · pessoa 4
+### `GES-06` Nova turma (D4) · pessoa 2
 Backend: E4 — `POST /admin/turmas` com `nome`, validação do nome, 409 `CONFLITO_GRUPO_MOTORISTA`.
 
 **Construção**
@@ -304,7 +306,7 @@ Backend: E4 — `POST /admin/turmas` com `nome`, validação do nome, 409 `CONFL
 - [ ] Nome em branco ou com mais de 60 caracteres mostra o erro no campo *(verificação manual)*
 - [ ] Motorista que já conduz turma no grupo mostra o conflito junto ao seletor de motorista *(verificação manual)*
 
-### `GES-07` Gerenciar turma: leitura (D5) · pessoa 4
+### `GES-07` Gerenciar turma: leitura (D5) · pessoa 2
 Backend: E4 — `GET /turmas/{id}`.
 
 **Construção**
@@ -314,7 +316,7 @@ Backend: E4 — `GET /turmas/{id}`.
 **Critérios de aceite**
 - [ ] A tela mostra os dados reais da turma, com os alunos em ordem alfabética *(verificação manual)*
 
-### `GES-08` Trocar motorista e editar dados (D5 e D5a) · pessoa 4
+### `GES-08` Trocar motorista e editar dados (D5 e D5a) · pessoa 2
 Backend: E4 — `PUT /admin/turmas/{id}`; conflito também na troca.
 
 **Construção**
@@ -327,7 +329,7 @@ Backend: E4 — `PUT /admin/turmas/{id}`; conflito também na troca.
 - [ ] Conflito de grupo na troca mostra a mensagem e mantém o motorista anterior *(verificação manual)*
 - [ ] Editar o nome reflete na D5 e na D3 *(verificação manual)*
 
-### `GES-09` Excluir turma (D5a) · pessoa 4
+### `GES-09` Excluir turma (D5a) · pessoa 2
 Backend: E4 — `DELETE /admin/turmas/{id}`.
 
 **Construção**
@@ -338,7 +340,7 @@ Backend: E4 — `DELETE /admin/turmas/{id}`.
 - [ ] Excluir volta para a D3 sem a turma *(verificação manual)*
 - [ ] Cancelar o diálogo não chama a API *(verificação manual)*
 
-### `GES-10` Vincular alunos (D6) · pessoa 4
+### `GES-10` Vincular alunos (D6) · pessoa 2
 Backend: E5 — `GET /admin/alunos?turmaId=`, `POST /admin/turmas/{id}/alunos`, 409 `CONFLITO_GRUPO_ALUNO`.
 
 **Construção**
@@ -351,7 +353,7 @@ Backend: E5 — `GET /admin/alunos?turmaId=`, `POST /admin/turmas/{id}/alunos`, 
 - [ ] Vincular dois alunos volta para a D5 com os dois na lista *(verificação manual)*
 - [ ] Conflito no lote mostra quem causou e ninguém é vinculado *(verificação manual)*
 
-### `GES-11` Remover aluno da turma (D5) · pessoa 4
+### `GES-11` Remover aluno da turma (D5) · pessoa 2
 Backend: E5 — `DELETE /admin/turmas/{id}/alunos/{alunoId}`.
 
 **Construção**
@@ -361,7 +363,7 @@ Backend: E5 — `DELETE /admin/turmas/{id}/alunos/{alunoId}`.
 **Critérios de aceite**
 - [ ] O aluno removido some da D5 e passa a aparecer como disponível na D6 *(verificação manual)*
 
-### `GES-12` Lista de alunos (D10) · pessoa 2
+### `GES-12` Lista de alunos (D10) · pessoa 3
 Backend: E5 — `GET /admin/alunos` sem `turmaId`.
 
 **Construção**
@@ -387,7 +389,7 @@ Backend: E4 — `GET /turmas/{id}`; E5 para a lista ter alunos.
 
 ## Onda 3 — Plano do dia
 
-### `ALU-01` Tela inicial do aluno e A3 · pessoa 2
+### `ALU-01` Tela inicial do aluno e A3 · pessoa 4
 Backend: E6 — `GET /aluno/turmas`, inclusive lista vazia para aluno sem vínculo.
 
 **Construção**
@@ -400,7 +402,7 @@ Backend: E6 — `GET /aluno/turmas`, inclusive lista vazia para aluno sem víncu
 - [ ] Aluno sem vínculo vê a A3 *(verificação manual)*
 - [ ] Aluno com duas turmas vê dois cartões com o resumo correto *(verificação manual)*
 
-### `ALU-02` Plano de hoje: leitura e estados · pessoa 2
+### `ALU-02` Plano de hoje: leitura e estados · pessoa 4
 Backend: E6 — `GET` do plano com o bloco `acoes`; 403 sem vínculo.
 
 **Construção**
@@ -413,7 +415,7 @@ Backend: E6 — `GET` do plano com o bloco `acoes`; 403 sem vínculo.
 - [ ] `estadoDoPlano` cobre as seis linhas da tabela *(teste automatizado)*
 - [ ] Turma sem vínculo mostra acesso negado e volta *(verificação manual)*
 
-### `ALU-03` Marcar e desmarcar ida e volta · pessoa 2
+### `ALU-03` Marcar e desmarcar ida e volta · pessoa 4
 Backend: E6 — `PUT .../plano/ida` e `PUT .../plano/volta`.
 
 **Construção**
@@ -426,7 +428,7 @@ Backend: E6 — `PUT .../plano/ida` e `PUT .../plano/volta`.
 - [ ] Desmarcar tudo volta para a B1 *(verificação manual)*
 - [ ] A tela inicial reflete a mudança ao voltar *(verificação manual)*
 
-### `ALU-04` Status da volta · pessoa 2
+### `ALU-04` Status da volta · pessoa 4
 Backend: E6 — `PUT .../plano/status-volta`; 422 `VOLTA_NAO_INCLUIDA`.
 
 **Construção**
@@ -437,7 +439,7 @@ Backend: E6 — `PUT .../plano/status-volta`; 422 `VOLTA_NAO_INCLUIDA`.
 - [ ] Trocar para "Liberado" grava e usa as cores de liberado *(verificação manual)*
 - [ ] Desmarcar a volta esconde o seletor *(verificação manual)*
 
-### `ALU-05` Cancelamento tardio da ida (B3, B4 e B5) · pessoa 2
+### `ALU-05` Cancelamento tardio da ida (B3, B4 e B5) · pessoa 4
 Backend: E6 — cancelamento depois da saída grava `cancelouAposSaida`.
 
 **Construção**
@@ -448,7 +450,7 @@ Backend: E6 — cancelamento depois da saída grava `cancelouAposSaida`.
 - [ ] "Manter a ida" fecha o diálogo sem chamar a API *(verificação manual)*
 - [ ] "Cancelar a ida" leva à B5, com a volta ainda editável *(verificação manual)*
 
-### `ALU-06` Ida bloqueada e dia encerrado (B6 e B7) · pessoa 2
+### `ALU-06` Ida bloqueada e dia encerrado (B6 e B7) · pessoa 4
 Backend: E6 — 422 `IDA_ENCERRADA` e `DIA_ENCERRADO`; E0 (pronta) — `app.relogio.fixo`.
 
 **Construção**
@@ -459,11 +461,11 @@ Backend: E6 — 422 `IDA_ENCERRADA` e `DIA_ENCERRADO`; E0 (pronta) — `app.relo
 - [ ] Com o relógio fixo, todos os horários da tabela de aceite da etapa 6 do backend foram percorridos no app *(verificação manual)*
 - [ ] Se o horário virar com a tela aberta, o 422 é tratado e a tela se corrige *(verificação manual)*
 
-### `ACE-03` Conta do aluno (B9) · pessoa 1
+### `ACE-03` Conta do aluno (B9) · pessoa 4
 Backend: E2 (pronta) para perfil e "Sair"; E6 para "Minhas turmas".
 
 **Construção**
-- [ ] Tela B9 com iniciais, nome, e-mail, minhas turmas e "Sair"
+- [ ] Tela B9 com iniciais, nome, e-mail, minhas turmas e "Sair", em um componente de conta reaproveitado pela `ACE-04`
 
 **Critérios de aceite**
 - [ ] "Sair" limpa a sessão e volta para a A1 *(verificação manual)*
@@ -499,12 +501,12 @@ Backend: E7 — `GET /turmas/{id}/hoje`.
 - [ ] Na volta, os liberados aparecem primeiro *(verificação manual)*
 - [ ] Turma sem confirmações mostra a C5 *(verificação manual)*
 
-### `LIS-02` Grupo do aluno: ida e volta (B8 e B8b) · pessoa 3
+### `LIS-02` Grupo do aluno: ida e volta (B8 e B8b) · pessoa 4
 Backend: E7 — `GET /grupos/{id}/hoje` com `minhaTurma` e `voce`; 403 fora do grupo.
 
 **Construção**
 - [ ] `buscarGrupoHoje` no repositório
-- [ ] Seletor Ida/Volta; turma do aluno primeiro com "Sua turma"; o próprio aluno com "Você"; cabeçalho "somente consulta"
+- [ ] Tela com o componente `ListaDoGrupo` da `LIS-03`: turma do aluno primeiro com "Sua turma"; o próprio aluno com "Você"; cabeçalho "somente consulta"
 
 **Critérios de aceite**
 - [ ] Os nomes e contagens conferem com a lista do motorista da mesma turma *(verificação manual)*
@@ -513,12 +515,13 @@ Backend: E7 — `GET /grupos/{id}/hoje` com `minhaTurma` e `voce`; 403 fora do g
 Backend: E7 — o mesmo endpoint.
 
 **Construção**
+- [ ] Componente `ListaDoGrupo` (seletor Ida/Volta, turmas e selos), reutilizado pela `LIS-02`
 - [ ] Versão de `motorista/` da tela de grupo: turma do usuário recolhida, como atalho para a lista do dia; demais abertas
 
 **Critérios de aceite**
 - [ ] O chefe abre qualquer grupo e vê todas as turmas abertas onde não conduz turma *(verificação manual)*
 
-### `ACE-04` Conta do motorista e do chefe (C6) · pessoa 1
+### `ACE-04` Conta do motorista e do chefe (C6) · pessoa 3
 Backend: E2 (pronta) para perfil e "Sair"; E7 para "Minhas turmas".
 
 **Construção**

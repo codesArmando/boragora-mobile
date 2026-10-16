@@ -5,7 +5,7 @@
 
 **Para que serve:** guiar a construção do app entrega por entrega (inclusive pelo Claude Code), dividir o trabalho entre os 4 integrantes e deixar claro o que precisa estar pronto no backend para cada entrega ser concluída.
 
-**Versão:** 3 — todas as decisões fechadas, protótipo revisado e pastas do repositório definidas (ver changelogs no final).
+**Versão:** 4 — trabalho dividido por perfil do app, com a fundação construída em paralelo (ver changelogs no final).
 
 **Acompanhamento:** o progresso é registrado em `checklist-frontend.md`.
 
@@ -59,6 +59,7 @@
 | 13 | Atualização das listas | Recarregar ao voltar para a tela (`useFocusEffect`) e ao puxar para baixo. Sem tempo real. |
 | 14 | Dados falsos | Enquanto o endpoint não existe, a função do repositório devolve um objeto fixo de `repositories/mocks/`. Quando a etapa fecha, a troca pela chamada real é uma linha. |
 | 15 | Repositório | Dois repositórios Git separados, `boragora-api` e `boragora-mobile`, clonados lado a lado em uma pasta local `Boragora/`, que não é versionada. Cada repositório guarda os próprios documentos em `docs/` e tem o próprio `CLAUDE.md` (seção 2.2). |
+| 16 | Divisão do trabalho | Por perfil do app: cada pessoa fica com as telas de um perfil (acesso, gestão, motorista ou aluno) do começo ao fim, e com a parte da fundação que a sua trilha mais usa. A fundação é construída em paralelo, a partir de um esqueleto comum feito no início (seção 3). |
 
 ### 1.3 Protótipo
 
@@ -207,6 +208,7 @@ A logo, o símbolo (usado na A3) e os ícones do app já foram exportados do pro
 - Título do commit ou do PR: `feat(app): <entrega> (<código>)`. Exemplo: `feat(app): marcar e desmarcar ida e volta (ALU-03)`.
 - Cada PR é revisado por outra pessoa da equipe antes do merge.
 - Cada pessoa altera as telas e os repositórios da sua trilha. Mudança em `components/`, `api/`, `types/` ou `theme/` vai em um PR separado e pequeno, avisado no grupo.
+- Tipos e dados falsos são criados por quem usa o endpoint primeiro: a entrega cria em `types/` e em `repositories/mocks/` o que os seus endpoints usam; se o arquivo já existe (por exemplo, `grupo`), só acrescenta. Antes de criar um componente, procurar em `components/`.
 - Uma entrega está pronta quando: confere com o protótipo; trata os quatro estados da convenção 3; funciona com o backend real, não só com dados falsos; e está marcada no `checklist-frontend.md`.
 
 ---
@@ -215,19 +217,59 @@ A logo, o símbolo (usado na A3) e os ícones do app já foram exportados do pro
 
 ### 3.1 Trilhas e responsáveis
 
-| Pessoa | Trilha principal | Entregas | Total |
-|---|---|---|---|
-| 1 | Acesso, sessão, navegação e notificações | `FND-01`, `FND-06`, `FND-07`, `ACE-01` a `ACE-04`, `NOT-01` a `NOT-03` | 10 |
-| 2 | Aluno: plano do dia; cadastros de pessoas na gestão | `FND-02`, `FND-03`, `ALU-01` a `ALU-06`, `GES-05`, `GES-12` | 10 |
-| 3 | Listas do dia; lista de turmas da gestão | `FND-04`, `FND-08`, `LIS-01` a `LIS-06`, `GES-13` | 9 |
-| 4 | Gestão de grupos e turmas | `FND-05`, `GES-01` a `GES-04`, `GES-06` a `GES-11` | 11 |
-| Todos | Fechamento | `FEC-01` a `FEC-04` | 4 |
+O trabalho é dividido por perfil do app (decisão 16). Cada pessoa fica com as telas de um perfil, do começo ao fim, e com a parte da fundação que a sua trilha mais usa. Assim, depois dos dois primeiros dias, cada pessoa segue a própria trilha sem esperar a entrega de outra.
 
-A pessoa 2 fica com as listas de motoristas e de alunos (`GES-05` e `GES-12`) porque dependem das etapas E4 e E5, que chegam antes da E6, de que dependem as telas do plano do dia. A pessoa 3 fica com a lista de turmas (`GES-13`), que usa os mesmos componentes de lista da trilha dela. A pessoa 4 tem mais entregas, mas quase todas são formulários curtos. Se alguém terminar antes, `GES-09`, `GES-11` e `LIS-06` são as mais fáceis de repassar.
+| Pessoa | Trilha | Fundação | Entregas da trilha | Total | Carga* |
+|---|---|---|---|---|---|
+| 1 | Acesso, sessão, navegação e notificações | `FND-01` (com o esqueleto), `FND-05`, `FND-06`, `FND-07` | `ACE-01`, `ACE-02`, `NOT-01` a `NOT-03` | 9 | ~8,5 dias |
+| 2 | Gestão do motorista-chefe | `FND-03` | `GES-01` a `GES-11` | 12 | ~9 dias |
+| 3 | Motorista e listas de consulta | `FND-04`, `FND-08` | `LIS-01`, `LIS-03` a `LIS-06`, `GES-12`, `GES-13`, `ACE-04` | 10 | ~8 dias |
+| 4 | Aluno | `FND-02` | `ALU-01` a `ALU-06`, `LIS-02`, `ACE-03` | 9 | ~8 dias |
+| Todos | Fechamento | — | `FEC-01` a `FEC-04` | 4 | — |
 
-### 3.2 Ordem geral (ondas)
+\* Soma dos tamanhos da seção 5 (P = meio dia, M = um dia, G = dois dias).
 
-Cada onda só pode ser **concluída** quando a etapa indicada estiver fechada no `checklist-backend.md`.
+- **Pessoa 1:** a trilha de acesso é a mais curta, por isso as notificações começam cedo. A `NOT-01` é a entrega de maior risco do plano (seção 8). No fim, a pessoa 1 é o apoio de quem atrasar na integração.
+- **Pessoa 2:** a gestão é quase toda formulário, por isso ela constrói os componentes de formulário (`FND-03`). É a primeira trilha a integrar com a API real, porque usa as etapas E3 a E5.
+- **Pessoa 3:** as telas do motorista são quase todas lista, por isso ela constrói os componentes de cartão e de lista (`FND-04`) e a tela de modelo (`FND-08`). Fica também com a D3 e a D10 (`GES-13` e `GES-12`), listas só de leitura que usam esses componentes, e com a `LIS-01` inteira (B8a e C3a são um único componente).
+- **Pessoa 4:** fica com todo o perfil do aluno, inclusive o grupo (B8 e B8b) e a conta (B9).
+- Se alguém terminar antes, `GES-09`, `GES-11` e `LIS-06` são as mais fáceis de repassar.
+
+### 3.2 Ordem de trabalho
+
+**Dia 0 — esqueleto (pessoa 1, poucas horas, dentro da `FND-01`).** Itens que todos usam desde o primeiro dia:
+
+| Item | Antes ficava em | Para que serve |
+|---|---|---|
+| Cores e medidas da seção 2.3 em `theme/cores.ts` e `theme/medidas.ts` | `FND-02` | Todas as telas já usam o tema certo |
+| Todos os arquivos de rota da seção 2.2, com telas provisórias | `FND-07` | Cada pessoa sabe onde fica cada tela, e a `NOT-03` já tem os destinos |
+| `api/api.ts` mínimo, com `get`, `post`, `put` e `del` (URL base e JSON) na forma final | `FND-05` | Os repositórios podem ser escritos desde o início; a `FND-05` completa o resto sem mudar a forma de chamar |
+
+**Dias 1 e 2 — fundação em paralelo.** Pessoa 1: `FND-05`; pessoa 2: `FND-03`; pessoa 3: `FND-04` e `FND-08`; pessoa 4: `FND-02`. Ninguém depende de outra pessoa nesses dois dias. No fim do dia 2, os componentes ficam disponíveis para todos.
+
+**Trilhas.** Ordem de cada pessoa:
+
+| Pessoa | Ordem |
+|---|---|
+| 1 | `FND-01` (esqueleto) → `FND-05` → `FND-06` → `FND-07` → `ACE-01` → `ACE-02` → `NOT-01` → `NOT-02` → `NOT-03` |
+| 2 | `FND-03` → `GES-01` → `GES-02` → `GES-03` → `GES-04` → `GES-05` → `GES-06` → `GES-07` → `GES-08` → `GES-09` → `GES-10` → `GES-11` |
+| 3 | `FND-04` → `FND-08` → `LIS-01` → `LIS-04` → `LIS-05` → `LIS-03` → `GES-13` → `GES-12` → `LIS-06` → `ACE-04` |
+| 4 | `FND-02` → `ALU-01` → `ACE-03` → `ALU-02` → `ALU-03` → `ALU-04` → `ALU-05` → `ALU-06` → `LIS-02` |
+
+A pessoa 3 pode antecipar `GES-13`, `GES-12` e `LIS-06` assim que E4 e E5 fecharem, para integrar com a API real mais cedo.
+
+**Calendário sugerido**, supondo a entrega no início de novembro e o backend avançando cerca de duas etapas por semana:
+
+| Quando | O quê |
+|---|---|
+| Seg 19/10, manhã | Dia 0: esqueleto (pessoa 1) |
+| 19/10 e 20/10 | Fundação em paralelo |
+| 21/10 a 30/10 | Trilhas. A gestão integra com E4 e E5 assim que fecharem; aluno e motorista seguem com dados falsos até E6 e E7 |
+| A partir de 3/11 | Integração com E6 a E8, `NOT-02` e `NOT-03`, e fechamento (`FEC`) |
+
+### 3.3 Ondas: quando cada entrega pode ser concluída
+
+As ondas não definem mais a ordem de trabalho (seção 3.2). Elas marcam quando cada grupo de entregas pode ser **concluído**: só quando a etapa indicada estiver fechada no `checklist-backend.md`.
 
 | Onda | Entregas | Backend necessário | Situação do backend |
 |---|---|---|---|
@@ -239,17 +281,22 @@ Cada onda só pode ser **concluída** quando a etapa indicada estiver fechada no
 | 5 — Notificações | `NOT-02`, `NOT-03` | E8 | Pendente |
 | 6 — Fechamento | `FEC-01` a `FEC-04` | E9 | Pendente |
 
-Ordem dentro da onda 0: `FND-01` primeiro (bloqueia todos, é curta); depois `FND-02` e `FND-05` em paralelo; depois `FND-03`, `FND-04`, `FND-06` e `FND-08`; por último `FND-07`.
+### 3.4 Pontos de encontro entre as trilhas
 
-### 3.3 Como ninguém fica parado
+O que ainda liga uma pessoa à outra, e por que não trava ninguém:
 
-Com o backend na etapa 3, só as ondas 0 e 1 podem ser integradas hoje. As pessoas 2 e 3 dependem das etapas 6 e 7, que são as últimas. Para não esperarem (decisão 14):
+| Ponto | De quem | Para quem | Quando | Por que não trava |
+|---|---|---|---|---|
+| Esqueleto | Pessoa 1 | Todos | Dia 0 | São poucas horas, no primeiro dia |
+| Componentes da fundação (`FND-02`, `FND-03`, `FND-04`, `FND-08`) | Cada pessoa | Todas | Fim do dia 2 | Todos constroem ao mesmo tempo: é uma espera só, no começo |
+| Login real (`FND-06`) | Pessoa 1 | Todos | Por volta do dia 3 | Até lá, as telas usam dados falsos |
+| Componente `ListaDoGrupo` (`LIS-03`) | Pessoa 3 | Pessoa 4 (`LIS-02`) | Por volta do dia 6 | A pessoa 4 só precisa dele no fim da trilha |
+| Componente de conta da B9 (`ACE-03`) | Pessoa 4 | Pessoa 3 (`ACE-04`) | Por volta do dia 4 | A `ACE-03` vem logo depois da `ALU-01`; a `ACE-04` é a última da pessoa 3 |
+| Tipos e dados falsos compartilhados (`grupo`, `turma`) | Quem usa primeiro | Os demais | Ao longo das trilhas | Regra da seção 2.5: quem chega depois só acrescenta |
 
-- A partir da `FND-08`, cada tela pode ser construída com o repositório devolvendo um objeto fixo, no formato definido no plano do backend e já tipado em `types/`.
-- Quando a etapa do backend fecha, a pessoa troca o objeto fixo pela chamada real, testa contra a API e só então marca a entrega como concluída.
-- A coluna "Backend necessário" da seção 5 indica o que é preciso para **concluir**. Começar com dados falsos só exige a onda 0.
+**Dados falsos (decisão 14).** A partir da `FND-08`, cada tela pode ser construída com o repositório devolvendo um objeto fixo, no formato definido no plano do backend e já tipado em `types/`. Quando a etapa do backend fecha, a pessoa troca o objeto fixo pela chamada real, testa contra a API e só então marca a entrega como concluída. A coluna "Backend necessário" da seção 5 indica o que é preciso para **concluir**.
 
-Sugestão de ritmo, supondo a entrega no início de novembro e o backend avançando cerca de duas etapas por semana: ondas 0 e 1 na semana de 12/10; ondas 2 e 3 na semana de 19/10; ondas 4 e 5 na semana de 26/10; onda 6 nos primeiros dias de novembro. Se o backend atrasar, as telas continuam avançando com dados falsos e a integração se acumula no fim, que é o principal risco do cronograma.
+**O que a divisão por perfil não resolve:** as trilhas do aluno (E6) e do motorista (E7) dependem das últimas etapas do backend. Se o backend atrasar, as telas continuam avançando com dados falsos e a integração se acumula no fim, que é o principal risco do cronograma.
 
 ---
 
@@ -305,34 +352,36 @@ Tamanho estimado: **P** até meio dia, **M** cerca de um dia, **G** dois dias ou
 
 | Código | Entrega | Pessoa | Backend necessário | Depende de | Tam. |
 |---|---|---|---|---|---|
-| `FND-01` | Criar o projeto Expo | 1 | — | — | P |
-| `FND-02` | Tema, fontes e imagens da marca | 2 | — | `FND-01` | M |
-| `FND-03` | Componentes de formulário e de ação | 2 | — | `FND-02` | M |
-| `FND-04` | Componentes de cartão e de lista | 3 | — | `FND-02` | M |
-| `FND-05` | `api.ts`, erros e tipos da API | 4 | E0 (pronta): formato padrão de erro | `FND-01` | M |
+| `FND-01` | Criar o projeto Expo e o esqueleto | 1 | — | — | M |
+| `FND-02` | Fontes, tipografia e imagens da marca | 4 | — | `FND-01` | M |
+| `FND-03` | Componentes de formulário e de ação | 2 | — | `FND-01` | M |
+| `FND-04` | Componentes de cartão e de lista | 3 | — | `FND-01` | M |
+| `FND-05` | `api.ts` completo, erros e tipos de acesso | 1 | E0 (pronta): formato padrão de erro | `FND-01` | M |
 | `FND-06` | Sessão: login, token e expiração | 1 | E2 (pronta): `POST /auth/login`, `POST /auth/cadastro`, `GET /me`, 401 | `FND-05` | M |
-| `FND-07` | Navegação, abas e guarda por papel | 1 | E2 (pronta): `papel` e `admin` em `GET /me` | `FND-02`, `FND-06` | M |
-| `FND-08` | Repositório e tela de modelo, dados falsos | 3 | E3 (pronta): `GET /grupos` | `FND-04`, `FND-05` | M |
+| `FND-07` | Navegação, abas e guarda por papel | 1 | E2 (pronta): `papel` e `admin` em `GET /me` | `FND-06` | M |
+| `FND-08` | Repositório e tela de modelo, dados falsos | 3 | E3 (pronta): `GET /grupos` | `FND-04`; `FND-06` para a chamada real | M |
 
-- **`FND-01`** — Projeto em `boragora-mobile/` com TypeScript e expo-router, ESLint e Prettier, atalho `@/` para `src/`, `.env.example` com `EXPO_PUBLIC_API_URL` e as pastas da seção 2.2.
-- **`FND-02`** — `theme/` com os valores da seção 2.3; fontes carregadas antes de esconder a tela de abertura; ícone e tela de abertura do app (de `docs/prototipo/marca/`); logo e símbolo copiados de `docs/prototipo/assets/` para `assets/`; componente `Tela` (área segura e fundo).
+- **`FND-01`** — Projeto em `boragora-mobile/` com TypeScript e expo-router, ESLint e Prettier, atalho `@/` para `src/`, `.env.example` com `EXPO_PUBLIC_API_URL` e as pastas da seção 2.2. Inclui o **esqueleto** da seção 3.2: cores e medidas da seção 2.3 em `theme/cores.ts` e `theme/medidas.ts`; todos os arquivos de rota da seção 2.2 com telas provisórias; `api/api.ts` mínimo com `get`, `post`, `put` e `del` (URL base e JSON), já na forma final.
+- **`FND-02`** — `theme/tipografia.ts` com os valores da seção 2.3; fontes carregadas antes de esconder a tela de abertura; ícone e tela de abertura do app (de `docs/prototipo/marca/`); logo e símbolo copiados de `docs/prototipo/assets/` para `assets/`; componente `Tela` (área segura e fundo). As cores e as medidas já vêm do esqueleto.
 - **`FND-03`** — `Botao` (primário, contorno, texto e perigo; carregando e desabilitado), `CampoTexto` (rótulo, erro, senha, máscara), `Cabecalho` (voltar, título e ação à direita, como o "Novo grupo" da D8), `SeletorSegmentado`, `Aviso`, `DialogoConfirmacao` e `SeletorModal`.
 - **`FND-04`** — `Cartao`, `CartaoAtalho` (os cartões da D1), `BlocoHorarios`, `Contadores`, `LinhaAluno`, `LinhaPessoa` (iniciais, nome e e-mail, da D9), `Selo` (Você, Sua turma, Cancelado, Liberado, Em aula, Vinculado, Sem turma), `EstadoVazio`, `EstadoErro`, `Carregando` e `ListaAtualizavel`.
-- **`FND-05`** — `api/api.ts`, classe `ErroApi`, falha de rede, ponto único para avisar a sessão sobre o 401, e a pasta `types/` com os formatos do plano do backend, um arquivo por recurso.
+- **`FND-05`** — Completa o `api/api.ts` do esqueleto sem mudar a forma de chamar: token no cabeçalho, tempo limite, classe `ErroApi`, falha de rede e ponto único para avisar a sessão sobre o 401. Cria os tipos `erro`, `auth` e `usuario`; os demais tipos são criados por quem usa o endpoint primeiro (seção 2.5).
 - **`FND-06`** — `contexts/SessaoContext.tsx` com `entrar`, `cadastrar` e `sair`; token no `expo-secure-store`; restauração da sessão com `GET /me`; 401 global leva à A1 com o aviso de sessão expirada.
-- **`FND-07`** — Todos os arquivos de rota da seção 2.2 com telas provisórias; abas de cada papel na ordem da decisão 4; redirecionamento por papel; aba Gestão só para admin; `gestao/_layout.tsx` recusa quem não é admin.
-- **`FND-08`** — `repositories/grupoRepository.ts` e uma tela de modelo com os quatro estados e recarga ao focar; pasta `repositories/mocks/` com o cenário do protótipo; padrão de troca entre objeto fixo e chamada real. É o modelo que todas as trilhas copiam.
+- **`FND-07`** — Abas de cada papel na ordem da decisão 4; redirecionamento por papel; aba Gestão só para admin; `gestao/_layout.tsx` recusa quem não é admin. Os arquivos de rota já existem desde o esqueleto da `FND-01`.
+- **`FND-08`** — `repositories/grupoRepository.ts`, o tipo `grupo` e uma tela de modelo com os quatro estados e recarga ao focar; pasta `repositories/mocks/` com os grupos do protótipo; padrão de troca entre objeto fixo e chamada real. É o modelo que todas as trilhas copiam. Cada trilha acrescenta em `mocks/` os dados falsos dos seus endpoints, seguindo o cenário do protótipo (seção 4.2).
 
-### 5.2 Trilha ACE — Acesso e conta (pessoa 1)
+### 5.2 Trilha ACE — Acesso e conta (pessoas 1, 4 e 3)
 
-| Código | Entrega | Telas | Endpoints | Backend necessário | Depende de | Tam. |
-|---|---|---|---|---|---|---|
-| `ACE-01` | Tela de entrar | A1 | `POST /auth/login` | E2 (pronta) | `FND-03`, `FND-07` | P |
-| `ACE-02` | Tela de criar conta | A2 | `POST /auth/cadastro` | E2 (pronta): 409 `EMAIL_JA_CADASTRADO` | `FND-03`, `FND-07` | P |
-| `ACE-03` | Conta do aluno | B9 | `GET /me`, `GET /aluno/turmas` | E2 (pronta) para perfil e "Sair"; E6 para "Minhas turmas" | `FND-04`, `FND-07`, `ALU-01` | P |
-| `ACE-04` | Conta do motorista e do chefe | C6 | `GET /me`, `GET /motorista/turmas` | E2 (pronta) para perfil e "Sair"; E7 para "Minhas turmas" | `ACE-03`, `LIS-04` | P |
+| Código | Entrega | Telas | Endpoints | Pessoa | Backend necessário | Depende de | Tam. |
+|---|---|---|---|---|---|---|---|
+| `ACE-01` | Tela de entrar | A1 | `POST /auth/login` | 1 | E2 (pronta) | `FND-03`, `FND-07` | P |
+| `ACE-02` | Tela de criar conta | A2 | `POST /auth/cadastro` | 1 | E2 (pronta): 409 `EMAIL_JA_CADASTRADO` | `FND-03`, `FND-07` | P |
+| `ACE-03` | Conta do aluno | B9 | `GET /me`, `GET /aluno/turmas` | 4 | E2 (pronta) para perfil e "Sair"; E6 para "Minhas turmas" | `FND-04`, `FND-07`, `ALU-01` | P |
+| `ACE-04` | Conta do motorista e do chefe | C6 | `GET /me`, `GET /motorista/turmas` | 3 | E2 (pronta) para perfil e "Sair"; E7 para "Minhas turmas" | `ACE-03`, `LIS-04` | P |
 
-### 5.3 Trilha ALU — Aluno: plano do dia (pessoa 2)
+A conta fica com a trilha de cada perfil: a B9 com o aluno, a C6 com o motorista. A `ACE-03` cria o componente de conta que a `ACE-04` reaproveita.
+
+### 5.3 Trilha ALU — Aluno: plano do dia (pessoa 4)
 
 | Código | Entrega | Telas | Endpoints | Backend necessário | Depende de | Tam. |
 |---|---|---|---|---|---|---|
@@ -356,33 +405,35 @@ A entrega `ALU-02` inclui a função pura `utils/estadoDoPlano.ts`, que escolhe 
 
 O estado define o aviso e o que fica bloqueado; o texto de cada cartão vem dos campos (`incluiIda`, `cancelouAposSaida`, `incluiVolta`). Na B2, o seletor de status da volta usa o título "Status da volta" e o texto "Pode mudar até HH:mm", como na B3.
 
-### 5.4 Trilha LIS — Listas do dia (pessoa 3)
-
-| Código | Entrega | Telas | Endpoints | Backend necessário | Depende de | Tam. |
-|---|---|---|---|---|---|---|
-| `LIS-01` | Meus grupos (aluno, motorista e chefe) | B8a, C3a | `GET /grupos` | E3 (pronta). Dados reais de aluno e motorista comum: E4 e E5 | `FND-08` | P |
-| `LIS-02` | Grupo do aluno: ida e volta | B8, B8b | `GET /grupos/{id}/hoje` | E7: `minhaTurma` e `voce`; 403 fora do grupo | `LIS-01` | M |
-| `LIS-03` | Grupo do motorista e do chefe | C3 | `GET /grupos/{id}/hoje` | E7 | `LIS-02`, `LIS-05` | P |
-| `LIS-04` | Hoje do motorista e do chefe | C0, C0b | `GET /motorista/turmas` | E7: contadores; lista vazia para o chefe sem turma | `FND-08` | M |
-| `LIS-05` | Lista do dia da turma | C1, C2, C5 | `GET /turmas/{id}/hoje` | E7: `listaIda`, `listaVolta`, `semConfirmacoes` | `LIS-04` | M |
-| `LIS-06` | Alunos da turma | C4 | `GET /turmas/{id}` | E4; E5 para a lista ter alunos | `LIS-05` | P |
-
-### 5.5 Trilha GES — Gestão do motorista-chefe (pessoas 4, 2 e 3)
+### 5.4 Trilha LIS — Listas do dia (pessoas 3 e 4)
 
 | Código | Entrega | Telas | Endpoints | Pessoa | Backend necessário | Depende de | Tam. |
 |---|---|---|---|---|---|---|---|
-| `GES-01` | Tela de gestão | D1 | — | 4 | Nenhum | `FND-04`, `FND-07` | P |
-| `GES-02` | Lista de grupos | D8 | `GET /grupos` | 4 | E3 (pronta) | `GES-01`, `FND-08` | P |
-| `GES-03` | Novo grupo | D2 | `POST /admin/grupos` | 4 | E3 (pronta): 400 com ida não anterior à volta | `GES-02`, `FND-03` | M |
-| `GES-04` | Editar e excluir grupo | D2b | `GET /grupos/{id}`, `PUT` e `DELETE /admin/grupos/{id}` | 4 | E3 (pronta): 409 `GRUPO_COM_TURMAS` | `GES-03` | P |
+| `LIS-01` | Meus grupos (aluno, motorista e chefe) | B8a, C3a | `GET /grupos` | 3 | E3 (pronta). Dados reais de aluno e motorista comum: E4 e E5 | `FND-08` | P |
+| `LIS-02` | Grupo do aluno: ida e volta | B8, B8b | `GET /grupos/{id}/hoje` | 4 | E7: `minhaTurma` e `voce`; 403 fora do grupo | `LIS-01`, `LIS-03` (componente `ListaDoGrupo`) | M |
+| `LIS-03` | Grupo do motorista e do chefe | C3 | `GET /grupos/{id}/hoje` | 3 | E7 | `LIS-01`, `LIS-05` | M |
+| `LIS-04` | Hoje do motorista e do chefe | C0, C0b | `GET /motorista/turmas` | 3 | E7: contadores; lista vazia para o chefe sem turma | `FND-08` | M |
+| `LIS-05` | Lista do dia da turma | C1, C2, C5 | `GET /turmas/{id}/hoje` | 3 | E7: `listaIda`, `listaVolta`, `semConfirmacoes` | `LIS-04` | M |
+| `LIS-06` | Alunos da turma | C4 | `GET /turmas/{id}` | 3 | E4; E5 para a lista ter alunos | `LIS-05` | P |
+
+A B8 (aluno) e a C3 (motorista e chefe) mostram o mesmo grupo. A `LIS-03` cria o componente `ListaDoGrupo` (seletor Ida/Volta, turmas e selos), e a `LIS-02` o reutiliza, para não haver duas versões da mesma lista.
+
+### 5.5 Trilha GES — Gestão do motorista-chefe (pessoas 2 e 3)
+
+| Código | Entrega | Telas | Endpoints | Pessoa | Backend necessário | Depende de | Tam. |
+|---|---|---|---|---|---|---|---|
+| `GES-01` | Tela de gestão | D1 | — | 2 | Nenhum | `FND-04`, `FND-07` | P |
+| `GES-02` | Lista de grupos | D8 | `GET /grupos` | 2 | E3 (pronta) | `GES-01`, `FND-08` | P |
+| `GES-03` | Novo grupo | D2 | `POST /admin/grupos` | 2 | E3 (pronta): 400 com ida não anterior à volta | `GES-02`, `FND-03` | M |
+| `GES-04` | Editar e excluir grupo | D2b | `GET /grupos/{id}`, `PUT` e `DELETE /admin/grupos/{id}` | 2 | E3 (pronta): 409 `GRUPO_COM_TURMAS` | `GES-03` | P |
 | `GES-05` | Motoristas: lista e cadastro | D9, D7 | `GET /admin/motoristas`, `POST /admin/motoristas` | 2 | E4 | `GES-01`, `FND-03` | M |
-| `GES-06` | Nova turma | D4 | `GET /grupos`, `GET /admin/motoristas`, `POST /admin/turmas` | 4 | E4: validação do nome; 409 `CONFLITO_GRUPO_MOTORISTA` | `GES-01`, `GES-05` | M |
-| `GES-07` | Gerenciar turma: leitura | D5 | `GET /turmas/{id}` | 4 | E4 | `GES-06` | P |
-| `GES-08` | Trocar motorista e editar dados | D5, D5a | `PUT /admin/turmas/{id}` | 4 | E4: conflito também na troca | `GES-07` | M |
-| `GES-09` | Excluir turma | D5a | `DELETE /admin/turmas/{id}` | 4 | E4: 204 com exclusão em cascata | `GES-08` | P |
-| `GES-10` | Vincular alunos | D6 | `GET /admin/alunos?turmaId=`, `POST /admin/turmas/{id}/alunos` | 4 | E5: `situacao`; 409 `CONFLITO_GRUPO_ALUNO` | `GES-07` | M |
-| `GES-11` | Remover aluno da turma | D5 | `DELETE /admin/turmas/{id}/alunos/{alunoId}` | 4 | E5 | `GES-07` | P |
-| `GES-12` | Lista de alunos | D10 | `GET /admin/alunos` sem `turmaId` | 2 | E5 | `GES-01`, `FND-08` | P |
+| `GES-06` | Nova turma | D4 | `GET /grupos`, `GET /admin/motoristas`, `POST /admin/turmas` | 2 | E4: validação do nome; 409 `CONFLITO_GRUPO_MOTORISTA` | `GES-01`, `GES-05` | M |
+| `GES-07` | Gerenciar turma: leitura | D5 | `GET /turmas/{id}` | 2 | E4 | `GES-06` | P |
+| `GES-08` | Trocar motorista e editar dados | D5, D5a | `PUT /admin/turmas/{id}` | 2 | E4: conflito também na troca | `GES-07` | M |
+| `GES-09` | Excluir turma | D5a | `DELETE /admin/turmas/{id}` | 2 | E4: 204 com exclusão em cascata | `GES-08` | P |
+| `GES-10` | Vincular alunos | D6 | `GET /admin/alunos?turmaId=`, `POST /admin/turmas/{id}/alunos` | 2 | E5: `situacao`; 409 `CONFLITO_GRUPO_ALUNO` | `GES-07` | M |
+| `GES-11` | Remover aluno da turma | D5 | `DELETE /admin/turmas/{id}/alunos/{alunoId}` | 2 | E5 | `GES-07` | P |
+| `GES-12` | Lista de alunos | D10 | `GET /admin/alunos` sem `turmaId` | 3 | E5 | `GES-01`, `FND-08` | P |
 | `GES-13` | Lista de turmas | D3 | `GET /admin/turmas` | 3 | E4; E5 para `totalAlunos` maior que zero | `GES-01`, `FND-08` | P |
 
 ### 5.6 Trilha NOT — Notificações (pessoa 1)
@@ -392,6 +443,8 @@ O estado define o aviso e o que fica bloqueado; o texto de cada cartão vem dos 
 | `NOT-01` | Prova de conceito: development build e token | — | — | Nenhum | `FND-01` | G |
 | `NOT-02` | Registrar e remover o token | — | `PUT /me/push-token`, `DELETE /me/push-token` | E8 | `NOT-01`, `FND-06` | P |
 | `NOT-03` | Receber e abrir notificações | E1 | — | E8: campo `data` | `NOT-02`, `FND-07`, `ALU-02`, `LIS-05` | M |
+
+A `NOT-03` pode ser construída desde cedo, porque as rotas de destino existem desde o esqueleto da `FND-01`; o aceite precisa da `ALU-02` e da `LIS-05` prontas.
 
 Destinos do toque (`NOT-03`):
 
@@ -463,6 +516,7 @@ Vale igual para o motorista comum e para o chefe responsável pela turma. Com a 
 | Push não funciona no Expo Go em Android (a partir do SDK 53). É preciso um development build, um projeto no EAS e credenciais do Firebase (FCM). | Alto | `NOT-01` começa na onda 1, como prova de conceito. No iOS, as credenciais de push normalmente exigem a conta paga de desenvolvedor da Apple; o caminho mais simples para a apresentação é Android. |
 | As trilhas ALU e LIS dependem das últimas etapas do backend (E6 e E7). | Alto | Dados falsos desde a `FND-08`, com o formato tirado do plano do backend e tipado em `types/`. Uma entrega só é marcada depois de testada com a API real. |
 | Resposta real diferente dos dados falsos. | Médio | Contrato da seção 4.3 conferido a cada etapa do backend; `types/` é a única fonte dos formatos no app. |
+| Na divisão por perfil, componentes ou tipos parecidos criados duas vezes em trilhas diferentes. | Médio | Componentes compartilhados com dono definido (`FND-03`, `FND-04` e `ListaDoGrupo`); procurar em `components/` antes de criar; tipos e dados falsos pela regra da seção 2.5; mudanças em `components/` e `types/` em PR separado e avisado. |
 | Sem camada de hooks, cada tela repete o controle de carregando e erro, e as cópias podem divergir. | Médio | Tela de modelo da `FND-08` revisada pela equipe e copiada em todas as telas; componentes `Carregando`, `EstadoErro` e `EstadoVazio` compartilhados. |
 | Tela aberta durante a virada de horário mostra ações que já não valem. | Baixo | Recarregar ao focar e tratar os erros 422 recarregando o plano (`ALU-06`). |
 | Sessão de 1 dia expira no meio do uso. | Baixo | Tratamento global do 401 na `FND-06`, com aviso ao usuário. |
@@ -472,7 +526,7 @@ Vale igual para o motorista comum e para o chefe responsável pela turma. Com a 
 
 ## 9. Instruções para a execução com o Claude Code
 
-1. Trabalhar **uma entrega por vez**, dentro do repositório `boragora-mobile`. Não alterar `../boragora-api/` a partir de uma entrega do app (é outro repositório); se a API não tiver o que a tela precisa, parar e avisar.
+1. Trabalhar **uma entrega por vez**, na ordem da trilha da seção 3.2, dentro do repositório `boragora-mobile`. Não alterar `../boragora-api/` a partir de uma entrega do app (é outro repositório); se a API não tiver o que a tela precisa, parar e avisar.
 2. Antes de começar, conferir em `../boragora-api/docs/checklist-backend.md` se a etapa indicada em "Backend necessário" está concluída. Se não estiver, construir com o objeto fixo de `repositories/mocks/` e deixar a entrega como "aguardando EN" no `checklist-frontend.md`.
 3. Seguir as convenções da seção 2.4, em especial: tela → repositório → api; tipos só em `types/`; nenhuma regra de horário no app.
 4. Usar a tela e o repositório da `FND-08` como modelo de toda tela nova.
@@ -492,6 +546,18 @@ Vale igual para o motorista comum e para o chefe responsável pela turma. Com a 
 - Tema claro. O protótipo só tem o tema escuro.
 
 ---
+
+## Changelog — o que mudou da versão 3 para a versão 4
+
+| # | Mudança | Motivo |
+|---|---|---|
+| 1 | Divisão do trabalho por perfil: pessoa 1 com acesso e notificações, pessoa 2 com a gestão, pessoa 3 com o motorista e as listas de consulta, pessoa 4 com o aluno (decisão 16; seções 3.1, 5.2 a 5.5) | Evitar que as pessoas fiquem esperando umas pelas outras: na v3, a fundação era uma corrente entre as 4 pessoas |
+| 2 | Esqueleto no Dia 0, dentro da `FND-01`: cores e medidas (antes na `FND-02`), arquivos de rota (antes na `FND-07`) e `api.ts` mínimo (antes na `FND-05`) | Destravar todas as trilhas no primeiro dia |
+| 3 | Fundação em paralelo: cada pessoa constrói a parte que a sua trilha mais usa; `FND-02` passa para a pessoa 4 e `FND-05` para a pessoa 1; dependências da `FND-03`, `FND-04`, `FND-07` e `FND-08` ajustadas | Uma única espera, no começo, em vez de uma corrente |
+| 4 | `GES-12` e `GES-13` passam para a pessoa 3; `LIS-02` e `ACE-03` para a pessoa 4; `ACE-04` para a pessoa 3; `GES-01` a `GES-11` para a pessoa 2 | Equilibrar a carga e manter cada perfil com uma pessoa |
+| 5 | `LIS-03` cria o componente `ListaDoGrupo`, reutilizado pela `LIS-02`, e passa a M | A `LIS-02` e a `LIS-03` estão em trilhas diferentes |
+| 6 | Tipos e dados falsos criados por quem usa o endpoint primeiro (seção 2.5); a `FND-05` cria só `erro`, `auth` e `usuario`, e a `FND-08` só os grupos | Cada trilha cria o que usa, sem esperar a pessoa 4 da v3 |
+| 7 | Seção 3 reescrita: ordem por pessoa, calendário, ondas como marco de conclusão e pontos de encontro entre as trilhas; novo risco na seção 8 | Consequência das mudanças acima |
 
 ## Changelog — o que mudou da versão 2 para a versão 3
 
