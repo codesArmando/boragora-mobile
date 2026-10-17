@@ -1,22 +1,25 @@
+import { Redirect } from 'expo-router';
 import { Tabs } from 'expo-router/js-tabs';
 
-import { cores } from '@/theme/cores';
+import { iconeAba, opcoesAbas } from '@/components/opcoesAbas';
+import { useSessao } from '@/contexts/SessaoContext';
 
-// Abas mínimas do esqueleto (FND-01). A FND-07 acrescenta ícones, a guarda por papel
-// e esconde a barra nos formulários da gestão.
+// Abas do aluno: Hoje, Grupo e Conta. Quem não é aluno volta ao índice, que redireciona.
 export default function AlunoLayout() {
+  const { usuario, restaurando } = useSessao();
+
+  if (restaurando) {
+    return null;
+  }
+  if (usuario?.papel !== 'ALUNO') {
+    return <Redirect href="/" />;
+  }
+
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarStyle: { backgroundColor: cores.fundo, borderTopColor: cores.borda },
-        tabBarActiveTintColor: cores.destaque,
-        tabBarInactiveTintColor: cores.textoApagado,
-      }}
-    >
-      <Tabs.Screen name="hoje" options={{ title: 'Hoje' }} />
-      <Tabs.Screen name="grupo" options={{ title: 'Grupo' }} />
-      <Tabs.Screen name="conta" options={{ title: 'Conta' }} />
+    <Tabs screenOptions={opcoesAbas}>
+      <Tabs.Screen name="hoje" options={{ title: 'Hoje', tabBarIcon: iconeAba('calendar') }} />
+      <Tabs.Screen name="grupo" options={{ title: 'Grupo', tabBarIcon: iconeAba('users') }} />
+      <Tabs.Screen name="conta" options={{ title: 'Conta', tabBarIcon: iconeAba('user') }} />
     </Tabs>
   );
 }

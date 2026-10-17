@@ -1,5 +1,6 @@
 import { StyleSheet, Text } from 'react-native';
 
+import { PainelEntrarProvisorio } from '@/components/PainelSessaoProvisorio';
 import { TelaProvisoria } from '@/components/TelaProvisoria';
 import { useSessao } from '@/contexts/SessaoContext';
 import { cores } from '@/theme/cores';
@@ -12,12 +13,10 @@ export default function Entrar() {
       telas="A1"
       titulo="Entrar"
       entrega="ACE-01"
-      links={[
-        { rotulo: 'Criar conta', href: '/criar-conta' },
-        { rotulo: 'Mapa de rotas', href: '/' },
-      ]}
+      links={[{ rotulo: 'Criar conta', href: '/criar-conta' }]}
     >
       {sessaoExpirada && <Text style={estilos.aviso}>Sua sessão expirou</Text>}
+      <PainelEntrarProvisorio />
     </TelaProvisoria>
   );
 }

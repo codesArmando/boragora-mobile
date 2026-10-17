@@ -32,7 +32,7 @@ Valores de status: Não iniciada, Em andamento, Aguardando backend, Concluída.
 
 | Pessoa | Entregas | Concluídas |
 |---|---|---|
-| 1 — Acesso, sessão, navegação e notificações | `FND-01`, `FND-05`, `FND-06`, `FND-07`, `ACE-01`, `ACE-02`, `NOT-01` a `NOT-03` | 2 de 9 |
+| 1 — Acesso, sessão, navegação e notificações | `FND-01`, `FND-05`, `FND-06`, `FND-07`, `ACE-01`, `ACE-02`, `NOT-01` a `NOT-03` | 4 de 9 |
 | 2 — Gestão do motorista-chefe | `FND-03`, `GES-01` a `GES-11` | 0 de 12 |
 | 3 — Motorista e listas de consulta | `FND-04`, `FND-08`, `LIS-01`, `LIS-03` a `LIS-06`, `GES-12`, `GES-13`, `ACE-04` | 0 de 10 |
 | 4 — Aluno | `FND-02`, `ALU-01` a `ALU-06`, `LIS-02`, `ACE-03` | 0 de 9 |
@@ -131,23 +131,23 @@ Backend: E2 (pronta) — `POST /auth/login`, `POST /auth/cadastro`, `GET /me`, 4
 - [x] 401 em rota autenticada limpa a sessão e leva à A1 com o aviso "Sua sessão expirou"
 
 **Critérios de aceite**
-- [ ] Fechar e abrir o app mantém o login *(verificação manual)*
-- [ ] Com token inválido ou expirado, o app volta para a A1 com o aviso *(verificação manual)*
+- [x] Fechar e abrir o app mantém o login *(verificação manual)*
+- [x] Com token inválido ou expirado, o app volta para a A1 com o aviso *(verificação manual)*
 
 ### `FND-07` Navegação, abas e guarda por papel · pessoa 1
 Backend: E2 (pronta) — `papel` e `admin` em `GET /me`.
 
 **Construção**
-- [ ] Abas do aluno: Hoje, Grupo, Conta
-- [ ] Abas do motorista: Hoje, Grupo, Conta; do chefe: Hoje, Grupo, Gestão, Conta
-- [ ] Aba Gestão escondida para quem não é admin; `gestao/_layout.tsx` recusa quem não é admin
-- [ ] `index.tsx` redireciona: sem sessão → A1; `ALUNO` → `/aluno/hoje`; `MOTORISTA` (com ou sem `admin`) → `/motorista/hoje`
-- [ ] Formulários da gestão (D2, D2b, D4, D5a, D6 e D7) sem barra de abas
-- [ ] Pilhas "hoje" com `initialRouteName` "index"
+- [x] Abas do aluno: Hoje, Grupo, Conta
+- [x] Abas do motorista: Hoje, Grupo, Conta; do chefe: Hoje, Grupo, Gestão, Conta
+- [x] Aba Gestão escondida para quem não é admin; `gestao/_layout.tsx` recusa quem não é admin
+- [x] `index.tsx` redireciona: sem sessão → A1; `ALUNO` → `/aluno/hoje`; `MOTORISTA` (com ou sem `admin`) → `/motorista/hoje`
+- [x] Formulários da gestão (D2, D2b, D4, D5a, D6 e D7) sem barra de abas
+- [x] Pilhas "hoje" com `initialRouteName` "index"
 
 **Critérios de aceite**
-- [ ] O admin de desenvolvimento (`admin@boragora.local`) vê as quatro abas do chefe *(verificação manual)*
-- [ ] Um motorista comum vê três abas e não consegue abrir `/motorista/gestao` *(verificação manual)*
+- [x] O admin de desenvolvimento (`admin@boragora.local`) vê as quatro abas do chefe *(verificação manual)*
+- [x] Um motorista comum vê três abas e não consegue abrir `/motorista/gestao` *(verificação manual)*
 - [ ] Um aluno vê as abas do aluno e não consegue abrir rotas de `motorista/` *(verificação manual)*
 
 ### `FND-08` Repositório e tela de modelo, dados falsos · pessoa 3
@@ -629,3 +629,9 @@ Registrar aqui tudo o que for decidido na implementação e não estiver no plan
 | 2026-10-16 | `FND-06` | `sair` não chama `DELETE /me/push-token` | O token de push é da trilha NOT (`NOT-02`) |
 | 2026-10-16 | `FND-06` | Painel provisório de sessão no mapa de rotas (`app/index.tsx`): entrar, chamar `GET /me`, invalidar o token e sair | Permite conferir os critérios no aparelho antes da `ACE-01` e da `FND-07`; sai junto com o mapa |
 | 2026-10-17 | `FND-06` | `api.ts` ganhou `urlBase()`: usa `EXPO_PUBLIC_API_URL` se definida; senão, o IP de `Constants.expoConfig.hostUri` (o Metro) na porta 8080. No `.env.example` a variável virou opcional (comentada). O teste de conexão do mapa de rotas mostra `urlBase()` | O IP da máquina muda com a rede e o `.env` precisava ser editado a cada troca. Em produção ou com `--tunnel`, continua valendo o `.env` |
+| 2026-10-17 | `FND-07` | Ícone da aba Hoje é o `calendar` do Feather; o protótipo usa um calendário com visto, que o Feather não tem | O plano fixa o Feather de `@expo/vector-icons` (seção 2.1). Grupo, Gestão e Conta usam `users`, `sliders` e `user`, iguais ao protótipo |
+| 2026-10-17 | `FND-07` | A D5 também esconde a barra de abas | O plano não cita a D5 entre listas e formulários; no protótipo ela não tem a barra. Regra: dentro de `gestao/`, toda rota com dois níveis ou mais abaixo da lista esconde a barra |
+| 2026-10-17 | `FND-07` | Guardas declarativas: `(auth)/_layout.tsx` (novo) manda quem tem sessão para o índice; `aluno/_layout.tsx` e `motorista/_layout.tsx` mandam ao índice quem não tem o papel; `gestao/_layout.tsx` manda o não admin para `/motorista/hoje`. O `SessaoContext` deixou de chamar `router.replace('/entrar')` no 401 | Um só caminho para entrar, cadastrar, sair e sessão expirada: a sessão muda e as guardas levam à tela certa. Substitui a decisão da `FND-06` sobre a navegação no 401 |
+| 2026-10-17 | `FND-07` | Sem conexão ao abrir, o índice mostra a mensagem do erro e "Tentar de novo" (`restaurar`) | Usa o `erroRestauracao` da `FND-06`; os componentes `Carregando` e `EstadoErro` (`FND-04`) entram quando existirem |
+| 2026-10-17 | `FND-07` | O mapa de rotas saiu. Os painéis provisórios foram para `components/PainelSessaoProvisorio.tsx`: login e teste de conexão na A1 provisória; usuário, `GET /me`, invalidar token e "Sair" na B9 e na C6 provisórias | Sem o mapa, ainda é preciso entrar e sair no aparelho. Saem com a `ACE-01`, a `ACE-03` e a `ACE-04` |
+| 2026-10-17 | `FND-07` | `components/opcoesAbas.tsx` com o estilo da barra e os ícones, usado pelos dois layouts de abas. `@expo/vector-icons` instalado | Mesma barra para os três perfis |
