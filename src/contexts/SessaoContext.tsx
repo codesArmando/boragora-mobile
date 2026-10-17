@@ -1,4 +1,3 @@
-import { router } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import {
   createContext,
@@ -74,7 +73,7 @@ export function SessaoProvider({ children }: { children: ReactNode }) {
     }
     void limpar();
     setSessaoExpirada(true);
-    router.replace('/entrar');
+    // Sem usuário, as guardas das rotas (FND-07) levam à A1.
   }, [limpar]);
 
   // Confere com `GET /me` o token lido do expo-secure-store ao abrir o app.
