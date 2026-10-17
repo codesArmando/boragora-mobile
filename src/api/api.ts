@@ -1,3 +1,5 @@
+import Constants from 'expo-constants';
+
 import type { ErroResposta } from '@/types/erro';
 
 import { ErroApi } from './ErroApi';
@@ -6,6 +8,7 @@ import { ErroApi } from './ErroApi';
 // JSON, tempo limite, erros no formato padrão, falha de rede e aviso de 401.
 
 const TIMEOUT_MS = 15_000;
+const PORTA_API = 8080;
 
 let authToken: string | null = null;
 let unauthorizedHandler: (() => void) | null = null;
@@ -21,11 +24,22 @@ export function setUnauthorizedHandler(handler: (() => void) | null) {
   unauthorizedHandler = handler;
 }
 
-async function request<T>(method: string, path: string, body?: unknown): Promise<T> {
-  const baseUrl = process.env.EXPO_PUBLIC_API_URL;
-  if (!baseUrl) {
-    throw new Error('EXPO_PUBLIC_API_URL não definida. Copie .env.example para .env.');
+// URL da API: EXPO_PUBLIC_API_URL do .env, se definida. Senão, em desenvolvimento, o IP da
+// máquina que serve o Metro (hostUri), na porta da API. Assim o IP acompanha a rede atual.
+export function urlBase(): string {
+  const daEnv = process.env.EXPO_PUBLIC_API_URL;
+  if (daEnv) {
+    return daEnv;
   }
+  const host = Constants.expoConfig?.hostUri?.split(':')[0];
+  if (host) {
+    return `http://${host}:${PORTA_API}`;
+  }
+  throw new Error('URL da API não encontrada. Defina EXPO_PUBLIC_API_URL no .env.');
+}
+
+async function request<T>(method: string, path: string, body?: unknown): Promise<T> {
+  const baseUrl = urlBase();
 
   const token = authToken;
   const controller = new AbortController();
