@@ -124,11 +124,11 @@ Backend: E0 (pronta) — formato padrão de erro.
 Backend: E2 (pronta) — `POST /auth/login`, `POST /auth/cadastro`, `GET /me`, 401 com token expirado.
 
 **Construção**
-- [ ] `repositories/authRepository.ts`
-- [ ] `contexts/SessaoContext.tsx` com `entrar`, `cadastrar` e `sair`
-- [ ] Token gravado no `expo-secure-store`
-- [ ] Restauração da sessão com `GET /me` ao abrir o app
-- [ ] 401 em rota autenticada limpa a sessão e leva à A1 com o aviso "Sua sessão expirou"
+- [x] `repositories/authRepository.ts`
+- [x] `contexts/SessaoContext.tsx` com `entrar`, `cadastrar` e `sair`
+- [x] Token gravado no `expo-secure-store`
+- [x] Restauração da sessão com `GET /me` ao abrir o app
+- [x] 401 em rota autenticada limpa a sessão e leva à A1 com o aviso "Sua sessão expirou"
 
 **Critérios de aceite**
 - [ ] Fechar e abrir o app mantém o login *(verificação manual)*
@@ -623,4 +623,9 @@ Registrar aqui tudo o que for decidido na implementação e não estiver no plan
 | 2026-10-16 | `FND-05` | Tipos com os mesmos nomes dos records do backend (`ErroResposta`, `LoginRequisicao`, `CadastroRequisicao`, `TokenResposta`); `UsuarioResposta` virou `Usuario`. Também `types/health.ts` e `repositories/healthRepository.ts` | Nomes do domínio iguais aos do backend; o `/health` é usado pelo teste de conexão |
 | 2026-10-16 | `FND-05` | Botão "Testar conexão com a API" no mapa de rotas (`app/index.tsx`) | Permite conferir no aparelho o critério do `GET /health`; sai junto com o mapa na `FND-07` |
 | 2026-10-16 | `FND-05` | `jest-expo` 57 com Jest 29, script `npm test` e `"types": ["jest"]` no `tsconfig.json`; `package-lock.json` gerado de novo | O `expo install --fix` da `FND-01` deixou o `expo-modules-core` aninhado em `node_modules/expo/`, e o `jest-expo` não o encontrava. Nenhuma dependência direta mudou de versão |
-
+| 2026-10-16 | `FND-06` | `SessaoContext` também expõe `restaurando`, `erroRestauracao`, `restaurar` e `recarregarUsuario` | Ao abrir sem conexão, o token não é apagado: a sessão fica em erro, com "Tentar de novo". Só o 401 encerra a sessão. `recarregarUsuario` serve às telas de conta (`ACE-03` e `ACE-04`) |
+| 2026-10-16 | `FND-06` | A sessão leva à A1 só no 401. Depois de `entrar`, `cadastrar` e `sair`, a navegação fica com a tela que chamou e com o redirecionamento da `FND-07` | O redirecionamento por papel é da `FND-07` |
+| 2026-10-16 | `FND-06` | O aviso "Sua sessão expirou" é o campo `sessaoExpirada` do contexto, que vale até o próximo login. A A1 provisória já o mostra | A `ACE-01` mostra o mesmo campo com o componente `Aviso` |
+| 2026-10-16 | `FND-06` | `sair` não chama `DELETE /me/push-token` | O token de push é da trilha NOT (`NOT-02`) |
+| 2026-10-16 | `FND-06` | Painel provisório de sessão no mapa de rotas (`app/index.tsx`): entrar, chamar `GET /me`, invalidar o token e sair | Permite conferir os critérios no aparelho antes da `ACE-01` e da `FND-07`; sai junto com o mapa |
+| 2026-10-17 | `FND-06` | `api.ts` ganhou `urlBase()`: usa `EXPO_PUBLIC_API_URL` se definida; senão, o IP de `Constants.expoConfig.hostUri` (o Metro) na porta 8080. No `.env.example` a variável virou opcional (comentada). O teste de conexão do mapa de rotas mostra `urlBase()` | O IP da máquina muda com a rede e o `.env` precisava ser editado a cada troca. Em produção ou com `--tunnel`, continua valendo o `.env` |

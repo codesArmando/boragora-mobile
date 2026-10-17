@@ -1,5 +1,9 @@
-import { api, setAuthToken, setUnauthorizedHandler } from './api';
+import Constants from 'expo-constants';
+
+import { api, setAuthToken, setUnauthorizedHandler, urlBase } from './api';
 import { ErroApi } from './ErroApi';
+
+jest.mock('expo-constants', () => ({ __esModule: true, default: { expoConfig: {} } }));
 
 type RespostaFalsa = { status: number; corpo?: string };
 
@@ -214,5 +218,32 @@ describe('aviso de 401 para a sessão', () => {
     await capturarErro(api.get('/admin/motoristas'));
 
     expect(aviso).not.toHaveBeenCalled();
+  });
+});
+
+describe('URL base', () => {
+  const expoConfig = Constants.expoConfig as { hostUri?: string };
+
+  afterEach(() => {
+    delete expoConfig.hostUri;
+  });
+
+  it('usa EXPO_PUBLIC_API_URL quando definida', () => {
+    expoConfig.hostUri = '10.0.0.5:8081';
+
+    expect(urlBase()).toBe('http://api.teste');
+  });
+
+  it('sem EXPO_PUBLIC_API_URL, usa o IP do Metro na porta da API', () => {
+    delete process.env.EXPO_PUBLIC_API_URL;
+    expoConfig.hostUri = '10.0.0.5:8081';
+
+    expect(urlBase()).toBe('http://10.0.0.5:8080');
+  });
+
+  it('sem EXPO_PUBLIC_API_URL e sem hostUri, falha com mensagem clara', () => {
+    delete process.env.EXPO_PUBLIC_API_URL;
+
+    expect(() => urlBase()).toThrow('Defina EXPO_PUBLIC_API_URL no .env');
   });
 });
