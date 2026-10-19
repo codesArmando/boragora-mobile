@@ -206,8 +206,8 @@ Backend: nenhum.
 Backend: nenhum.
 
 **Construção**
-- [ ] Título "Gestão" e quatro `CartaoAtalho` independentes: Grupos, Turmas, Motoristas e Alunos
-- [ ] Cada cartão abre a tela correspondente (D8, D3, D9 e D10)
+- [x] Título "Gestão" e quatro `CartaoAtalho` independentes: Grupos, Turmas, Motoristas e Alunos
+- [x] Cada cartão abre a tela correspondente (D8, D3, D9 e D10)
 
 **Critérios de aceite**
 - [ ] A tela confere com a D1 do protótipo, sem lista nem botão de cadastro *(verificação manual)*
@@ -642,3 +642,4 @@ Registrar aqui tudo o que for decidido na implementação e não estiver no plan
 | 2026-10-19 | `FND-03` | Cor `#3A1A16` (fundo do ícone do diálogo, B4) fica no próprio `DialogoConfirmacao`, fora de `theme/cores.ts` | Mudança em `theme/` vai em PR separado (seção 2.5); pode migrar depois |
 | 2026-10-19 | `FND-03` | Tela de catálogo em `app/catalogo.tsx`, com atalho na A1 provisória só em `__DEV__`. Fora da lista de rotas da seção 2.2 | O critério da `FND-03` pede uma tela de catálogo; sai ou fica como referência no fechamento |
 | 2026-10-19 | `FND-03` | `mascararHora` para no primeiro dígito inválido, em vez de pular e seguir | Um texto colado não vira outro horário |
+| 2026-10-19 | `GES-01` | `CartaoAtalho` criado na `GES-01`, com a mesma interface prevista para a `FND-04` (ícone, título, descrição, `onPress`) | A `FND-04` (pessoa 3) ainda não foi entregue; se ela entregar outra versão, vale a dela e esta é apagada |
