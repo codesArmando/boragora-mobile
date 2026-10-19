@@ -33,7 +33,7 @@ Valores de status: Não iniciada, Em andamento, Aguardando backend, Concluída.
 | Pessoa | Entregas | Concluídas |
 |---|---|---|
 | 1 — Acesso, sessão, navegação e notificações | `FND-01`, `FND-05`, `FND-06`, `FND-07`, `ACE-01`, `ACE-02`, `NOT-01` a `NOT-03` | 4 de 9 |
-| 2 — Gestão do motorista-chefe | `FND-03`, `GES-01` a `GES-11` | 0 de 12 |
+| 2 — Gestão do motorista-chefe | `FND-03`, `GES-01` a `GES-11` | 0 de 12 (`FND-03` construída, falta validar no aparelho) |
 | 3 — Motorista e listas de consulta | `FND-04`, `FND-08`, `LIS-01`, `LIS-03` a `LIS-06`, `GES-12`, `GES-13`, `ACE-04` | 0 de 10 |
 | 4 — Aluno | `FND-02`, `ALU-01` a `ALU-06`, `LIS-02`, `ACE-03` | 0 de 9 |
 | Todos | `FEC-01` a `FEC-04` | 0 de 4 |
@@ -78,18 +78,18 @@ Backend: nenhum.
 Backend: nenhum.
 
 **Construção**
-- [ ] `Botao` (primário, contorno, texto e perigo; carregando e desabilitado)
-- [ ] `CampoTexto` (rótulo, mensagem de erro, senha e máscara `HH:mm`)
-- [ ] `Cabecalho` (voltar, título, subtítulo e ação à direita)
-- [ ] `SeletorSegmentado` (Ida/Volta, Em aula/Liberado, Manhã/Tarde/Noite)
-- [ ] `Aviso` (alertas da B5 e da B6)
-- [ ] `DialogoConfirmacao`
-- [ ] `SeletorModal`
+- [x] `Botao` (primário, contorno, texto e perigo; carregando e desabilitado)
+- [x] `CampoTexto` (rótulo, mensagem de erro, senha e máscara `HH:mm`)
+- [x] `Cabecalho` (voltar, título, subtítulo e ação à direita)
+- [x] `SeletorSegmentado` (Ida/Volta, Em aula/Liberado, Manhã/Tarde/Noite)
+- [x] `Aviso` (alertas da B5 e da B6)
+- [x] `DialogoConfirmacao`
+- [x] `SeletorModal`
 
 **Critérios de aceite**
 - [ ] Todos os componentes aparecem em uma tela de catálogo *(verificação manual)*
 - [ ] Toda área de toque tem pelo menos 44 de altura *(verificação manual)*
-- [ ] A máscara `HH:mm` aceita só horários válidos *(teste automatizado)*
+- [x] A máscara `HH:mm` aceita só horários válidos *(teste automatizado)*
 
 ### `FND-04` Componentes de cartão e de lista · pessoa 3
 Backend: nenhum.
@@ -635,3 +635,10 @@ Registrar aqui tudo o que for decidido na implementação e não estiver no plan
 | 2026-10-17 | `FND-07` | Sem conexão ao abrir, o índice mostra a mensagem do erro e "Tentar de novo" (`restaurar`) | Usa o `erroRestauracao` da `FND-06`; os componentes `Carregando` e `EstadoErro` (`FND-04`) entram quando existirem |
 | 2026-10-17 | `FND-07` | O mapa de rotas saiu. Os painéis provisórios foram para `components/PainelSessaoProvisorio.tsx`: login e teste de conexão na A1 provisória; usuário, `GET /me`, invalidar token e "Sair" na B9 e na C6 provisórias | Sem o mapa, ainda é preciso entrar e sair no aparelho. Saem com a `ACE-01`, a `ACE-03` e a `ACE-04` |
 | 2026-10-17 | `FND-07` | `components/opcoesAbas.tsx` com o estilo da barra e os ícones, usado pelos dois layouts de abas. `@expo/vector-icons` instalado | Mesma barra para os três perfis |
+| 2026-10-19 | `FND-03` | `Botao` tem a variante `perigoContorno` (excluir da D2b e da D5a) além das quatro do plano; `perigo` é o botão vermelho cheio da B4 | O protótipo usa os dois estilos de ação destrutiva |
+| 2026-10-19 | `FND-03` | Componente interno `FolhaInferior` (modal em folha, com fundo escurecido), base do `DialogoConfirmacao` e do `SeletorModal` | Os dois modais têm o mesmo visual (B4); evita duas versões |
+| 2026-10-19 | `FND-03` | Fontes ainda não aplicadas (sem `fontFamily`), só peso e tamanho do protótipo. A `FND-02` ajusta os componentes quando o `theme/tipografia.ts` existir | A `FND-02` é da pessoa 4 e ainda não foi entregue |
+| 2026-10-19 | `FND-03` | `Cabecalho` não trata a área segura de cima; a tela envolve em `SafeAreaView` (depois, no componente `Tela` da `FND-02`) | Evita duplicar a área segura quando a `Tela` existir |
+| 2026-10-19 | `FND-03` | Cor `#3A1A16` (fundo do ícone do diálogo, B4) fica no próprio `DialogoConfirmacao`, fora de `theme/cores.ts` | Mudança em `theme/` vai em PR separado (seção 2.5); pode migrar depois |
+| 2026-10-19 | `FND-03` | Tela de catálogo em `app/catalogo.tsx`, com atalho na A1 provisória só em `__DEV__`. Fora da lista de rotas da seção 2.2 | O critério da `FND-03` pede uma tela de catálogo; sai ou fica como referência no fechamento |
+| 2026-10-19 | `FND-03` | `mascararHora` para no primeiro dígito inválido, em vez de pular e seguir | Um texto colado não vira outro horário |
