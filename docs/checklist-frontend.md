@@ -265,14 +265,14 @@ Backend: E3 (pronta) — `GET /grupos` com `minhaTurma`. Dados reais de aluno e 
 
 ## Onda 2 — Turmas e vínculos
 
-### `GES-05` Motoristas: lista e cadastro (D9 e D7) · pessoa 2
+### `GES-05` Motoristas: lista e cadastro (D9 e D7) · pessoa 2 — aguardando E4
 Backend: E4 — `GET /admin/motoristas` e `POST /admin/motoristas`.
 
 **Construção**
-- [ ] `repositories/motoristaRepository.ts`
-- [ ] Tela D9 com voltar, "Novo motorista" e lista com iniciais, nome e e-mail (o chefe com o selo "Você")
-- [ ] Tela D7 com nome, e-mail, senha e "Confirmar senha"
-- [ ] Conferência de senha e confirmação feita no app, antes de chamar a API
+- [x] `repositories/motoristaRepository.ts`
+- [x] Tela D9 com voltar, "Novo motorista" e lista com iniciais, nome e e-mail (o chefe com o selo "Você")
+- [x] Tela D7 com nome, e-mail, senha e "Confirmar senha"
+- [x] Conferência de senha e confirmação feita no app, antes de chamar a API
 
 **Critérios de aceite**
 - [ ] Cadastrar volta para a D9 com o motorista novo na lista *(verificação manual)*
@@ -646,3 +646,6 @@ Registrar aqui tudo o que for decidido na implementação e não estiver no plan
 | 2026-10-19 | `GES-02` | Criados `Carregando`, `EstadoErro` e `EstadoVazio` (e `types/grupo.ts`, `grupoRepository.ts`) na `GES-02`, com os nomes previstos para a `FND-04` e a `FND-08`. O `Cabecalho` passou a mostrar a ação como botão amarelo com ícone, como na D8 | `FND-04` e `FND-08` (pessoa 3) ainda não foram entregues; na união dos PRs vale a versão da pessoa 3 e acrescenta-se o que faltar. Contrato conferido com a API real: lista, criação, edição, exclusão e os erros 400 |
 | 2026-10-19 | `GES-03`, `GES-04` | Um só componente `FormularioGrupo` (em `components/`) serve à D2 e à D2b. O app confere só nome preenchido e horário completo; a ordem ida/volta fica com o backend (400 em `horarioSaidaVolta`). Período inicial da D2: Manhã | Evita duas versões do mesmo formulário; convenção 1 (nenhuma regra de horário no app) |
 | 2026-10-19 | `GES-04` | O texto do diálogo de exclusão ("O grupo X será apagado...") e o rótulo "Manter grupo" não estão no protótipo, que não tem essa tela | Convenção 8 pede o diálogo; o 409 `GRUPO_COM_TURMAS` mostra a mensagem do backend num aviso acima do formulário |
+| 2026-10-19 | `GES-05` a `GES-11` | Dados falsos com estado em memória (`repositories/mocks/gestao.ts`) e interruptores em `repositories/mocks/mocksAtivos.ts` (`e4`, `e5`). Os repositórios têm as duas versões; quando a etapa fecha e a tela é testada com a API real, vira-se o interruptor para `false` | Decisão 14 do plano; o estado em memória permite testar o fluxo inteiro (criar motorista, criar turma, vincular) sem backend |
+| 2026-10-19 | `GES-05` a `GES-11` | Formatos de E4 e E5 assumidos, a conferir quando as etapas fecharem: `Turma` (`GET /turmas/{id}`), `AlunoAdmin` com `turmas: string[]` ("Manhã · Van 2") e `turmaEmConflito: string \| null`, corpo do vínculo `{ alunoIds }`, e `POST`/`PUT` de turma devolvendo a turma | O plano do backend não fixa todos os nomes de campo; estão em `types/turma.ts` e `types/aluno.ts` |
+| 2026-10-19 | `GES-05` | `Selo`, `LinhaPessoa` e `CampoBusca` criados fora da `FND-04`, com os nomes previstos. Senha de motorista com mínimo de 6 caracteres conferido no app, como no cadastro do aluno | `FND-04` ainda não entregue; mínimo igual ao critério da `ACE-02` |

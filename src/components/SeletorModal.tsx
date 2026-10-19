@@ -81,43 +81,77 @@ export function SeletorModal({
         <Text style={estilos.dica}>{dica}</Text>
       ) : null}
 
-      <FolhaInferior visivel={aberto} onFechar={() => setAberto(false)}>
-        <Text accessibilityRole="header" style={estilos.titulo}>
-          {rotulo}
-        </Text>
-        {opcoes.length === 0 ? (
-          <Text style={estilos.vazio}>{textoVazio}</Text>
-        ) : (
-          <FlatList
-            data={opcoes}
-            keyExtractor={(opcao) => String(opcao.id)}
-            style={estilos.lista}
-            renderItem={({ item }) => {
-              const selecionada = item.id === valor;
-              return (
-                <Pressable
-                  accessibilityRole="radio"
-                  accessibilityState={{ selected: selecionada }}
-                  onPress={() => escolher(item)}
-                  style={estilos.linha}
-                >
-                  <View style={estilos.textosLinha}>
-                    <Text style={[estilos.rotuloLinha, selecionada && estilos.rotuloSelecionado]}>
-                      {item.rotulo}
-                    </Text>
-                    {item.descricao !== undefined && (
-                      <Text style={estilos.descricao}>{item.descricao}</Text>
-                    )}
-                  </View>
-                  {selecionada && <Feather name="check" size={22} color={cores.destaque} />}
-                </Pressable>
-              );
-            }}
-            ItemSeparatorComponent={() => <View style={estilos.separador} />}
-          />
-        )}
-      </FolhaInferior>
+      <ModalSeletor
+        visivel={aberto}
+        titulo={rotulo}
+        opcoes={opcoes}
+        valor={valor}
+        textoVazio={textoVazio}
+        onSelecionar={escolher}
+        onFechar={() => setAberto(false)}
+      />
     </View>
+  );
+}
+
+type PropsModal = {
+  visivel: boolean;
+  titulo: string;
+  opcoes: OpcaoSeletor[];
+  valor: OpcaoSeletor['id'] | null;
+  textoVazio?: string;
+  onSelecionar: (opcao: OpcaoSeletor) => void;
+  onFechar: () => void;
+};
+
+// Lista em folha, um toque escolhe. Usado direto quando o gatilho não é um campo, como o
+// "Trocar" motorista da D5.
+export function ModalSeletor({
+  visivel,
+  titulo,
+  opcoes,
+  valor,
+  textoVazio = 'Nenhuma opção disponível',
+  onSelecionar,
+  onFechar,
+}: PropsModal) {
+  return (
+    <FolhaInferior visivel={visivel} onFechar={onFechar}>
+      <Text accessibilityRole="header" style={estilos.titulo}>
+        {titulo}
+      </Text>
+      {opcoes.length === 0 ? (
+        <Text style={estilos.vazio}>{textoVazio}</Text>
+      ) : (
+        <FlatList
+          data={opcoes}
+          keyExtractor={(opcao) => String(opcao.id)}
+          style={estilos.lista}
+          renderItem={({ item }) => {
+            const selecionada = item.id === valor;
+            return (
+              <Pressable
+                accessibilityRole="radio"
+                accessibilityState={{ selected: selecionada }}
+                onPress={() => onSelecionar(item)}
+                style={estilos.linha}
+              >
+                <View style={estilos.textosLinha}>
+                  <Text style={[estilos.rotuloLinha, selecionada && estilos.rotuloSelecionado]}>
+                    {item.rotulo}
+                  </Text>
+                  {item.descricao !== undefined && (
+                    <Text style={estilos.descricao}>{item.descricao}</Text>
+                  )}
+                </View>
+                {selecionada && <Feather name="check" size={22} color={cores.destaque} />}
+              </Pressable>
+            );
+          }}
+          ItemSeparatorComponent={() => <View style={estilos.separador} />}
+        />
+      )}
+    </FolhaInferior>
   );
 }
 
