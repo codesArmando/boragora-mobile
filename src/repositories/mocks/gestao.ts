@@ -35,11 +35,7 @@ export const turmas: Turma[] = [
     capacidade: 15,
     grupo: manha,
     motorista: { id: 2, nome: 'Carlos Menezes' },
-    alunos: [
-      { id: 5, nome: 'Gustavo Nunes' },
-      { id: 6, nome: 'Isabela Reis' },
-      { id: 7, nome: 'João Gabriel' },
-    ],
+    alunos: [{ id: 7, nome: 'João Gabriel' }],
   },
   {
     id: 2,
@@ -58,6 +54,29 @@ export const turmas: Turma[] = [
       { id: 13, nome: 'Pedro Henrique Dias' },
       { id: 14, nome: 'Rafael Lima' },
     ],
+  },
+  // Gustavo e Isabela estão na Van 1 da Noite: na D6 da Van 2 aparecem como conflito (RN08).
+  {
+    id: 3,
+    nome: 'Van 1',
+    numeroVan: 1,
+    capacidade: 12,
+    grupo: noite,
+    motorista: { id: 2, nome: 'Carlos Menezes' },
+    alunos: [
+      { id: 5, nome: 'Gustavo Nunes' },
+      { id: 6, nome: 'Isabela Reis' },
+    ],
+  },
+  // Helena está na Van 2 da Manhã: na D6 da Van 2 da Noite aparece como disponível.
+  {
+    id: 4,
+    nome: 'Van 2',
+    numeroVan: 2,
+    capacidade: 12,
+    grupo: manha,
+    motorista: { id: 3, nome: 'Vanderlei Dias' },
+    alunos: [{ id: 4, nome: 'Helena Castro' }],
   },
 ];
 
@@ -80,7 +99,7 @@ export const alunos: Pick<AlunoAdmin, 'id' | 'nome' | 'email'>[] = [
 ];
 
 let proximoMotorista = 4;
-let proximaTurma = 3;
+let proximaTurma = 5;
 
 export function atraso<T>(valor: T): Promise<T> {
   return new Promise((resolve) => setTimeout(() => resolve(structuredClone(valor)), 250));

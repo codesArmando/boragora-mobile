@@ -33,7 +33,7 @@ Valores de status: Não iniciada, Em andamento, Aguardando backend, Concluída.
 | Pessoa | Entregas | Concluídas |
 |---|---|---|
 | 1 — Acesso, sessão, navegação e notificações | `FND-01`, `FND-05`, `FND-06`, `FND-07`, `ACE-01`, `ACE-02`, `NOT-01` a `NOT-03` | 4 de 9 |
-| 2 — Gestão do motorista-chefe | `FND-03`, `GES-01` a `GES-11` | 0 de 12 (`FND-03` e `GES-01` a `GES-04` construídas, faltam validar no aparelho) |
+| 2 — Gestão do motorista-chefe | `FND-03`, `GES-01` a `GES-11` | 0 de 12 (`FND-03` e `GES-01` a `GES-11` construídas; faltam validar no aparelho, e `GES-05` a `GES-11` aguardam E4 e E5) |
 | 3 — Motorista e listas de consulta | `FND-04`, `FND-08`, `LIS-01`, `LIS-03` a `LIS-06`, `GES-12`, `GES-13`, `ACE-04` | 0 de 10 |
 | 4 — Aluno | `FND-02`, `ALU-01` a `ALU-06`, `LIS-02`, `ACE-03` | 0 de 9 |
 | Todos | `FEC-01` a `FEC-04` | 0 de 4 |
@@ -340,14 +340,14 @@ Backend: E4 — `DELETE /admin/turmas/{id}`.
 - [ ] Excluir volta para a D3 sem a turma *(verificação manual)*
 - [ ] Cancelar o diálogo não chama a API *(verificação manual)*
 
-### `GES-10` Vincular alunos (D6) · pessoa 2
+### `GES-10` Vincular alunos (D6) · pessoa 2 — aguardando E5
 Backend: E5 — `GET /admin/alunos?turmaId=`, `POST /admin/turmas/{id}/alunos`, 409 `CONFLITO_GRUPO_ALUNO`.
 
 **Construção**
-- [ ] `repositories/alunoRepository.ts` com `buscarAlunos` e `vincularAlunos`
-- [ ] Busca por nome ou e-mail, com pequena espera entre as teclas
-- [ ] Linhas com "Sem turma", a turma de outro grupo, ou "Já está na [turma] deste grupo" com a caixa desabilitada
-- [ ] Botão com a contagem ("Vincular 2 alunos")
+- [x] `repositories/alunoRepository.ts` com `buscarAlunos` e `vincularAlunos`
+- [x] Busca por nome ou e-mail, com pequena espera entre as teclas
+- [x] Linhas com "Sem turma", a turma de outro grupo, ou "Já está na [turma] deste grupo" com a caixa desabilitada
+- [x] Botão com a contagem ("Vincular 2 alunos")
 
 **Critérios de aceite**
 - [ ] Vincular dois alunos volta para a D5 com os dois na lista *(verificação manual)*
@@ -649,3 +649,5 @@ Registrar aqui tudo o que for decidido na implementação e não estiver no plan
 | 2026-10-19 | `GES-05` a `GES-11` | Dados falsos com estado em memória (`repositories/mocks/gestao.ts`) e interruptores em `repositories/mocks/mocksAtivos.ts` (`e4`, `e5`). Os repositórios têm as duas versões; quando a etapa fecha e a tela é testada com a API real, vira-se o interruptor para `false` | Decisão 14 do plano; o estado em memória permite testar o fluxo inteiro (criar motorista, criar turma, vincular) sem backend |
 | 2026-10-19 | `GES-05` a `GES-11` | Formatos de E4 e E5 assumidos, a conferir quando as etapas fecharem: `Turma` (`GET /turmas/{id}`), `AlunoAdmin` com `turmas: string[]` ("Manhã · Van 2") e `turmaEmConflito: string \| null`, corpo do vínculo `{ alunoIds }`, e `POST`/`PUT` de turma devolvendo a turma | O plano do backend não fixa todos os nomes de campo; estão em `types/turma.ts` e `types/aluno.ts` |
 | 2026-10-19 | `GES-05` | `Selo`, `LinhaPessoa` e `CampoBusca` criados fora da `FND-04`, com os nomes previstos. Senha de motorista com mínimo de 6 caracteres conferido no app, como no cadastro do aluno | `FND-04` ainda não entregue; mínimo igual ao critério da `ACE-02` |
+| 2026-10-19 | `GES-10` | Na D6, a seleção marcada é mantida ao buscar de novo, e o botão conta todos os marcados (mesmo os que saíram do filtro). `situacao` e o texto "Já está na [turma] deste grupo" vêm da API; os dados falsos seguem o cenário do protótipo | Evita perder a seleção ao refinar a busca |
+| 2026-10-19 | `GES-09` | Depois de excluir a turma, o app volta para a D3 com `router.dismissTo`, pulando a D5 | A D5 da turma excluída já não existe |
