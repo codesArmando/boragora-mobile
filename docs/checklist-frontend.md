@@ -306,12 +306,12 @@ Backend: E4 — `POST /admin/turmas` com `nome`, validação do nome, 409 `CONFL
 - [ ] Nome em branco ou com mais de 60 caracteres mostra o erro no campo *(verificação manual)*
 - [ ] Motorista que já conduz turma no grupo mostra o conflito junto ao seletor de motorista *(verificação manual)*
 
-### `GES-07` Gerenciar turma: leitura (D5) · pessoa 2
+### `GES-07` Gerenciar turma: leitura (D5) · pessoa 2 — aguardando E4
 Backend: E4 — `GET /turmas/{id}`.
 
 **Construção**
-- [ ] `buscarTurma` no repositório
-- [ ] Tela D5 com motorista ("Trocar"), dados da turma ("Van nº N · N lugares", "Editar"), total de alunos e "Vincular"
+- [x] `buscarTurma` no repositório
+- [x] Tela D5 com motorista ("Trocar"), dados da turma ("Van nº N · N lugares", "Editar"), total de alunos e "Vincular"
 
 **Critérios de aceite**
 - [ ] A tela mostra os dados reais da turma, com os alunos em ordem alfabética *(verificação manual)*
@@ -353,12 +353,12 @@ Backend: E5 — `GET /admin/alunos?turmaId=`, `POST /admin/turmas/{id}/alunos`, 
 - [ ] Vincular dois alunos volta para a D5 com os dois na lista *(verificação manual)*
 - [ ] Conflito no lote mostra quem causou e ninguém é vinculado *(verificação manual)*
 
-### `GES-11` Remover aluno da turma (D5) · pessoa 2
+### `GES-11` Remover aluno da turma (D5) · pessoa 2 — aguardando E5
 Backend: E5 — `DELETE /admin/turmas/{id}/alunos/{alunoId}`.
 
 **Construção**
-- [ ] `removerAluno` no repositório
-- [ ] Botão de remover em cada aluno da D5, com diálogo de confirmação
+- [x] `removerAluno` no repositório
+- [x] Botão de remover em cada aluno da D5, com diálogo de confirmação
 
 **Critérios de aceite**
 - [ ] O aluno removido some da D5 e passa a aparecer como disponível na D6 *(verificação manual)*
