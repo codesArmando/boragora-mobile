@@ -316,25 +316,25 @@ Backend: E4 — `GET /turmas/{id}`.
 **Critérios de aceite**
 - [ ] A tela mostra os dados reais da turma, com os alunos em ordem alfabética *(verificação manual)*
 
-### `GES-08` Trocar motorista e editar dados (D5 e D5a) · pessoa 2
+### `GES-08` Trocar motorista e editar dados (D5 e D5a) · pessoa 2 — aguardando E4
 Backend: E4 — `PUT /admin/turmas/{id}`; conflito também na troca.
 
 **Construção**
-- [ ] `atualizarTurma` no repositório
-- [ ] "Trocar" na D5 abre o `SeletorModal` de motoristas e salva
-- [ ] Tela D5a com o grupo (somente leitura), nome, número da van e capacidade, e "Salvar alterações"
+- [x] `atualizarTurma` no repositório
+- [x] "Trocar" na D5 abre o `SeletorModal` de motoristas e salva
+- [x] Tela D5a com o grupo (somente leitura), nome, número da van e capacidade, e "Salvar alterações"
 
 **Critérios de aceite**
 - [ ] Trocar o motorista reflete na D5 *(verificação manual)*
 - [ ] Conflito de grupo na troca mostra a mensagem e mantém o motorista anterior *(verificação manual)*
 - [ ] Editar o nome reflete na D5 e na D3 *(verificação manual)*
 
-### `GES-09` Excluir turma (D5a) · pessoa 2
+### `GES-09` Excluir turma (D5a) · pessoa 2 — aguardando E4
 Backend: E4 — `DELETE /admin/turmas/{id}`.
 
 **Construção**
-- [ ] `excluirTurma` no repositório
-- [ ] Botão "Excluir turma" com diálogo avisando que vínculos, viagens e confirmações são apagados
+- [x] `excluirTurma` no repositório
+- [x] Botão "Excluir turma" com diálogo avisando que vínculos, viagens e confirmações são apagados
 
 **Critérios de aceite**
 - [ ] Excluir volta para a D3 sem a turma *(verificação manual)*
