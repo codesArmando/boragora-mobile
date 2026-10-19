@@ -47,7 +47,7 @@ export default function Catalogo() {
       <Cabecalho
         titulo="Catálogo"
         subtitulo="FND-03 · componentes de formulário e de ação"
-        acao={{ rotulo: 'Ação', onPress: () => {} }}
+        acao={{ rotulo: 'Novo grupo', icone: 'plus', onPress: () => {} }}
       />
       <ScrollView contentContainerStyle={estilos.conteudo} keyboardShouldPersistTaps="handled">
         <Secao titulo="Botao">

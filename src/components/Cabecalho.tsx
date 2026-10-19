@@ -1,11 +1,12 @@
 import Feather from '@expo/vector-icons/Feather';
 import { router } from 'expo-router';
+import type { ComponentProps } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { cores } from '@/theme/cores';
 import { medidas } from '@/theme/medidas';
 
-type Acao = { rotulo: string; onPress: () => void };
+type Acao = { rotulo: string; onPress: () => void; icone?: ComponentProps<typeof Feather>['name'] };
 
 type Props = {
   titulo: string;
@@ -45,6 +46,7 @@ export function Cabecalho({ titulo, subtitulo, voltar, onVoltar, acao }: Props) 
             onPress={acao.onPress}
             style={estilos.acao}
           >
+            {acao.icone && <Feather name={acao.icone} size={20} color={cores.textoSobreDestaque} />}
             <Text style={estilos.textoAcao}>{acao.rotulo}</Text>
           </Pressable>
         )}
@@ -78,13 +80,19 @@ const estilos = StyleSheet.create({
     fontStyle: 'italic',
     lineHeight: 30,
   },
+  // Botão amarelo em forma de pílula, como o "Novo grupo" da D8.
   acao: {
     minHeight: medidas.areaToqueMinima,
-    justifyContent: 'center',
-    paddingHorizontal: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginRight: 8,
+    paddingHorizontal: 16,
+    borderRadius: 22,
+    backgroundColor: cores.destaque,
   },
   textoAcao: {
-    color: cores.destaque,
+    color: cores.textoSobreDestaque,
     fontSize: 16,
     fontWeight: '700',
   },

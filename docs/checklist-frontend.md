@@ -216,9 +216,9 @@ Backend: nenhum.
 Backend: E3 (pronta) — `GET /grupos` com `totalTurmas`.
 
 **Construção**
-- [ ] Tela D8 com voltar, título "Grupos" e botão "Novo grupo"
-- [ ] Um cartão por grupo com "Ida HH:mm · Volta HH:mm · N turmas", abrindo a D2b
-- [ ] Estado vazio "Nenhum grupo cadastrado" com o mesmo botão
+- [x] Tela D8 com voltar, título "Grupos" e botão "Novo grupo"
+- [x] Um cartão por grupo com "Ida HH:mm · Volta HH:mm · N turmas", abrindo a D2b
+- [x] Estado vazio "Nenhum grupo cadastrado" com o mesmo botão
 
 **Critérios de aceite**
 - [ ] Lista os grupos reais da API *(verificação manual)*
@@ -643,3 +643,4 @@ Registrar aqui tudo o que for decidido na implementação e não estiver no plan
 | 2026-10-19 | `FND-03` | Tela de catálogo em `app/catalogo.tsx`, com atalho na A1 provisória só em `__DEV__`. Fora da lista de rotas da seção 2.2 | O critério da `FND-03` pede uma tela de catálogo; sai ou fica como referência no fechamento |
 | 2026-10-19 | `FND-03` | `mascararHora` para no primeiro dígito inválido, em vez de pular e seguir | Um texto colado não vira outro horário |
 | 2026-10-19 | `GES-01` | `CartaoAtalho` criado na `GES-01`, com a mesma interface prevista para a `FND-04` (ícone, título, descrição, `onPress`) | A `FND-04` (pessoa 3) ainda não foi entregue; se ela entregar outra versão, vale a dela e esta é apagada |
+| 2026-10-19 | `GES-02` | Criados `Carregando`, `EstadoErro` e `EstadoVazio` (e `types/grupo.ts`, `grupoRepository.ts`) na `GES-02`, com os nomes previstos para a `FND-04` e a `FND-08`. O `Cabecalho` passou a mostrar a ação como botão amarelo com ícone, como na D8 | `FND-04` e `FND-08` (pessoa 3) ainda não foram entregues; na união dos PRs vale a versão da pessoa 3 e acrescenta-se o que faltar. Contrato conferido com a API real: lista, criação, edição, exclusão e os erros 400 |
