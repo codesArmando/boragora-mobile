@@ -3,6 +3,7 @@ import { router } from 'expo-router';
 import type { ComponentProps } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { BotaoAcao } from '@/components/BotaoAcao';
 import { cores } from '@/theme/cores';
 import { medidas } from '@/theme/medidas';
 
@@ -40,15 +41,9 @@ export function Cabecalho({ titulo, subtitulo, voltar, onVoltar, acao }: Props) 
           {titulo}
         </Text>
         {acao && (
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={acao.rotulo}
-            onPress={acao.onPress}
-            style={estilos.acao}
-          >
-            {acao.icone && <Feather name={acao.icone} size={20} color={cores.textoSobreDestaque} />}
-            <Text style={estilos.textoAcao}>{acao.rotulo}</Text>
-          </Pressable>
+          <View style={estilos.acao}>
+            <BotaoAcao rotulo={acao.rotulo} icone={acao.icone} onPress={acao.onPress} />
+          </View>
         )}
       </View>
       {subtitulo !== undefined && <Text style={estilos.subtitulo}>{subtitulo}</Text>}
@@ -80,21 +75,8 @@ const estilos = StyleSheet.create({
     fontStyle: 'italic',
     lineHeight: 30,
   },
-  // Botão amarelo em forma de pílula, como o "Novo grupo" da D8.
   acao: {
-    minHeight: medidas.areaToqueMinima,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
     marginRight: 8,
-    paddingHorizontal: 16,
-    borderRadius: 22,
-    backgroundColor: cores.destaque,
-  },
-  textoAcao: {
-    color: cores.textoSobreDestaque,
-    fontSize: 16,
-    fontWeight: '700',
   },
   subtitulo: {
     paddingLeft: 8,

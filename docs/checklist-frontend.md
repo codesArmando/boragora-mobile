@@ -293,13 +293,13 @@ Backend: E4 — `GET /admin/turmas`; E5 para `totalAlunos` maior que zero.
 - [ ] Lista as turmas reais, na ordem dos grupos *(verificação manual)*
 - [ ] Tocar em uma turma abre a D5 dela *(verificação manual)*
 
-### `GES-06` Nova turma (D4) · pessoa 2
+### `GES-06` Nova turma (D4) · pessoa 2 — aguardando E4
 Backend: E4 — `POST /admin/turmas` com `nome`, validação do nome, 409 `CONFLITO_GRUPO_MOTORISTA`.
 
 **Construção**
-- [ ] `criarTurma` no repositório
-- [ ] Seletor de grupo e de motorista com `SeletorModal`
-- [ ] Campos "Nome da turma" (obrigatório, até 60 caracteres), número da van e capacidade (opcionais)
+- [x] `criarTurma` no repositório
+- [x] Seletor de grupo e de motorista com `SeletorModal`
+- [x] Campos "Nome da turma" (obrigatório, até 60 caracteres), número da van e capacidade (opcionais)
 
 **Critérios de aceite**
 - [ ] Criar abre a D5 da turma nova *(verificação manual)*
