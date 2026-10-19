@@ -33,7 +33,7 @@ Valores de status: Não iniciada, Em andamento, Aguardando backend, Concluída.
 | Pessoa | Entregas | Concluídas |
 |---|---|---|
 | 1 — Acesso, sessão, navegação e notificações | `FND-01`, `FND-05`, `FND-06`, `FND-07`, `ACE-01`, `ACE-02`, `NOT-01` a `NOT-03` | 4 de 9 |
-| 2 — Gestão do motorista-chefe | `FND-03`, `GES-01` a `GES-11` | 0 de 12 (`FND-03` construída, falta validar no aparelho) |
+| 2 — Gestão do motorista-chefe | `FND-03`, `GES-01` a `GES-11` | 0 de 12 (`FND-03` e `GES-01` a `GES-04` construídas, faltam validar no aparelho) |
 | 3 — Motorista e listas de consulta | `FND-04`, `FND-08`, `LIS-01`, `LIS-03` a `LIS-06`, `GES-12`, `GES-13`, `ACE-04` | 0 de 10 |
 | 4 — Aluno | `FND-02`, `ALU-01` a `ALU-06`, `LIS-02`, `ACE-03` | 0 de 9 |
 | Todos | `FEC-01` a `FEC-04` | 0 de 4 |
@@ -228,8 +228,8 @@ Backend: E3 (pronta) — `GET /grupos` com `totalTurmas`.
 Backend: E3 (pronta) — criação; 400 quando a ida não é anterior à volta.
 
 **Construção**
-- [ ] `repositories/grupoRepository.ts` com `criarGrupo`
-- [ ] Formulário com nome, período (Manhã/Tarde/Noite) e horários com máscara `HH:mm`
+- [x] `repositories/grupoRepository.ts` com `criarGrupo`
+- [x] Formulário com nome, período (Manhã/Tarde/Noite) e horários com máscara `HH:mm`
 
 **Critérios de aceite**
 - [ ] Salvar cria o grupo e volta para a D8 *(verificação manual)*
@@ -239,9 +239,9 @@ Backend: E3 (pronta) — criação; 400 quando a ida não é anterior à volta.
 Backend: E3 (pronta) — `GET /grupos/{id}`, `PUT` e `DELETE /admin/grupos/{id}`, 409 `GRUPO_COM_TURMAS`.
 
 **Construção**
-- [ ] `atualizarGrupo` e `excluirGrupo` no repositório
-- [ ] Tela D2b carregada com os dados do grupo, "Salvar alterações" e "Excluir grupo"
-- [ ] Diálogo de confirmação antes de excluir
+- [x] `atualizarGrupo` e `excluirGrupo` no repositório
+- [x] Tela D2b carregada com os dados do grupo, "Salvar alterações" e "Excluir grupo"
+- [x] Diálogo de confirmação antes de excluir
 
 **Critérios de aceite**
 - [ ] Editar os horários reflete na D8 *(verificação manual)*
@@ -644,3 +644,5 @@ Registrar aqui tudo o que for decidido na implementação e não estiver no plan
 | 2026-10-19 | `FND-03` | `mascararHora` para no primeiro dígito inválido, em vez de pular e seguir | Um texto colado não vira outro horário |
 | 2026-10-19 | `GES-01` | `CartaoAtalho` criado na `GES-01`, com a mesma interface prevista para a `FND-04` (ícone, título, descrição, `onPress`) | A `FND-04` (pessoa 3) ainda não foi entregue; se ela entregar outra versão, vale a dela e esta é apagada |
 | 2026-10-19 | `GES-02` | Criados `Carregando`, `EstadoErro` e `EstadoVazio` (e `types/grupo.ts`, `grupoRepository.ts`) na `GES-02`, com os nomes previstos para a `FND-04` e a `FND-08`. O `Cabecalho` passou a mostrar a ação como botão amarelo com ícone, como na D8 | `FND-04` e `FND-08` (pessoa 3) ainda não foram entregues; na união dos PRs vale a versão da pessoa 3 e acrescenta-se o que faltar. Contrato conferido com a API real: lista, criação, edição, exclusão e os erros 400 |
+| 2026-10-19 | `GES-03`, `GES-04` | Um só componente `FormularioGrupo` (em `components/`) serve à D2 e à D2b. O app confere só nome preenchido e horário completo; a ordem ida/volta fica com o backend (400 em `horarioSaidaVolta`). Período inicial da D2: Manhã | Evita duas versões do mesmo formulário; convenção 1 (nenhuma regra de horário no app) |
+| 2026-10-19 | `GES-04` | O texto do diálogo de exclusão ("O grupo X será apagado...") e o rótulo "Manter grupo" não estão no protótipo, que não tem essa tela | Convenção 8 pede o diálogo; o 409 `GRUPO_COM_TURMAS` mostra a mensagem do backend num aviso acima do formulário |
