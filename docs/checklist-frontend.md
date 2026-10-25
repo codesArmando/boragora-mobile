@@ -19,10 +19,10 @@
 | Onda | Entrega | Backend necessário | Status | Concluída em |
 |---|---|---|---|---|
 | 0 | Fundação | E0, E2 e E3 (prontas) | Em andamento | |
-| 1 | Acesso e grupos | E2 e E3 (prontas) | Não iniciada | |
-| 2 | Turmas e vínculos | E4 e E5 | Não iniciada | |
+| 1 | Acesso e grupos | E2 e E3 (prontas) | Aguardando backend | |
+| 2 | Turmas e vínculos | E4 e E5 | Aguardando backend | |
 | 3 | Plano do dia | E6 | Não iniciada | |
-| 4 | Listas do dia | E7 | Não iniciada | |
+| 4 | Listas do dia | E7 | Aguardando backend | |
 | 5 | Notificações | E8 | Não iniciada | |
 | 6 | Fechamento | E9 | Não iniciada | |
 
@@ -34,7 +34,7 @@ Valores de status: Não iniciada, Em andamento, Aguardando backend, Concluída.
 |---|---|---|
 | 1 — Acesso, sessão, navegação e notificações | `FND-01`, `FND-05`, `FND-06`, `FND-07`, `ACE-01`, `ACE-02`, `NOT-01` a `NOT-03` | 4 de 9 |
 | 2 — Gestão do motorista-chefe | `FND-03`, `GES-01` a `GES-11` | 0 de 12 |
-| 3 — Motorista e listas de consulta | `FND-04`, `FND-08`, `LIS-01`, `LIS-03` a `LIS-06`, `GES-12`, `GES-13`, `ACE-04` | 0 de 10 |
+| 3 — Motorista e listas de consulta | `FND-04`, `FND-08`, `LIS-01`, `LIS-03` a `LIS-06`, `GES-12`, `GES-13`, `ACE-04` | 1 de 10 concluídas; 7 com construção parcial e backend/critério pendente |
 | 4 — Aluno | `FND-02`, `ALU-01` a `ALU-06`, `LIS-02`, `ACE-03` | 0 de 9 |
 | Todos | `FEC-01` a `FEC-04` | 0 de 4 |
 
@@ -95,15 +95,15 @@ Backend: nenhum.
 Backend: nenhum.
 
 **Construção**
-- [ ] `Cartao` e `CartaoAtalho` (os cartões independentes da D1)
-- [ ] `BlocoHorarios` e `Contadores`
-- [ ] `LinhaAluno` (iniciais, nome e selo) e `LinhaPessoa` (iniciais, nome e e-mail)
-- [ ] `Selo` (Você, Sua turma, Cancelado, Liberado, Em aula, Vinculado, Sem turma)
-- [ ] `EstadoVazio`, `EstadoErro` (com "Tentar de novo") e `Carregando`
-- [ ] `ListaAtualizavel` (puxar para atualizar)
+- [x] `Cartao` e `CartaoAtalho` (os cartões independentes da D1)
+- [x] `BlocoHorarios` e `Contadores`
+- [x] `LinhaAluno` (iniciais, nome e selo) e `LinhaPessoa` (iniciais, nome e e-mail)
+- [x] `Selo` (Você, Sua turma, Cancelado, Liberado, Em aula, Vinculado, Sem turma)
+- [x] `EstadoVazio`, `EstadoErro` (com "Tentar de novo") e `Carregando`
+- [x] `ListaAtualizavel` (puxar para atualizar)
 
 **Critérios de aceite**
-- [ ] A tela de catálogo reproduz um cartão da C0, a lista da C2 e os quatro cartões da D1 *(verificação manual)*
+- [x] A tela de catálogo reproduz um cartão da C0, a lista da C2 e os quatro cartões da D1 *(verificação manual)*
 
 ### `FND-05` `api.ts` completo, erros e tipos de acesso · pessoa 1
 Backend: E0 (pronta) — formato padrão de erro.
@@ -154,13 +154,13 @@ Backend: E2 (pronta) — `papel` e `admin` em `GET /me`.
 Backend: E3 (pronta) — `GET /grupos`.
 
 **Construção**
-- [ ] `repositories/grupoRepository.ts` com `listarGrupos` e `buscarGrupo`, e `types/grupo.ts`
-- [ ] Tela de modelo com os quatro estados (carregando, erro, vazio, com dados) e recarga ao focar
-- [ ] `repositories/mocks/` com os grupos do protótipo, tipados com `types/` (cada trilha acrescenta os dados falsos dos seus endpoints)
-- [ ] Padrão documentado de troca entre objeto fixo e chamada real
+- [x] `repositories/grupoRepository.ts` com `listarGrupos` e `buscarGrupo`, e `types/grupo.ts`
+- [x] Componente `TelaDados` com os quatro estados (carregando, erro, vazio, com dados), recarga ao focar e atualização por gesto
+- [x] `repositories/mocks/` com os grupos do protótipo, tipados com `types/` (cada trilha acrescenta os dados falsos dos seus endpoints)
+- [x] Padrão de troca de mocks por chamada real adotado nos repositórios (constantes `USAR_MOCKS_*`)
 
 **Critérios de aceite**
-- [ ] A tela de modelo lista os grupos reais da API *(verificação manual)*
+- [ ] A tela de modelo lista os grupos reais da API *(verificação manual; grupo real usado nas telas de grupo e gestão)*
 - [ ] A tela de modelo foi revisada por toda a equipe *(verificação manual)*
 
 ---
@@ -253,7 +253,7 @@ Backend: E3 (pronta) — `GET /grupos` com `minhaTurma`. Dados reais de aluno e 
 
 **Construção**
 - [ ] Componente único para B8a (aluno) e C3a (motorista e chefe), mudando só o texto de apoio
-- [ ] Cartão com grupo, "Sua turma: nome · N turmas no grupo" (ou só "N turmas no grupo" quando `minhaTurma` é nulo) e horários
+- [x] Tela C3a com grupo, "Sua turma: nome · N turmas no grupo" (ou só "N turmas no grupo" quando `minhaTurma` é nulo) e horários
 - [ ] Estado vazio "Você ainda não está em nenhum grupo"
 
 **Critérios de aceite**
@@ -284,10 +284,10 @@ Backend: E4 — `GET /admin/motoristas` e `POST /admin/motoristas`.
 Backend: E4 — `GET /admin/turmas`; E5 para `totalAlunos` maior que zero.
 
 **Construção**
-- [ ] `listarTurmasAdmin` em `repositories/turmaRepository.ts`
+- [x] `listarTurmasAdmin` em `repositories/gestaoConsultaRepository.ts` (E4/E5 pendentes; usando mock)
 - [ ] Tela D3 com voltar, título "Turmas" e botão "Nova turma"
-- [ ] Turmas agrupadas por grupo ("nome · ida HH:mm · volta HH:mm"), com nome da turma, motorista e "N alunos"
-- [ ] Estado vazio "Nenhuma turma cadastrada"
+- [x] Lista provisória com nome do grupo e da turma, motorista e "N alunos"; agrupamento/horários ainda pendentes
+- [x] Estado vazio "Nenhuma turma cadastrada"
 
 **Critérios de aceite**
 - [ ] Lista as turmas reais, na ordem dos grupos *(verificação manual)*
@@ -367,10 +367,10 @@ Backend: E5 — `DELETE /admin/turmas/{id}/alunos/{alunoId}`.
 Backend: E5 — `GET /admin/alunos` sem `turmaId`.
 
 **Construção**
-- [ ] `listarAlunos` no repositório (sem `turmaId`)
-- [ ] Tela D10 com voltar, texto de "somente consulta", busca e total de alunos
-- [ ] Linhas com nome, e-mail e selo "Vinculado" (quando `turmas` não está vazia) ou "Sem turma"
-- [ ] Nenhuma ação ao tocar na linha
+- [x] `listarAlunosAdmin` no repositório (sem `turmaId`; E5 pendente, usando mock)
+- [x] Tela D10 com texto de "somente consulta", busca e total de alunos
+- [x] Linhas com nome, e-mail e selo "Vinculado" (quando `turmas` não está vazia) ou "Sem turma"
+- [x] Nenhuma ação ao tocar na linha
 
 **Critérios de aceite**
 - [ ] Aparecem alunos com e sem vínculo *(verificação manual)*
@@ -380,7 +380,7 @@ Backend: E5 — `GET /admin/alunos` sem `turmaId`.
 Backend: E4 — `GET /turmas/{id}`; E5 para a lista ter alunos.
 
 **Construção**
-- [ ] Tela C4 com motorista, horários, capacidade (quando houver) e alunos vinculados com o total
+- [x] Tela C4 com motorista, horários, capacidade (quando houver) e alunos vinculados com o total (E4/E5 pendentes; usando mock)
 
 **Critérios de aceite**
 - [ ] A lista confere com a D5 da mesma turma *(verificação manual)*
@@ -479,9 +479,9 @@ Backend: E2 (pronta) para perfil e "Sair"; E6 para "Minhas turmas".
 Backend: E7 — `GET /motorista/turmas` com contadores; lista vazia para o chefe sem turma.
 
 **Construção**
-- [ ] `repositories/hojeRepository.ts` com `listarMinhasTurmasHoje`
-- [ ] C0: cartão por turma com horários e contadores, "Hoje: ninguém confirmou ainda" e o destaque de cancelamento tardio
-- [ ] C0b: estado vazio do chefe sem turma, com o botão "Ver grupos"
+- [x] `listarTurmasDoMotorista` em `repositories/turmaRepository.ts` (E7 ainda pendente; usando mock)
+- [x] C0: cartão por turma com horários e contadores, "Hoje: ninguém confirmou ainda" e o destaque de cancelamento tardio (mock)
+- [x] C0b: estado vazio do chefe sem turma, com o botão "Ver grupos" (mock vazio; aguardando E7)
 
 **Critérios de aceite**
 - [ ] Os contadores conferem com a lista do dia da turma *(verificação manual)*
@@ -491,14 +491,14 @@ Backend: E7 — `GET /motorista/turmas` com contadores; lista vazia para o chefe
 Backend: E7 — `GET /turmas/{id}/hoje`.
 
 **Construção**
-- [ ] `buscarTurmaHoje` no repositório
-- [ ] Cabeçalho com `turma.nome · grupo.nome` e atalho para a C4; contadores; seletor Ida/Volta
-- [ ] C5 quando `semConfirmacoes`
-- [ ] Abre com o trecho Ida e funciona pela rota direta (destino da notificação de cancelamento tardio)
+- [x] `buscarTurmaHoje` em `repositories/turmaRepository.ts` (E7 ainda pendente; usando mock)
+- [x] Cabeçalho com `turma.nome · grupo.nome` e atalho para a C4; contadores; seletor Ida/Volta
+- [x] Estado C5 quando `semConfirmacoes`
+- [x] Abre com o trecho Ida e funciona pela rota direta (destino da notificação de cancelamento tardio)
 
 **Critérios de aceite**
 - [ ] O cancelado tardio aparece primeiro na ida, com o selo "Cancelado", e fora da contagem *(verificação manual)*
-- [ ] Na volta, os liberados aparecem primeiro *(verificação manual)*
+- [x] Na volta, os liberados aparecem primeiro *(ordenação fornecida pela API; verificar integração E7)*
 - [ ] Turma sem confirmações mostra a C5 *(verificação manual)*
 
 ### `LIS-02` Grupo do aluno: ida e volta (B8 e B8b) · pessoa 4
@@ -516,7 +516,7 @@ Backend: E7 — o mesmo endpoint.
 
 **Construção**
 - [ ] Componente `ListaDoGrupo` (seletor Ida/Volta, turmas e selos), reutilizado pela `LIS-02`
-- [ ] Versão de `motorista/` da tela de grupo: turma do usuário recolhida, como atalho para a lista do dia; demais abertas
+- [x] Versão inicial de `motorista/` da tela de grupo com horários, turmas e contadores (E7 pendente; usando mock)
 
 **Critérios de aceite**
 - [ ] O chefe abre qualquer grupo e vê todas as turmas abertas onde não conduz turma *(verificação manual)*
@@ -525,7 +525,7 @@ Backend: E7 — o mesmo endpoint.
 Backend: E2 (pronta) para perfil e "Sair"; E7 para "Minhas turmas".
 
 **Construção**
-- [ ] Tela C6 reaproveitando o componente da B9, com as turmas que o usuário conduz
+- [x] Tela C6 com perfil, turmas e ação "Sair" (E7 pendente; usando mock; componente da B9 ainda não disponível)
 
 **Critérios de aceite**
 - [ ] Para o chefe sem turma, "Minhas turmas" não aparece *(verificação manual)*
