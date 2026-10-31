@@ -21,7 +21,7 @@
 | 0 | Fundação | E0, E2 e E3 (prontas) | Em andamento | |
 | 1 | Acesso e grupos | E2 e E3 (prontas) | Aguardando backend | |
 | 2 | Turmas e vínculos | E4 e E5 | Aguardando backend | |
-| 3 | Plano do dia | E6 | Não iniciada | |
+| 3 | Plano do dia | E6 | Aguardando backend | |
 | 4 | Listas do dia | E7 | Aguardando backend | |
 | 5 | Notificações | E8 | Não iniciada | |
 | 6 | Fechamento | E9 | Não iniciada | |
@@ -35,7 +35,7 @@ Valores de status: Não iniciada, Em andamento, Aguardando backend, Concluída.
 | 1 — Acesso, sessão, navegação e notificações | `FND-01`, `FND-05`, `FND-06`, `FND-07`, `ACE-01`, `ACE-02`, `NOT-01` a `NOT-03` | 4 de 9 |
 | 2 — Gestão do motorista-chefe | `FND-03`, `GES-01` a `GES-11` | 0 de 12 |
 | 3 — Motorista e listas de consulta | `FND-04`, `FND-08`, `LIS-01`, `LIS-03` a `LIS-06`, `GES-12`, `GES-13`, `ACE-04` | 1 de 10 concluídas; 7 com construção parcial e backend/critério pendente |
-| 4 — Aluno | `FND-02`, `ALU-01` a `ALU-06`, `LIS-02`, `ACE-03` | 0 de 9 |
+| 4 — Aluno | `FND-02`, `ALU-01` a `ALU-06`, `LIS-02`, `ACE-03` | 0 de 9 concluídas; FND-02 construída e ALU/ACE com mocks |
 | Todos | `FEC-01` a `FEC-04` | 0 de 4 |
 
 ---
@@ -64,11 +64,11 @@ Backend: nenhum.
 Backend: nenhum.
 
 **Construção**
-- [ ] `theme/tipografia.ts` com os valores da seção 2.3 do plano (cores e medidas já vêm do esqueleto da `FND-01`)
-- [ ] Barlow e Saira carregadas antes de esconder a tela de abertura
-- [ ] Ícone do app e tela de abertura configurados, a partir de `docs/prototipo/marca/`
-- [ ] Logo e símbolo copiados de `docs/prototipo/assets/` para `assets/`
-- [ ] Componente `Tela` (área segura e fundo)
+- [x] `theme/tipografia.ts` com os valores da seção 2.3 do plano (cores e medidas já vêm do esqueleto da `FND-01`)
+- [x] Barlow e Saira carregadas antes de esconder a tela de abertura
+- [x] Ícone do app e tela de abertura configurados, a partir de `docs/prototipo/marca/`
+- [x] Logo e símbolo copiados de `docs/prototipo/assets/` para `assets/`
+- [x] Componente `Tela` (área segura e fundo)
 
 **Critérios de aceite**
 - [ ] Uma tela de exemplo mostra título em Saira itálica, texto em Barlow e número em Saira, em Android *(verificação manual)*
@@ -389,83 +389,83 @@ Backend: E4 — `GET /turmas/{id}`; E5 para a lista ter alunos.
 
 ## Onda 3 — Plano do dia
 
-### `ALU-01` Tela inicial do aluno e A3 · pessoa 4
+### `ALU-01` Tela inicial do aluno e A3 · pessoa 4 (aguardando E6)
 Backend: E6 — `GET /aluno/turmas`, inclusive lista vazia para aluno sem vínculo.
 
 **Construção**
-- [ ] `repositories/planoRepository.ts` com `listarMinhasTurmas`
-- [ ] Um cartão por turma com `grupo.nome · turma.nome`, motorista, horários e resumo de hoje
-- [ ] "Marcar presença" (primário) sem nada marcado; "Alterar presença" (contorno) nos outros casos
-- [ ] A3 quando a lista vem vazia, com o e-mail da conta
+- [x] `repositories/planoRepository.ts` com `listarMinhasTurmas`
+- [x] Um cartão por turma com `grupo.nome · turma.nome`, motorista, horários e resumo de hoje
+- [x] "Marcar presença" (primário) sem nada marcado; "Alterar presença" (contorno) nos outros casos
+- [x] A3 quando a lista vem vazia, com o e-mail da conta
 
 **Critérios de aceite**
 - [ ] Aluno sem vínculo vê a A3 *(verificação manual)*
 - [ ] Aluno com duas turmas vê dois cartões com o resumo correto *(verificação manual)*
 
-### `ALU-02` Plano de hoje: leitura e estados · pessoa 4
+### `ALU-02` Plano de hoje: leitura e estados · pessoa 4 (aguardando E6)
 Backend: E6 — `GET` do plano com o bloco `acoes`; 403 sem vínculo.
 
 **Construção**
-- [ ] `buscarPlano` no repositório
-- [ ] `utils/estadoDoPlano.ts` com os seis estados da tabela da seção 5.3 do plano
-- [ ] Tela de plano com os cartões de Ida e Volta, textos da B1 e da B2
-- [ ] A tela abre corretamente pela rota direta (destino da notificação de lembrete)
+- [x] `buscarPlano` no repositório
+- [x] `utils/estadoDoPlano.ts` com os seis estados da tabela da seção 5.3 do plano
+- [x] Tela de plano com os cartões de Ida e Volta, textos da B1 e da B2
+- [x] A tela abre corretamente pela rota direta (destino da notificação de lembrete)
 
 **Critérios de aceite**
 - [ ] `estadoDoPlano` cobre as seis linhas da tabela *(teste automatizado)*
 - [ ] Turma sem vínculo mostra acesso negado e volta *(verificação manual)*
 
-### `ALU-03` Marcar e desmarcar ida e volta · pessoa 4
+### `ALU-03` Marcar e desmarcar ida e volta · pessoa 4 (aguardando E6)
 Backend: E6 — `PUT .../plano/ida` e `PUT .../plano/volta`.
 
 **Construção**
-- [ ] `alterarIda` e `alterarVolta` no repositório
-- [ ] Cartões respondem ao toque só quando `acoes` permite
-- [ ] 422 mostra a mensagem do backend e recarrega o plano
+- [x] `alterarIda` e `alterarVolta` no repositório
+- [x] Cartões respondem ao toque só quando `acoes` permite
+- [x] 422 mostra a mensagem do backend e recarrega o plano
 
 **Critérios de aceite**
 - [ ] Marcar ida e volta passa da B1 para a B2 *(verificação manual)*
 - [ ] Desmarcar tudo volta para a B1 *(verificação manual)*
 - [ ] A tela inicial reflete a mudança ao voltar *(verificação manual)*
 
-### `ALU-04` Status da volta · pessoa 4
+### `ALU-04` Status da volta · pessoa 4 (aguardando E6)
 Backend: E6 — `PUT .../plano/status-volta`; 422 `VOLTA_NAO_INCLUIDA`.
 
 **Construção**
-- [ ] `alterarStatusVolta` no repositório
-- [ ] Seletor "Em aula / Liberado" só com a volta marcada, com o título "Status da volta" e "Pode mudar até HH:mm"
+- [x] `alterarStatusVolta` no repositório
+- [x] Seletor "Em aula / Liberado" só com a volta marcada, com o título "Status da volta" e "Pode mudar até HH:mm"
 
 **Critérios de aceite**
 - [ ] Trocar para "Liberado" grava e usa as cores de liberado *(verificação manual)*
 - [ ] Desmarcar a volta esconde o seletor *(verificação manual)*
 
-### `ALU-05` Cancelamento tardio da ida (B3, B4 e B5) · pessoa 4
+### `ALU-05` Cancelamento tardio da ida (B3, B4 e B5) · pessoa 4 (aguardando E6)
 Backend: E6 — cancelamento depois da saída grava `cancelouAposSaida`.
 
 **Construção**
-- [ ] Com `acoes.cancelamentoIdaSeraTardio`, desmarcar a ida abre o diálogo da B4
-- [ ] B5 com o aviso do WhatsApp em texto, sem botão
+- [x] Com `acoes.cancelamentoIdaSeraTardio`, desmarcar a ida abre o diálogo da B4
+- [x] B5 com o aviso do WhatsApp em texto, sem botão
 
 **Critérios de aceite**
 - [ ] "Manter a ida" fecha o diálogo sem chamar a API *(verificação manual)*
 - [ ] "Cancelar a ida" leva à B5, com a volta ainda editável *(verificação manual)*
 
-### `ALU-06` Ida bloqueada e dia encerrado (B6 e B7) · pessoa 4
+### `ALU-06` Ida bloqueada e dia encerrado (B6 e B7) · pessoa 4 (aguardando E6)
 Backend: E6 — 422 `IDA_ENCERRADA` e `DIA_ENCERRADO`; E0 (pronta) — `app.relogio.fixo`.
 
 **Construção**
-- [ ] B6: ida bloqueada com "Encerrada às HH:mm" e o aviso; volta disponível
-- [ ] B7: tudo bloqueado com o texto de dia encerrado
+- [x] B6: ida bloqueada com "Encerrada às HH:mm" e o aviso; volta disponível
+- [x] B7: tudo bloqueado com o texto de dia encerrado
 
 **Critérios de aceite**
 - [ ] Com o relógio fixo, todos os horários da tabela de aceite da etapa 6 do backend foram percorridos no app *(verificação manual)*
 - [ ] Se o horário virar com a tela aberta, o 422 é tratado e a tela se corrige *(verificação manual)*
 
-### `ACE-03` Conta do aluno (B9) · pessoa 4
+### `ACE-03` Conta do aluno (B9) · pessoa 4 (aguardando E6 para Minhas turmas)
 Backend: E2 (pronta) para perfil e "Sair"; E6 para "Minhas turmas".
 
 **Construção**
-- [ ] Tela B9 com iniciais, nome, e-mail, minhas turmas e "Sair", em um componente de conta reaproveitado pela `ACE-04`
+- [x] Tela B9 com iniciais, nome, e-mail, minhas turmas e "Sair", em um componente de conta reaproveitado pela `ACE-04`
 
 **Critérios de aceite**
 - [ ] "Sair" limpa a sessão e volta para a A1 *(verificação manual)*
@@ -501,7 +501,7 @@ Backend: E7 — `GET /turmas/{id}/hoje`.
 - [x] Na volta, os liberados aparecem primeiro *(ordenação fornecida pela API; verificar integração E7)*
 - [ ] Turma sem confirmações mostra a C5 *(verificação manual)*
 
-### `LIS-02` Grupo do aluno: ida e volta (B8 e B8b) · pessoa 4
+### `LIS-02` Grupo do aluno: ida e volta (B8 e B8b) · pessoa 4 (aguardando E7 e LIS-03)
 Backend: E7 — `GET /grupos/{id}/hoje` com `minhaTurma` e `voce`; 403 fora do grupo.
 
 **Construção**
@@ -634,4 +634,6 @@ Registrar aqui tudo o que for decidido na implementação e não estiver no plan
 | 2026-10-17 | `FND-07` | Guardas declarativas: `(auth)/_layout.tsx` (novo) manda quem tem sessão para o índice; `aluno/_layout.tsx` e `motorista/_layout.tsx` mandam ao índice quem não tem o papel; `gestao/_layout.tsx` manda o não admin para `/motorista/hoje`. O `SessaoContext` deixou de chamar `router.replace('/entrar')` no 401 | Um só caminho para entrar, cadastrar, sair e sessão expirada: a sessão muda e as guardas levam à tela certa. Substitui a decisão da `FND-06` sobre a navegação no 401 |
 | 2026-10-17 | `FND-07` | Sem conexão ao abrir, o índice mostra a mensagem do erro e "Tentar de novo" (`restaurar`) | Usa o `erroRestauracao` da `FND-06`; os componentes `Carregando` e `EstadoErro` (`FND-04`) entram quando existirem |
 | 2026-10-17 | `FND-07` | O mapa de rotas saiu. Os painéis provisórios foram para `components/PainelSessaoProvisorio.tsx`: login e teste de conexão na A1 provisória; usuário, `GET /me`, invalidar token e "Sair" na B9 e na C6 provisórias | Sem o mapa, ainda é preciso entrar e sair no aparelho. Saem com a `ACE-01`, a `ACE-03` e a `ACE-04` |
+| 2026-10-31 | `FND-02` | As fontes foram copiadas como TTF dos pacotes `@expo-google-fonts`, pois os WOFF2 do protótipo não são suportados pelo Expo no Android; `expo-splash-screen` mantém a abertura visível até o carregamento. O ícone Android usa o PNG da marca. | Atender ao aceite Android e impedir texto com fonte substituta na abertura. |
+| 2026-10-31 | `ACE-03` | O perfil B9 foi extraído para `components/PerfilConta.tsx` para a tela C6 reutilizar avatar, nome, e-mail e ação de sair. ALU-01 a ALU-06 usam repositório com mock enquanto E6 não começa. | E6 está pendente; E7 e o componente `ListaDoGrupo` ainda são dependências para LIS-02. |
 | 2026-10-17 | `FND-07` | `components/opcoesAbas.tsx` com o estilo da barra e os ícones, usado pelos dois layouts de abas. `@expo/vector-icons` instalado | Mesma barra para os três perfis |

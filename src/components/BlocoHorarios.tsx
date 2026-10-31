@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 
 export function BlocoHorarios({
   horarioSaidaIda,
@@ -33,5 +34,5 @@ const estilos = StyleSheet.create({
     borderRadius: 12,
   },
   rotulo: { color: cores.textoSecundario, fontSize: 14 },
-  horario: { color: cores.texto, fontSize: 23, fontWeight: '700' },
+  horario: { color: cores.texto, fontFamily: tipografia.numero, fontSize: tipografia.tamanhoNumero },
 });
