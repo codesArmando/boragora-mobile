@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "expo-router/entry",
   "dependencies": {
+    "@expo-google-fonts/barlow": "^0.4.1",
+    "@expo-google-fonts/saira": "^0.4.2",
     "@expo/vector-icons": "^15.0.2",
     "expo": "~57.0.30",
     "expo-constants": "~57.0.22",
@@ -10,6 +12,7 @@
     "expo-linking": "~57.0.13",
     "expo-router": "~57.0.28",
     "expo-secure-store": "~57.0.4",
+    "expo-splash-screen": "~57.0.0",
     "expo-status-bar": "~57.0.1",
     "nativewind": "^4.2.7",
     "react": "19.2.3",
@@ -45,5 +48,8 @@
   "private": true,
   "jest": {
     "preset": "jest-expo"
+  },
+  "allowScripts": {
+    "unrs-resolver@1.12.2": true
   }
 }
