@@ -33,7 +33,7 @@ Valores de status: Não iniciada, Em andamento, Aguardando backend, Concluída.
 | Pessoa | Entregas | Concluídas |
 |---|---|---|
 | 1 — Acesso, sessão, navegação e notificações | `FND-01`, `FND-05`, `FND-06`, `FND-07`, `ACE-01`, `ACE-02`, `NOT-01` a `NOT-03` | 4 de 9 |
-| 2 — Gestão do motorista-chefe | `FND-03`, `GES-01` a `GES-11` | 0 de 12 |
+| 2 — Gestão do motorista-chefe | `FND-03`, `GES-01` a `GES-11` | 0 de 12 (`FND-03` e `GES-01` a `GES-11` construídas; faltam validar no aparelho, e `GES-05` a `GES-11` aguardam E4 e E5) |
 | 3 — Motorista e listas de consulta | `FND-04`, `FND-08`, `LIS-01`, `LIS-03` a `LIS-06`, `GES-12`, `GES-13`, `ACE-04` | 1 de 10 concluídas; 7 com construção parcial e backend/critério pendente |
 | 4 — Aluno | `FND-02`, `ALU-01` a `ALU-06`, `LIS-02`, `ACE-03` | 0 de 9 concluídas; FND-02 construída e ALU/ACE com mocks |
 | Todos | `FEC-01` a `FEC-04` | 0 de 4 |
@@ -78,18 +78,18 @@ Backend: nenhum.
 Backend: nenhum.
 
 **Construção**
-- [ ] `Botao` (primário, contorno, texto e perigo; carregando e desabilitado)
-- [ ] `CampoTexto` (rótulo, mensagem de erro, senha e máscara `HH:mm`)
-- [ ] `Cabecalho` (voltar, título, subtítulo e ação à direita)
-- [ ] `SeletorSegmentado` (Ida/Volta, Em aula/Liberado, Manhã/Tarde/Noite)
-- [ ] `Aviso` (alertas da B5 e da B6)
-- [ ] `DialogoConfirmacao`
-- [ ] `SeletorModal`
+- [x] `Botao` (primário, contorno, texto e perigo; carregando e desabilitado)
+- [x] `CampoTexto` (rótulo, mensagem de erro, senha e máscara `HH:mm`)
+- [x] `Cabecalho` (voltar, título, subtítulo e ação à direita)
+- [x] `SeletorSegmentado` (Ida/Volta, Em aula/Liberado, Manhã/Tarde/Noite)
+- [x] `Aviso` (alertas da B5 e da B6)
+- [x] `DialogoConfirmacao`
+- [x] `SeletorModal`
 
 **Critérios de aceite**
 - [ ] Todos os componentes aparecem em uma tela de catálogo *(verificação manual)*
 - [ ] Toda área de toque tem pelo menos 44 de altura *(verificação manual)*
-- [ ] A máscara `HH:mm` aceita só horários válidos *(teste automatizado)*
+- [x] A máscara `HH:mm` aceita só horários válidos *(teste automatizado)*
 
 ### `FND-04` Componentes de cartão e de lista · pessoa 3
 Backend: nenhum.
@@ -206,8 +206,8 @@ Backend: nenhum.
 Backend: nenhum.
 
 **Construção**
-- [ ] Título "Gestão" e quatro `CartaoAtalho` independentes: Grupos, Turmas, Motoristas e Alunos
-- [ ] Cada cartão abre a tela correspondente (D8, D3, D9 e D10)
+- [x] Título "Gestão" e quatro `CartaoAtalho` independentes: Grupos, Turmas, Motoristas e Alunos
+- [x] Cada cartão abre a tela correspondente (D8, D3, D9 e D10)
 
 **Critérios de aceite**
 - [ ] A tela confere com a D1 do protótipo, sem lista nem botão de cadastro *(verificação manual)*
@@ -216,9 +216,9 @@ Backend: nenhum.
 Backend: E3 (pronta) — `GET /grupos` com `totalTurmas`.
 
 **Construção**
-- [ ] Tela D8 com voltar, título "Grupos" e botão "Novo grupo"
-- [ ] Um cartão por grupo com "Ida HH:mm · Volta HH:mm · N turmas", abrindo a D2b
-- [ ] Estado vazio "Nenhum grupo cadastrado" com o mesmo botão
+- [x] Tela D8 com voltar, título "Grupos" e botão "Novo grupo"
+- [x] Um cartão por grupo com "Ida HH:mm · Volta HH:mm · N turmas", abrindo a D2b
+- [x] Estado vazio "Nenhum grupo cadastrado" com o mesmo botão
 
 **Critérios de aceite**
 - [ ] Lista os grupos reais da API *(verificação manual)*
@@ -228,8 +228,8 @@ Backend: E3 (pronta) — `GET /grupos` com `totalTurmas`.
 Backend: E3 (pronta) — criação; 400 quando a ida não é anterior à volta.
 
 **Construção**
-- [ ] `repositories/grupoRepository.ts` com `criarGrupo`
-- [ ] Formulário com nome, período (Manhã/Tarde/Noite) e horários com máscara `HH:mm`
+- [x] `repositories/grupoRepository.ts` com `criarGrupo`
+- [x] Formulário com nome, período (Manhã/Tarde/Noite) e horários com máscara `HH:mm`
 
 **Critérios de aceite**
 - [ ] Salvar cria o grupo e volta para a D8 *(verificação manual)*
@@ -239,9 +239,9 @@ Backend: E3 (pronta) — criação; 400 quando a ida não é anterior à volta.
 Backend: E3 (pronta) — `GET /grupos/{id}`, `PUT` e `DELETE /admin/grupos/{id}`, 409 `GRUPO_COM_TURMAS`.
 
 **Construção**
-- [ ] `atualizarGrupo` e `excluirGrupo` no repositório
-- [ ] Tela D2b carregada com os dados do grupo, "Salvar alterações" e "Excluir grupo"
-- [ ] Diálogo de confirmação antes de excluir
+- [x] `atualizarGrupo` e `excluirGrupo` no repositório
+- [x] Tela D2b carregada com os dados do grupo, "Salvar alterações" e "Excluir grupo"
+- [x] Diálogo de confirmação antes de excluir
 
 **Critérios de aceite**
 - [ ] Editar os horários reflete na D8 *(verificação manual)*
@@ -265,14 +265,14 @@ Backend: E3 (pronta) — `GET /grupos` com `minhaTurma`. Dados reais de aluno e 
 
 ## Onda 2 — Turmas e vínculos
 
-### `GES-05` Motoristas: lista e cadastro (D9 e D7) · pessoa 2
+### `GES-05` Motoristas: lista e cadastro (D9 e D7) · pessoa 2 — aguardando E4
 Backend: E4 — `GET /admin/motoristas` e `POST /admin/motoristas`.
 
 **Construção**
-- [ ] `repositories/motoristaRepository.ts`
-- [ ] Tela D9 com voltar, "Novo motorista" e lista com iniciais, nome e e-mail (o chefe com o selo "Você")
-- [ ] Tela D7 com nome, e-mail, senha e "Confirmar senha"
-- [ ] Conferência de senha e confirmação feita no app, antes de chamar a API
+- [x] `repositories/motoristaRepository.ts`
+- [x] Tela D9 com voltar, "Novo motorista" e lista com iniciais, nome e e-mail (o chefe com o selo "Você")
+- [x] Tela D7 com nome, e-mail, senha e "Confirmar senha"
+- [x] Conferência de senha e confirmação feita no app, antes de chamar a API
 
 **Critérios de aceite**
 - [ ] Cadastrar volta para a D9 com o motorista novo na lista *(verificação manual)*
@@ -293,72 +293,72 @@ Backend: E4 — `GET /admin/turmas`; E5 para `totalAlunos` maior que zero.
 - [ ] Lista as turmas reais, na ordem dos grupos *(verificação manual)*
 - [ ] Tocar em uma turma abre a D5 dela *(verificação manual)*
 
-### `GES-06` Nova turma (D4) · pessoa 2
+### `GES-06` Nova turma (D4) · pessoa 2 — aguardando E4
 Backend: E4 — `POST /admin/turmas` com `nome`, validação do nome, 409 `CONFLITO_GRUPO_MOTORISTA`.
 
 **Construção**
-- [ ] `criarTurma` no repositório
-- [ ] Seletor de grupo e de motorista com `SeletorModal`
-- [ ] Campos "Nome da turma" (obrigatório, até 60 caracteres), número da van e capacidade (opcionais)
+- [x] `criarTurma` no repositório
+- [x] Seletor de grupo e de motorista com `SeletorModal`
+- [x] Campos "Nome da turma" (obrigatório, até 60 caracteres), número da van e capacidade (opcionais)
 
 **Critérios de aceite**
 - [ ] Criar abre a D5 da turma nova *(verificação manual)*
 - [ ] Nome em branco ou com mais de 60 caracteres mostra o erro no campo *(verificação manual)*
 - [ ] Motorista que já conduz turma no grupo mostra o conflito junto ao seletor de motorista *(verificação manual)*
 
-### `GES-07` Gerenciar turma: leitura (D5) · pessoa 2
+### `GES-07` Gerenciar turma: leitura (D5) · pessoa 2 — aguardando E4
 Backend: E4 — `GET /turmas/{id}`.
 
 **Construção**
-- [ ] `buscarTurma` no repositório
-- [ ] Tela D5 com motorista ("Trocar"), dados da turma ("Van nº N · N lugares", "Editar"), total de alunos e "Vincular"
+- [x] `buscarTurma` no repositório
+- [x] Tela D5 com motorista ("Trocar"), dados da turma ("Van nº N · N lugares", "Editar"), total de alunos e "Vincular"
 
 **Critérios de aceite**
 - [ ] A tela mostra os dados reais da turma, com os alunos em ordem alfabética *(verificação manual)*
 
-### `GES-08` Trocar motorista e editar dados (D5 e D5a) · pessoa 2
+### `GES-08` Trocar motorista e editar dados (D5 e D5a) · pessoa 2 — aguardando E4
 Backend: E4 — `PUT /admin/turmas/{id}`; conflito também na troca.
 
 **Construção**
-- [ ] `atualizarTurma` no repositório
-- [ ] "Trocar" na D5 abre o `SeletorModal` de motoristas e salva
-- [ ] Tela D5a com o grupo (somente leitura), nome, número da van e capacidade, e "Salvar alterações"
+- [x] `atualizarTurma` no repositório
+- [x] "Trocar" na D5 abre o `SeletorModal` de motoristas e salva
+- [x] Tela D5a com o grupo (somente leitura), nome, número da van e capacidade, e "Salvar alterações"
 
 **Critérios de aceite**
 - [ ] Trocar o motorista reflete na D5 *(verificação manual)*
 - [ ] Conflito de grupo na troca mostra a mensagem e mantém o motorista anterior *(verificação manual)*
 - [ ] Editar o nome reflete na D5 e na D3 *(verificação manual)*
 
-### `GES-09` Excluir turma (D5a) · pessoa 2
+### `GES-09` Excluir turma (D5a) · pessoa 2 — aguardando E4
 Backend: E4 — `DELETE /admin/turmas/{id}`.
 
 **Construção**
-- [ ] `excluirTurma` no repositório
-- [ ] Botão "Excluir turma" com diálogo avisando que vínculos, viagens e confirmações são apagados
+- [x] `excluirTurma` no repositório
+- [x] Botão "Excluir turma" com diálogo avisando que vínculos, viagens e confirmações são apagados
 
 **Critérios de aceite**
 - [ ] Excluir volta para a D3 sem a turma *(verificação manual)*
 - [ ] Cancelar o diálogo não chama a API *(verificação manual)*
 
-### `GES-10` Vincular alunos (D6) · pessoa 2
+### `GES-10` Vincular alunos (D6) · pessoa 2 — aguardando E5
 Backend: E5 — `GET /admin/alunos?turmaId=`, `POST /admin/turmas/{id}/alunos`, 409 `CONFLITO_GRUPO_ALUNO`.
 
 **Construção**
-- [ ] `repositories/alunoRepository.ts` com `buscarAlunos` e `vincularAlunos`
-- [ ] Busca por nome ou e-mail, com pequena espera entre as teclas
-- [ ] Linhas com "Sem turma", a turma de outro grupo, ou "Já está na [turma] deste grupo" com a caixa desabilitada
-- [ ] Botão com a contagem ("Vincular 2 alunos")
+- [x] `repositories/alunoRepository.ts` com `buscarAlunos` e `vincularAlunos`
+- [x] Busca por nome ou e-mail, com pequena espera entre as teclas
+- [x] Linhas com "Sem turma", a turma de outro grupo, ou "Já está na [turma] deste grupo" com a caixa desabilitada
+- [x] Botão com a contagem ("Vincular 2 alunos")
 
 **Critérios de aceite**
 - [ ] Vincular dois alunos volta para a D5 com os dois na lista *(verificação manual)*
 - [ ] Conflito no lote mostra quem causou e ninguém é vinculado *(verificação manual)*
 
-### `GES-11` Remover aluno da turma (D5) · pessoa 2
+### `GES-11` Remover aluno da turma (D5) · pessoa 2 — aguardando E5
 Backend: E5 — `DELETE /admin/turmas/{id}/alunos/{alunoId}`.
 
 **Construção**
-- [ ] `removerAluno` no repositório
-- [ ] Botão de remover em cada aluno da D5, com diálogo de confirmação
+- [x] `removerAluno` no repositório
+- [x] Botão de remover em cada aluno da D5, com diálogo de confirmação
 
 **Critérios de aceite**
 - [ ] O aluno removido some da D5 e passa a aparecer como disponível na D6 *(verificação manual)*
@@ -637,3 +637,25 @@ Registrar aqui tudo o que for decidido na implementação e não estiver no plan
 | 2026-10-31 | `FND-02` | As fontes foram copiadas como TTF dos pacotes `@expo-google-fonts`, pois os WOFF2 do protótipo não são suportados pelo Expo no Android; `expo-splash-screen` mantém a abertura visível até o carregamento. O ícone Android usa o PNG da marca. | Atender ao aceite Android e impedir texto com fonte substituta na abertura. |
 | 2026-10-31 | `ACE-03` | O perfil B9 foi extraído para `components/PerfilConta.tsx` para a tela C6 reutilizar avatar, nome, e-mail e ação de sair. ALU-01 a ALU-06 usam repositório com mock enquanto E6 não começa. | E6 está pendente; E7 e o componente `ListaDoGrupo` ainda são dependências para LIS-02. |
 | 2026-10-17 | `FND-07` | `components/opcoesAbas.tsx` com o estilo da barra e os ícones, usado pelos dois layouts de abas. `@expo/vector-icons` instalado | Mesma barra para os três perfis |
+| 2026-10-19 | `FND-03` | `Botao` tem a variante `perigoContorno` (excluir da D2b e da D5a) além das quatro do plano; `perigo` é o botão vermelho cheio da B4 | O protótipo usa os dois estilos de ação destrutiva |
+| 2026-10-19 | `FND-03` | Componente interno `FolhaInferior` (modal em folha, com fundo escurecido), base do `DialogoConfirmacao` e do `SeletorModal` | Os dois modais têm o mesmo visual (B4); evita duas versões |
+| 2026-10-19 | `FND-03` | Fontes ainda não aplicadas (sem `fontFamily`), só peso e tamanho do protótipo. A `FND-02` ajusta os componentes quando o `theme/tipografia.ts` existir | A `FND-02` é da pessoa 4 e ainda não foi entregue |
+| 2026-10-19 | `FND-03` | `Cabecalho` não trata a área segura de cima; a tela envolve em `SafeAreaView` (depois, no componente `Tela` da `FND-02`) | Evita duplicar a área segura quando a `Tela` existir |
+| 2026-10-19 | `FND-03` | Cor `#3A1A16` (fundo do ícone do diálogo, B4) fica no próprio `DialogoConfirmacao`, fora de `theme/cores.ts` | Mudança em `theme/` vai em PR separado (seção 2.5); pode migrar depois |
+| 2026-10-19 | `FND-03` | Tela de catálogo em `app/catalogo.tsx`, com atalho na A1 provisória só em `__DEV__`. Fora da lista de rotas da seção 2.2 | O critério da `FND-03` pede uma tela de catálogo; sai ou fica como referência no fechamento |
+| 2026-10-19 | `FND-03` | `mascararHora` para no primeiro dígito inválido, em vez de pular e seguir | Um texto colado não vira outro horário |
+| 2026-10-19 | `GES-01` | `CartaoAtalho` criado na `GES-01`, com a mesma interface prevista para a `FND-04` (ícone, título, descrição, `onPress`) | A `FND-04` (pessoa 3) ainda não foi entregue; se ela entregar outra versão, vale a dela e esta é apagada |
+| 2026-10-19 | `GES-02` | Criados `Carregando`, `EstadoErro` e `EstadoVazio` (e `types/grupo.ts`, `grupoRepository.ts`) na `GES-02`, com os nomes previstos para a `FND-04` e a `FND-08`. O `Cabecalho` passou a mostrar a ação como botão amarelo com ícone, como na D8 | `FND-04` e `FND-08` (pessoa 3) ainda não foram entregues; na união dos PRs vale a versão da pessoa 3 e acrescenta-se o que faltar. Contrato conferido com a API real: lista, criação, edição, exclusão e os erros 400 |
+| 2026-10-19 | `GES-03`, `GES-04` | Um só componente `FormularioGrupo` (em `components/`) serve à D2 e à D2b. O app confere só nome preenchido e horário completo; a ordem ida/volta fica com o backend (400 em `horarioSaidaVolta`). Período inicial da D2: Manhã | Evita duas versões do mesmo formulário; convenção 1 (nenhuma regra de horário no app) |
+| 2026-10-19 | `GES-04` | O texto do diálogo de exclusão ("O grupo X será apagado...") e o rótulo "Manter grupo" não estão no protótipo, que não tem essa tela | Convenção 8 pede o diálogo; o 409 `GRUPO_COM_TURMAS` mostra a mensagem do backend num aviso acima do formulário |
+| 2026-10-19 | `GES-05` a `GES-11` | Dados falsos com estado em memória (`repositories/mocks/gestao.ts`) e interruptores em `repositories/mocks/mocksAtivos.ts` (`e4`, `e5`). Os repositórios têm as duas versões; quando a etapa fecha e a tela é testada com a API real, vira-se o interruptor para `false` | Decisão 14 do plano; o estado em memória permite testar o fluxo inteiro (criar motorista, criar turma, vincular) sem backend |
+| 2026-10-19 | `GES-05` a `GES-11` | Formatos de E4 e E5 assumidos, a conferir quando as etapas fecharem: `Turma` (`GET /turmas/{id}`), `AlunoAdmin` com `turmas: string[]` ("Manhã · Van 2") e `turmaEmConflito: string \| null`, corpo do vínculo `{ alunoIds }`, e `POST`/`PUT` de turma devolvendo a turma | O plano do backend não fixa todos os nomes de campo; estão em `types/turma.ts` e `types/aluno.ts` |
+| 2026-10-19 | `GES-05` | `Selo`, `LinhaPessoa` e `CampoBusca` criados fora da `FND-04`, com os nomes previstos. Senha de motorista com mínimo de 6 caracteres conferido no app, como no cadastro do aluno | `FND-04` ainda não entregue; mínimo igual ao critério da `ACE-02` |
+| 2026-10-19 | `GES-10` | Na D6, a seleção marcada é mantida ao buscar de novo, e o botão conta todos os marcados (mesmo os que saíram do filtro). `situacao` e o texto "Já está na [turma] deste grupo" vêm da API; os dados falsos seguem o cenário do protótipo | Evita perder a seleção ao refinar a busca |
+| 2026-10-19 | `GES-09` | Depois de excluir a turma, o app volta para a D3 com `router.dismissTo`, pulando a D5 | A D5 da turma excluída já não existe |
+| 2026-11-08 | `GES-01`, `GES-05` | Integração com a `master`: a D1 ficou com a versão da pessoa 3 (mesmo conteúdo, com o `CartaoAtalho` da `FND-04`); a D9 ficou com a versão da trilha GES (voltar, iniciais, selo "Você" e os mesmos dados da D7) | As duas telas foram feitas nas duas trilhas; a `GES-05` é da pessoa 2 e nenhuma outra tela depende da D9 |
+| 2026-11-08 | `FND-03`, `GES-02` a `GES-11` | `Carregando`, `EstadoErro`, `EstadoVazio`, `LinhaPessoa`, `Selo` e `CartaoAtalho` ficaram como na `FND-04`, e as telas da gestão foram adaptadas a eles: a tela guarda o próprio erro (`ErroApi`) e o texto extra do estado vazio vai como filho. Substitui as decisões de 2026-10-19 sobre esses componentes | Os componentes da `FND-04` já são usados por outras trilhas; a integração não muda o que as outras pessoas fizeram |
+| 2026-11-08 | `GES-05` a `GES-11` | A gestão usa os tipos que já estavam na `master`: `TurmaDetalhe` (`GET /turmas/{id}`), `GrupoDTO` e o `Motorista` de `types/consulta.ts`, no lugar de `Turma`, `GrupoRequisicao` e de um `Motorista` próprio. O `AlunoAdmin` de `types/aluno.ts` continua separado do de `types/consulta.ts`, porque a D6 precisa de `turmas` como texto e de `turmaEmConflito`, como no plano do backend (E5) | Convenção 9. Os dois `AlunoAdmin` devem virar um só quando a E5 fechar |
+| 2026-11-08 | `GES-13` | Acrescentados na D3, pela pessoa 2, o botão "Nova turma" (abre a D4) e o toque no cartão (abre a D5). O resto da tela não mudou | Sem esses acessos, a D4, a D5, a D5a e a D6 ficavam sem caminho pela interface |
+| 2026-11-08 | `GES-06` a `GES-12` | Enquanto E4 e E5 não fecham, a D3 e a D10 usam os dados falsos de `mocks/consultas.ts` e a gestão usa os de `mocks/gestao.ts`: uma turma criada na D4 ou um aluno vinculado na D6 não aparecem na D3 nem na D10 | Unificar os dados falsos mudaria arquivos da pessoa 3; com a API real, todas as telas mostram os mesmos dados |
+| 2026-11-08 | `FND-03` | Removido o atalho provisório para o catálogo na A1; o catálogo continua na rota `/catalogo` | A A1 é da `ACE-01` (pessoa 1) |

@@ -67,3 +67,20 @@ export interface GrupoHoje {
   minhaTurma: { id: number; nome: string } | null;
   turmas: TurmaGrupoHoje[];
 }
+
+// Corpos enviados na gestão de turmas (etapa 4 do backend). A resposta é a `TurmaDetalhe`.
+export interface TurmaCriacaoRequisicao {
+  grupoId: number;
+  nome: string;
+  numeroVan: number | null;
+  capacidade: number | null;
+  motoristaId: number;
+}
+
+// O grupo da turma não muda depois de criada.
+export interface TurmaEdicaoRequisicao {
+  nome: string;
+  numeroVan: number | null;
+  capacidade: number | null;
+  motoristaId: number;
+}
