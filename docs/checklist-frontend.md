@@ -174,7 +174,7 @@ Backend: E3 (pronta) — `GET /grupos`.
 Backend: E2 (pronta) — login; mesmo 401 para senha errada, e-mail inexistente e usuário inativo.
 
 **Construção**
-- [ ] Tela A1 com logo, e-mail, senha, "Entrar" e link "Criar conta"
+- [x] Tela A1 com logo, e-mail, senha, "Entrar" e link "Criar conta"
 
 **Critérios de aceite**
 - [ ] Login válido leva à tela inicial do papel *(verificação manual)*
@@ -665,4 +665,6 @@ Registrar aqui tudo o que for decidido na implementação e não estiver no plan
 | 2026-11-08 | `GES-13` | Acrescentados na D3, pela pessoa 2, o botão "Nova turma" (abre a D4) e o toque no cartão (abre a D5). O resto da tela não mudou | Sem esses acessos, a D4, a D5, a D5a e a D6 ficavam sem caminho pela interface |
 | 2026-11-08 | `GES-06` a `GES-12` | Enquanto E4 e E5 não fecham, a D3 e a D10 usam os dados falsos de `mocks/consultas.ts` e a gestão usa os de `mocks/gestao.ts`: uma turma criada na D4 ou um aluno vinculado na D6 não aparecem na D3 nem na D10 | Unificar os dados falsos mudaria arquivos da pessoa 3; com a API real, todas as telas mostram os mesmos dados |
 | 2026-11-08 | `FND-03` | Removido o atalho provisório para o catálogo na A1; o catálogo continua na rota `/catalogo` | A A1 é da `ACE-01` (pessoa 1) |
+| 2026-11-15 | `ACE-01` | Acrescentado o `react-native-svg` (incluído no Expo Go) e o componente `Logo`, que desenha `assets/logo-boragora.svg`. A marcação do SVG fica em `components/marca/logoBoragoraXml.ts`, porque o Metro não lê `.svg` como texto | O app não tinha como mostrar SVG; o mesmo caminho serve para o símbolo da A3 |
+| 2026-11-15 | `ACE-01` | Na A1, campos vazios são barrados no app com as mesmas mensagens do backend; o aviso "Sua sessão expirou" aparece acima do formulário. Removido o `PainelSessaoProvisorio` (painéis de teste da `FND-05` a `FND-07`), que nenhuma tela usava mais | O painel previa sair com a A1 real |
 | 2026-11-26 | Todas | Retiradas as anotações "aguardando E4" a "aguardando E8" e marcadas como prontas as etapas E4 a E8 nas linhas "Backend" e na tabela de progresso; ondas 1 a 4 passam a "Em andamento" | O `checklist-backend.md` dá E4 a E8 como concluídas (E9 em andamento). Os critérios seguem desmarcados até serem conferidos com o backend real, com os mocks desligados |
