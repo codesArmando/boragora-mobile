@@ -416,7 +416,7 @@ Backend: E6 (pronta) — `GET` do plano com o bloco `acoes`; 403 sem vínculo.
 - [x] A tela abre corretamente pela rota direta (destino da notificação de lembrete)
 
 **Critérios de aceite**
-- [ ] `estadoDoPlano` cobre as seis linhas da tabela *(teste automatizado)*
+- [x] `estadoDoPlano` cobre as seis linhas da tabela *(teste automatizado)*
 - [ ] Turma sem vínculo mostra acesso negado e volta *(verificação manual)*
 
 ### `ALU-03` Marcar e desmarcar ida e volta · pessoa 4
