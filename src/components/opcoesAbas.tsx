@@ -15,9 +15,12 @@ export const opcoesAbas = {
 };
 
 type NomeIcone = ComponentProps<typeof Feather>['name'];
+type CorIcone = ComponentProps<typeof Feather>['color'];
 
 export function iconeAba(nome: NomeIcone) {
+  // No RN 0.88, `ColorValue` também inclui `null` e número, que o tipo do ícone não aceita.
+  // A barra de abas sempre passa a cor de `tabBarActiveTintColor`/`InactiveTintColor` (texto).
   return function IconeAba({ color }: { color: ColorValue }) {
-    return <Feather name={nome} size={24} color={color} />;
+    return <Feather name={nome} size={24} color={(color ?? undefined) as CorIcone} />;
   };
 }
