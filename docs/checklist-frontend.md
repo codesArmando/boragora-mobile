@@ -19,12 +19,12 @@
 | Onda | Entrega | Backend necessário | Status | Concluída em |
 |---|---|---|---|---|
 | 0 | Fundação | E0, E2 e E3 (prontas) | Em andamento | |
-| 1 | Acesso e grupos | E2 e E3 (prontas) | Aguardando backend | |
-| 2 | Turmas e vínculos | E4 e E5 | Aguardando backend | |
-| 3 | Plano do dia | E6 | Aguardando backend | |
-| 4 | Listas do dia | E7 | Aguardando backend | |
-| 5 | Notificações | E8 | Não iniciada | |
-| 6 | Fechamento | E9 | Não iniciada | |
+| 1 | Acesso e grupos | E2 e E3 (prontas) | Em andamento | |
+| 2 | Turmas e vínculos | E4 e E5 (prontas) | Em andamento | |
+| 3 | Plano do dia | E6 (pronta) | Em andamento | |
+| 4 | Listas do dia | E7 (pronta) | Em andamento | |
+| 5 | Notificações | E8 (pronta) | Não iniciada | |
+| 6 | Fechamento | E9 (em andamento) | Não iniciada | |
 
 Valores de status: Não iniciada, Em andamento, Aguardando backend, Concluída.
 
@@ -33,7 +33,7 @@ Valores de status: Não iniciada, Em andamento, Aguardando backend, Concluída.
 | Pessoa | Entregas | Concluídas |
 |---|---|---|
 | 1 — Acesso, sessão, navegação e notificações | `FND-01`, `FND-05`, `FND-06`, `FND-07`, `ACE-01`, `ACE-02`, `NOT-01` a `NOT-03` | 4 de 9 |
-| 2 — Gestão do motorista-chefe | `FND-03`, `GES-01` a `GES-11` | 0 de 12 (`FND-03` e `GES-01` a `GES-11` construídas; faltam validar no aparelho, e `GES-05` a `GES-11` aguardam E4 e E5) |
+| 2 — Gestão do motorista-chefe | `FND-03`, `GES-01` a `GES-11` | 0 de 12 (`FND-03` e `GES-01` a `GES-11` construídas; faltam validar no aparelho com o backend real, desligando os mocks de E4 e E5) |
 | 3 — Motorista e listas de consulta | `FND-04`, `FND-08`, `LIS-01`, `LIS-03` a `LIS-06`, `GES-12`, `GES-13`, `ACE-04` | 1 de 10 concluídas; 7 com construção parcial e backend/critério pendente |
 | 4 — Aluno | `FND-02`, `ALU-01` a `ALU-06`, `LIS-02`, `ACE-03` | 0 de 9 concluídas; FND-02 construída e ALU/ACE com mocks |
 | Todos | `FEC-01` a `FEC-04` | 0 de 4 |
@@ -249,7 +249,7 @@ Backend: E3 (pronta) — `GET /grupos/{id}`, `PUT` e `DELETE /admin/grupos/{id}`
 - [ ] Excluir grupo com turmas mostra a orientação de excluir as turmas antes *(verificação manual)*
 
 ### `LIS-01` Meus grupos (B8a e C3a) · pessoa 3
-Backend: E3 (pronta) — `GET /grupos` com `minhaTurma`. Dados reais de aluno e motorista comum dependem de E4 e E5.
+Backend: E3 (pronta) — `GET /grupos` com `minhaTurma`. Dados reais de aluno e motorista comum dependem de E4 e E5 (prontas).
 
 **Construção**
 - [ ] Componente único para B8a (aluno) e C3a (motorista e chefe), mudando só o texto de apoio
@@ -265,8 +265,8 @@ Backend: E3 (pronta) — `GET /grupos` com `minhaTurma`. Dados reais de aluno e 
 
 ## Onda 2 — Turmas e vínculos
 
-### `GES-05` Motoristas: lista e cadastro (D9 e D7) · pessoa 2 — aguardando E4
-Backend: E4 — `GET /admin/motoristas` e `POST /admin/motoristas`.
+### `GES-05` Motoristas: lista e cadastro (D9 e D7) · pessoa 2
+Backend: E4 (pronta) — `GET /admin/motoristas` e `POST /admin/motoristas`.
 
 **Construção**
 - [x] `repositories/motoristaRepository.ts`
@@ -281,7 +281,7 @@ Backend: E4 — `GET /admin/motoristas` e `POST /admin/motoristas`.
 - [ ] O motorista criado entra no app e vê as abas de motorista, sem Gestão *(verificação manual)*
 
 ### `GES-13` Lista de turmas (D3) · pessoa 3
-Backend: E4 — `GET /admin/turmas`; E5 para `totalAlunos` maior que zero.
+Backend: E4 (pronta) — `GET /admin/turmas`; E5 (pronta) para `totalAlunos` maior que zero.
 
 **Construção**
 - [x] `listarTurmasAdmin` em `repositories/gestaoConsultaRepository.ts` (E4/E5 pendentes; usando mock)
@@ -293,8 +293,8 @@ Backend: E4 — `GET /admin/turmas`; E5 para `totalAlunos` maior que zero.
 - [ ] Lista as turmas reais, na ordem dos grupos *(verificação manual)*
 - [ ] Tocar em uma turma abre a D5 dela *(verificação manual)*
 
-### `GES-06` Nova turma (D4) · pessoa 2 — aguardando E4
-Backend: E4 — `POST /admin/turmas` com `nome`, validação do nome, 409 `CONFLITO_GRUPO_MOTORISTA`.
+### `GES-06` Nova turma (D4) · pessoa 2
+Backend: E4 (pronta) — `POST /admin/turmas` com `nome`, validação do nome, 409 `CONFLITO_GRUPO_MOTORISTA`.
 
 **Construção**
 - [x] `criarTurma` no repositório
@@ -306,8 +306,8 @@ Backend: E4 — `POST /admin/turmas` com `nome`, validação do nome, 409 `CONFL
 - [ ] Nome em branco ou com mais de 60 caracteres mostra o erro no campo *(verificação manual)*
 - [ ] Motorista que já conduz turma no grupo mostra o conflito junto ao seletor de motorista *(verificação manual)*
 
-### `GES-07` Gerenciar turma: leitura (D5) · pessoa 2 — aguardando E4
-Backend: E4 — `GET /turmas/{id}`.
+### `GES-07` Gerenciar turma: leitura (D5) · pessoa 2
+Backend: E4 (pronta) — `GET /turmas/{id}`.
 
 **Construção**
 - [x] `buscarTurma` no repositório
@@ -316,8 +316,8 @@ Backend: E4 — `GET /turmas/{id}`.
 **Critérios de aceite**
 - [ ] A tela mostra os dados reais da turma, com os alunos em ordem alfabética *(verificação manual)*
 
-### `GES-08` Trocar motorista e editar dados (D5 e D5a) · pessoa 2 — aguardando E4
-Backend: E4 — `PUT /admin/turmas/{id}`; conflito também na troca.
+### `GES-08` Trocar motorista e editar dados (D5 e D5a) · pessoa 2
+Backend: E4 (pronta) — `PUT /admin/turmas/{id}`; conflito também na troca.
 
 **Construção**
 - [x] `atualizarTurma` no repositório
@@ -329,8 +329,8 @@ Backend: E4 — `PUT /admin/turmas/{id}`; conflito também na troca.
 - [ ] Conflito de grupo na troca mostra a mensagem e mantém o motorista anterior *(verificação manual)*
 - [ ] Editar o nome reflete na D5 e na D3 *(verificação manual)*
 
-### `GES-09` Excluir turma (D5a) · pessoa 2 — aguardando E4
-Backend: E4 — `DELETE /admin/turmas/{id}`.
+### `GES-09` Excluir turma (D5a) · pessoa 2
+Backend: E4 (pronta) — `DELETE /admin/turmas/{id}`.
 
 **Construção**
 - [x] `excluirTurma` no repositório
@@ -340,8 +340,8 @@ Backend: E4 — `DELETE /admin/turmas/{id}`.
 - [ ] Excluir volta para a D3 sem a turma *(verificação manual)*
 - [ ] Cancelar o diálogo não chama a API *(verificação manual)*
 
-### `GES-10` Vincular alunos (D6) · pessoa 2 — aguardando E5
-Backend: E5 — `GET /admin/alunos?turmaId=`, `POST /admin/turmas/{id}/alunos`, 409 `CONFLITO_GRUPO_ALUNO`.
+### `GES-10` Vincular alunos (D6) · pessoa 2
+Backend: E5 (pronta) — `GET /admin/alunos?turmaId=`, `POST /admin/turmas/{id}/alunos`, 409 `CONFLITO_GRUPO_ALUNO`.
 
 **Construção**
 - [x] `repositories/alunoRepository.ts` com `buscarAlunos` e `vincularAlunos`
@@ -353,8 +353,8 @@ Backend: E5 — `GET /admin/alunos?turmaId=`, `POST /admin/turmas/{id}/alunos`, 
 - [ ] Vincular dois alunos volta para a D5 com os dois na lista *(verificação manual)*
 - [ ] Conflito no lote mostra quem causou e ninguém é vinculado *(verificação manual)*
 
-### `GES-11` Remover aluno da turma (D5) · pessoa 2 — aguardando E5
-Backend: E5 — `DELETE /admin/turmas/{id}/alunos/{alunoId}`.
+### `GES-11` Remover aluno da turma (D5) · pessoa 2
+Backend: E5 (pronta) — `DELETE /admin/turmas/{id}/alunos/{alunoId}`.
 
 **Construção**
 - [x] `removerAluno` no repositório
@@ -364,7 +364,7 @@ Backend: E5 — `DELETE /admin/turmas/{id}/alunos/{alunoId}`.
 - [ ] O aluno removido some da D5 e passa a aparecer como disponível na D6 *(verificação manual)*
 
 ### `GES-12` Lista de alunos (D10) · pessoa 3
-Backend: E5 — `GET /admin/alunos` sem `turmaId`.
+Backend: E5 (pronta) — `GET /admin/alunos` sem `turmaId`.
 
 **Construção**
 - [x] `listarAlunosAdmin` no repositório (sem `turmaId`; E5 pendente, usando mock)
@@ -377,7 +377,7 @@ Backend: E5 — `GET /admin/alunos` sem `turmaId`.
 - [ ] Um aluno recém-cadastrado aparece como "Sem turma" e passa a "Vinculado" depois da D6 *(verificação manual)*
 
 ### `LIS-06` Alunos da turma (C4) · pessoa 3
-Backend: E4 — `GET /turmas/{id}`; E5 para a lista ter alunos.
+Backend: E4 (pronta) — `GET /turmas/{id}`; E5 (pronta) para a lista ter alunos.
 
 **Construção**
 - [x] Tela C4 com motorista, horários, capacidade (quando houver) e alunos vinculados com o total (E4/E5 pendentes; usando mock)
@@ -389,8 +389,8 @@ Backend: E4 — `GET /turmas/{id}`; E5 para a lista ter alunos.
 
 ## Onda 3 — Plano do dia
 
-### `ALU-01` Tela inicial do aluno e A3 · pessoa 4 (aguardando E6)
-Backend: E6 — `GET /aluno/turmas`, inclusive lista vazia para aluno sem vínculo.
+### `ALU-01` Tela inicial do aluno e A3 · pessoa 4
+Backend: E6 (pronta) — `GET /aluno/turmas`, inclusive lista vazia para aluno sem vínculo.
 
 **Construção**
 - [x] `repositories/planoRepository.ts` com `listarMinhasTurmas`
@@ -402,8 +402,8 @@ Backend: E6 — `GET /aluno/turmas`, inclusive lista vazia para aluno sem víncu
 - [ ] Aluno sem vínculo vê a A3 *(verificação manual)*
 - [ ] Aluno com duas turmas vê dois cartões com o resumo correto *(verificação manual)*
 
-### `ALU-02` Plano de hoje: leitura e estados · pessoa 4 (aguardando E6)
-Backend: E6 — `GET` do plano com o bloco `acoes`; 403 sem vínculo.
+### `ALU-02` Plano de hoje: leitura e estados · pessoa 4
+Backend: E6 (pronta) — `GET` do plano com o bloco `acoes`; 403 sem vínculo.
 
 **Construção**
 - [x] `buscarPlano` no repositório
@@ -415,8 +415,8 @@ Backend: E6 — `GET` do plano com o bloco `acoes`; 403 sem vínculo.
 - [ ] `estadoDoPlano` cobre as seis linhas da tabela *(teste automatizado)*
 - [ ] Turma sem vínculo mostra acesso negado e volta *(verificação manual)*
 
-### `ALU-03` Marcar e desmarcar ida e volta · pessoa 4 (aguardando E6)
-Backend: E6 — `PUT .../plano/ida` e `PUT .../plano/volta`.
+### `ALU-03` Marcar e desmarcar ida e volta · pessoa 4
+Backend: E6 (pronta) — `PUT .../plano/ida` e `PUT .../plano/volta`.
 
 **Construção**
 - [x] `alterarIda` e `alterarVolta` no repositório
@@ -428,8 +428,8 @@ Backend: E6 — `PUT .../plano/ida` e `PUT .../plano/volta`.
 - [ ] Desmarcar tudo volta para a B1 *(verificação manual)*
 - [ ] A tela inicial reflete a mudança ao voltar *(verificação manual)*
 
-### `ALU-04` Status da volta · pessoa 4 (aguardando E6)
-Backend: E6 — `PUT .../plano/status-volta`; 422 `VOLTA_NAO_INCLUIDA`.
+### `ALU-04` Status da volta · pessoa 4
+Backend: E6 (pronta) — `PUT .../plano/status-volta`; 422 `VOLTA_NAO_INCLUIDA`.
 
 **Construção**
 - [x] `alterarStatusVolta` no repositório
@@ -439,8 +439,8 @@ Backend: E6 — `PUT .../plano/status-volta`; 422 `VOLTA_NAO_INCLUIDA`.
 - [ ] Trocar para "Liberado" grava e usa as cores de liberado *(verificação manual)*
 - [ ] Desmarcar a volta esconde o seletor *(verificação manual)*
 
-### `ALU-05` Cancelamento tardio da ida (B3, B4 e B5) · pessoa 4 (aguardando E6)
-Backend: E6 — cancelamento depois da saída grava `cancelouAposSaida`.
+### `ALU-05` Cancelamento tardio da ida (B3, B4 e B5) · pessoa 4
+Backend: E6 (pronta) — cancelamento depois da saída grava `cancelouAposSaida`.
 
 **Construção**
 - [x] Com `acoes.cancelamentoIdaSeraTardio`, desmarcar a ida abre o diálogo da B4
@@ -450,8 +450,8 @@ Backend: E6 — cancelamento depois da saída grava `cancelouAposSaida`.
 - [ ] "Manter a ida" fecha o diálogo sem chamar a API *(verificação manual)*
 - [ ] "Cancelar a ida" leva à B5, com a volta ainda editável *(verificação manual)*
 
-### `ALU-06` Ida bloqueada e dia encerrado (B6 e B7) · pessoa 4 (aguardando E6)
-Backend: E6 — 422 `IDA_ENCERRADA` e `DIA_ENCERRADO`; E0 (pronta) — `app.relogio.fixo`.
+### `ALU-06` Ida bloqueada e dia encerrado (B6 e B7) · pessoa 4
+Backend: E6 (pronta) — 422 `IDA_ENCERRADA` e `DIA_ENCERRADO`; E0 (pronta) — `app.relogio.fixo`.
 
 **Construção**
 - [x] B6: ida bloqueada com "Encerrada às HH:mm" e o aviso; volta disponível
@@ -461,7 +461,7 @@ Backend: E6 — 422 `IDA_ENCERRADA` e `DIA_ENCERRADO`; E0 (pronta) — `app.relo
 - [ ] Com o relógio fixo, todos os horários da tabela de aceite da etapa 6 do backend foram percorridos no app *(verificação manual)*
 - [ ] Se o horário virar com a tela aberta, o 422 é tratado e a tela se corrige *(verificação manual)*
 
-### `ACE-03` Conta do aluno (B9) · pessoa 4 (aguardando E6 para Minhas turmas)
+### `ACE-03` Conta do aluno (B9) · pessoa 4
 Backend: E2 (pronta) para perfil e "Sair"; E6 para "Minhas turmas".
 
 **Construção**
@@ -476,19 +476,19 @@ Backend: E2 (pronta) para perfil e "Sair"; E6 para "Minhas turmas".
 ## Onda 4 — Listas do dia
 
 ### `LIS-04` Hoje do motorista e do chefe (C0 e C0b) · pessoa 3
-Backend: E7 — `GET /motorista/turmas` com contadores; lista vazia para o chefe sem turma.
+Backend: E7 (pronta) — `GET /motorista/turmas` com contadores; lista vazia para o chefe sem turma.
 
 **Construção**
 - [x] `listarTurmasDoMotorista` em `repositories/turmaRepository.ts` (E7 ainda pendente; usando mock)
 - [x] C0: cartão por turma com horários e contadores, "Hoje: ninguém confirmou ainda" e o destaque de cancelamento tardio (mock)
-- [x] C0b: estado vazio do chefe sem turma, com o botão "Ver grupos" (mock vazio; aguardando E7)
+- [x] C0b: estado vazio do chefe sem turma, com o botão "Ver grupos" (feito com mock vazio)
 
 **Critérios de aceite**
 - [ ] Os contadores conferem com a lista do dia da turma *(verificação manual)*
 - [ ] O chefe sem turma vê a C0b *(verificação manual)*
 
 ### `LIS-05` Lista do dia da turma (C1, C2 e C5) · pessoa 3
-Backend: E7 — `GET /turmas/{id}/hoje`.
+Backend: E7 (pronta) — `GET /turmas/{id}/hoje`.
 
 **Construção**
 - [x] `buscarTurmaHoje` em `repositories/turmaRepository.ts` (E7 ainda pendente; usando mock)
@@ -501,8 +501,8 @@ Backend: E7 — `GET /turmas/{id}/hoje`.
 - [x] Na volta, os liberados aparecem primeiro *(ordenação fornecida pela API; verificar integração E7)*
 - [ ] Turma sem confirmações mostra a C5 *(verificação manual)*
 
-### `LIS-02` Grupo do aluno: ida e volta (B8 e B8b) · pessoa 4 (aguardando E7 e LIS-03)
-Backend: E7 — `GET /grupos/{id}/hoje` com `minhaTurma` e `voce`; 403 fora do grupo.
+### `LIS-02` Grupo do aluno: ida e volta (B8 e B8b) · pessoa 4 (aguardando LIS-03)
+Backend: E7 (pronta) — `GET /grupos/{id}/hoje` com `minhaTurma` e `voce`; 403 fora do grupo.
 
 **Construção**
 - [ ] `buscarGrupoHoje` no repositório
@@ -512,7 +512,7 @@ Backend: E7 — `GET /grupos/{id}/hoje` com `minhaTurma` e `voce`; 403 fora do g
 - [ ] Os nomes e contagens conferem com a lista do motorista da mesma turma *(verificação manual)*
 
 ### `LIS-03` Grupo do motorista e do chefe (C3) · pessoa 3
-Backend: E7 — o mesmo endpoint.
+Backend: E7 (pronta) — o mesmo endpoint.
 
 **Construção**
 - [ ] Componente `ListaDoGrupo` (seletor Ida/Volta, turmas e selos), reutilizado pela `LIS-02`
@@ -536,7 +536,7 @@ Backend: E2 (pronta) para perfil e "Sair"; E7 para "Minhas turmas".
 ## Onda 5 — Notificações
 
 ### `NOT-02` Registrar e remover o token · pessoa 1
-Backend: E8 — `PUT /me/push-token` e `DELETE /me/push-token`.
+Backend: E8 (pronta) — `PUT /me/push-token` e `DELETE /me/push-token`.
 
 **Construção**
 - [ ] `repositories/pushRepository.ts`
@@ -547,7 +547,7 @@ Backend: E8 — `PUT /me/push-token` e `DELETE /me/push-token`.
 - [ ] Com a permissão negada, o app segue funcionando sem erro *(verificação manual)*
 
 ### `NOT-03` Receber e abrir notificações (E1) · pessoa 1
-Backend: E8 — push de cancelamento tardio e lembrete, com o campo `data`.
+Backend: E8 (pronta) — push de cancelamento tardio e lembrete, com o campo `data`.
 
 **Construção**
 - [ ] Aviso dentro do app quando a notificação chega com o app aberto
@@ -564,7 +564,7 @@ Backend: E8 — push de cancelamento tardio e lembrete, com o campo `data`.
 ## Onda 6 — Fechamento
 
 ### `FEC-01` Roteiro de teste de ponta a ponta · todos
-Backend: E9 — carga de dados e `app.relogio.fixo`.
+Backend: E9 (em andamento) — carga de dados e `app.relogio.fixo`.
 
 - [ ] Roteiro escrito: o chefe cria grupo, motorista e turma pela aba Gestão; o aluno se cadastra e aparece na D10 como "Sem turma"; o chefe vincula; o aluno declara o plano; o motorista vê a lista; o aluno cancela depois da saída; o motorista recebe o push e cai na C1 com o aluno cancelado
 - [ ] Roteiro executado pela pessoa 1 *(verificação manual)*
@@ -573,7 +573,7 @@ Backend: E9 — carga de dados e `app.relogio.fixo`.
 - [ ] Roteiro executado pela pessoa 4 *(verificação manual)*
 
 ### `FEC-02` Teste no aparelho pela rede local · todos
-Backend: E9 — API escutando em `0.0.0.0`.
+Backend: E9 (em andamento) — API escutando em `0.0.0.0`.
 
 - [ ] O app no celular faz login na API da máquina local *(verificação manual; também marca o último critério da E9 no `checklist-backend.md`)*
 
@@ -659,3 +659,4 @@ Registrar aqui tudo o que for decidido na implementação e não estiver no plan
 | 2026-11-08 | `GES-13` | Acrescentados na D3, pela pessoa 2, o botão "Nova turma" (abre a D4) e o toque no cartão (abre a D5). O resto da tela não mudou | Sem esses acessos, a D4, a D5, a D5a e a D6 ficavam sem caminho pela interface |
 | 2026-11-08 | `GES-06` a `GES-12` | Enquanto E4 e E5 não fecham, a D3 e a D10 usam os dados falsos de `mocks/consultas.ts` e a gestão usa os de `mocks/gestao.ts`: uma turma criada na D4 ou um aluno vinculado na D6 não aparecem na D3 nem na D10 | Unificar os dados falsos mudaria arquivos da pessoa 3; com a API real, todas as telas mostram os mesmos dados |
 | 2026-11-08 | `FND-03` | Removido o atalho provisório para o catálogo na A1; o catálogo continua na rota `/catalogo` | A A1 é da `ACE-01` (pessoa 1) |
+| 2026-11-26 | Todas | Retiradas as anotações "aguardando E4" a "aguardando E8" e marcadas como prontas as etapas E4 a E8 nas linhas "Backend" e na tabela de progresso; ondas 1 a 4 passam a "Em andamento" | O `checklist-backend.md` dá E4 a E8 como concluídas (E9 em andamento). Os critérios seguem desmarcados até serem conferidos com o backend real, com os mocks desligados |
