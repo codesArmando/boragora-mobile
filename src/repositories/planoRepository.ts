@@ -1,13 +1,19 @@
 import { api } from '@/api/api';
 import { planosDoDiaMock, turmasDoAlunoMock } from '@/repositories/mocks/plano';
-import type { PlanoDoDia, StatusVolta, TurmaDoAluno } from '@/types/plano';
+import type { PlanoDoDia, StatusVolta, TurmaDoAluno, TurmaDoAlunoResposta } from '@/types/plano';
 
-// A etapa E6 ainda não começou; trocar para false após a API estar disponível.
-const USAR_MOCKS = true;
+// A etapa E6 do backend está concluída; os dados falsos ficam só para testes sem a API.
+const USAR_MOCKS = false;
 
 export async function listarMinhasTurmas(): Promise<TurmaDoAluno[]> {
   if (USAR_MOCKS) return turmasDoAlunoMock;
-  return api.get<TurmaDoAluno[]>('/aluno/turmas');
+  const resposta = await api.get<TurmaDoAlunoResposta[]>('/aluno/turmas');
+  return resposta.map(({ turma, motorista, incluiIda, incluiVolta }) => ({
+    ...turma,
+    motorista,
+    incluiIda,
+    incluiVolta,
+  }));
 }
 
 export async function buscarPlano(turmaId: number): Promise<PlanoDoDia> {
@@ -20,14 +26,21 @@ export async function buscarPlano(turmaId: number): Promise<PlanoDoDia> {
 }
 
 export async function alterarIda(turmaId: number, incluir: boolean): Promise<PlanoDoDia> {
-  if (USAR_MOCKS) return atualizarMock(turmaId, (plano) => ({
-    ...plano,
-    incluiIda: incluir,
-    cancelouAposSaida: !incluir && plano.idaSaiu && plano.incluiIda,
-    acoes: !incluir && plano.idaSaiu
-      ? { ...plano.acoes, podeCancelarIda: false, podeIncluirIda: false, cancelamentoIdaSeraTardio: false }
-      : plano.acoes,
-  }));
+  if (USAR_MOCKS)
+    return atualizarMock(turmaId, (plano) => ({
+      ...plano,
+      incluiIda: incluir,
+      cancelouAposSaida: !incluir && plano.idaSaiu && plano.incluiIda,
+      acoes:
+        !incluir && plano.idaSaiu
+          ? {
+              ...plano.acoes,
+              podeCancelarIda: false,
+              podeIncluirIda: false,
+              cancelamentoIdaSeraTardio: false,
+            }
+          : plano.acoes,
+    }));
   return api.put<PlanoDoDia>(`/aluno/turmas/${turmaId}/plano/ida`, { incluir });
 }
 
@@ -42,7 +55,10 @@ export async function alterarVolta(turmaId: number, incluir: boolean): Promise<P
   return api.put<PlanoDoDia>(`/aluno/turmas/${turmaId}/plano/volta`, { incluir });
 }
 
-export async function alterarStatusVolta(turmaId: number, status: StatusVolta): Promise<PlanoDoDia> {
+export async function alterarStatusVolta(
+  turmaId: number,
+  status: StatusVolta,
+): Promise<PlanoDoDia> {
   if (USAR_MOCKS) return atualizarMock(turmaId, (plano) => ({ ...plano, statusVolta: status }));
   return api.put<PlanoDoDia>(`/aluno/turmas/${turmaId}/plano/status-volta`, { status });
 }

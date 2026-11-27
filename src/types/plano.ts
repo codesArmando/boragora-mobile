@@ -17,6 +17,15 @@ export interface TurmaDoAluno {
   incluiVolta: boolean;
 }
 
+// Formato de cada item de `GET /aluno/turmas` como a API devolve: a turma vem aninhada.
+// O repositório converte para `TurmaDoAluno`, que é o formato que as telas usam.
+export interface TurmaDoAlunoResposta {
+  turma: Omit<TurmaDoAluno, 'motorista' | 'incluiIda' | 'incluiVolta'>;
+  motorista: { id: number; nome: string };
+  incluiIda: boolean;
+  incluiVolta: boolean;
+}
+
 export interface PlanoAcoes {
   podeIncluirIda: boolean;
   podeCancelarIda: boolean;
@@ -38,9 +47,4 @@ export interface PlanoDoDia {
 }
 
 export type EstadoPlano =
-  | 'ENCERRADO'
-  | 'IDA_CANCELADA'
-  | 'APOS_SAIDA'
-  | 'IDA_BLOQUEADA'
-  | 'DECLARADO'
-  | 'SEM_PLANO';
+  'ENCERRADO' | 'IDA_CANCELADA' | 'APOS_SAIDA' | 'IDA_BLOQUEADA' | 'DECLARADO' | 'SEM_PLANO';

@@ -24,9 +24,9 @@ import type {
   TurmaResumo,
 } from '@/types/turma';
 
-const USAR_MOCKS_TURMAS = true;
-const USAR_MOCKS_GRUPO_HOJE = true;
-const USAR_MOCKS_DETALHE_TURMA = true;
+const USAR_MOCKS_TURMAS = false;
+const USAR_MOCKS_GRUPO_HOJE = false;
+const USAR_MOCKS_DETALHE_TURMA = false;
 
 export async function listarTurmasDoMotorista(): Promise<TurmaResumo[]> {
   if (USAR_MOCKS_TURMAS) return turmasHojeMock;

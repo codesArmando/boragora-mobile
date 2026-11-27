@@ -2,7 +2,7 @@ import { api } from '@/api/api';
 import { ErroApi } from '@/api/ErroApi';
 import { alunos, atraso, turmaPorId, turmasDoAluno } from '@/repositories/mocks/gestao';
 import { mocksAtivos } from '@/repositories/mocks/mocksAtivos';
-import type { AlunoAdmin } from '@/types/aluno';
+import type { AlunoAdmin, AlunoAdminResposta } from '@/types/aluno';
 
 // Vínculos de alunos (etapa 5 do backend). Com `mocksAtivos.e5`, devolve os dados falsos.
 
@@ -33,7 +33,13 @@ export function buscarAlunosParaVincular(turmaId: number, busca: string): Promis
     }
   }
   const consulta = `turmaId=${turmaId}&busca=${encodeURIComponent(busca.trim())}`;
-  return api.get<AlunoAdmin[]>(`/admin/alunos?${consulta}`);
+  return api.get<AlunoAdminResposta[]>(`/admin/alunos?${consulta}`).then((resposta) =>
+    resposta.map((aluno) => ({
+      ...aluno,
+      turmas: aluno.turmas.map((t) => `${t.grupo.nome} · ${t.nome}`),
+      turmaEmConflito: aluno.turmaEmConflito?.nome ?? null,
+    })),
+  );
 }
 
 // Tudo ou nada: se um aluno do lote conflita, ninguém é vinculado.

@@ -3,7 +3,7 @@
 // o valor para `false`. O repositório já tem as duas versões.
 export const mocksAtivos = {
   /** Motoristas e turmas: `GET`/`POST /admin/motoristas`, `/admin/turmas`, `GET /turmas/{id}`. */
-  e4: true,
+  e4: false,
   /** Vínculos: `GET /admin/alunos`, `POST`/`DELETE /admin/turmas/{id}/alunos`. */
-  e5: true,
+  e5: false,
 };

@@ -12,3 +12,23 @@ export interface AlunoAdmin {
   /** Nome da turma em conflito, quando `situacao` é `CONFLITO_NO_GRUPO`. */
   turmaEmConflito: string | null;
 }
+
+/** Turma como a API a devolve dentro de `GET /admin/alunos`. */
+export interface TurmaDoAlunoAdmin {
+  id: number;
+  nome: string;
+  grupo: { id: number; nome: string };
+}
+
+/**
+ * Formato de `GET /admin/alunos` como a API devolve: as turmas vêm como objetos.
+ * O repositório converte para `AlunoAdmin`, que é o formato que a D6 usa.
+ */
+export interface AlunoAdminResposta {
+  id: number;
+  nome: string;
+  email: string;
+  turmas: TurmaDoAlunoAdmin[];
+  situacao: SituacaoAluno | null;
+  turmaEmConflito: TurmaDoAlunoAdmin | null;
+}

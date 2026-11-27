@@ -2,9 +2,9 @@ import { api } from '@/api/api';
 import { alunosMock, motoristasMock, turmasCadastroMock } from '@/repositories/mocks/consultas';
 import type { AlunoAdmin, Motorista, TurmaCadastro } from '@/types/consulta';
 
-const USAR_MOCKS_ALUNOS = true;
-const USAR_MOCKS_TURMAS = true;
-const USAR_MOCKS_MOTORISTAS = true;
+const USAR_MOCKS_ALUNOS = false;
+const USAR_MOCKS_TURMAS = false;
+const USAR_MOCKS_MOTORISTAS = false;
 
 export async function listarAlunosAdmin(): Promise<AlunoAdmin[]> {
   if (USAR_MOCKS_ALUNOS) return alunosMock;

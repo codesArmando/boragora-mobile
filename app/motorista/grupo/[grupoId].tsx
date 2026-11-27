@@ -35,11 +35,30 @@ export default function GrupoMotorista() {
                 {turma.minhaTurma && <Selo tipo="suaTurma" />}
               </View>
               <Contadores {...turma.contadores} />
+              {/* Listas reais da API. O seletor Ida/Volta da C3 fica para a LIS-03. */}
               {turma.minhaTurma && (
                 <View style={estilos.alunos}>
-                  <Text style={estilos.rotulo}>ALUNOS DA SUA TURMA</Text>
-                  {['Beatriz Souza', 'Camila Rocha', 'João Gabriel'].map((nome) => (
-                    <LinhaAluno key={nome} nome={nome} />
+                  <Text style={estilos.rotulo}>VÃO NA IDA</Text>
+                  {turma.listaIda.length === 0 && (
+                    <Text style={estilos.vazio}>Ninguém marcou a ida.</Text>
+                  )}
+                  {turma.listaIda.map((item) => (
+                    <LinhaAluno
+                      key={item.alunoId}
+                      nome={item.nome}
+                      selo={item.situacao === 'CANCELADO_APOS_SAIDA' ? 'cancelado' : undefined}
+                    />
+                  ))}
+                  <Text style={estilos.rotulo}>VOLTAM</Text>
+                  {turma.listaVolta.length === 0 && (
+                    <Text style={estilos.vazio}>Ninguém marcou a volta.</Text>
+                  )}
+                  {turma.listaVolta.map((item) => (
+                    <LinhaAluno
+                      key={item.alunoId}
+                      nome={item.nome}
+                      selo={item.statusVolta === 'LIBERADO' ? 'liberado' : 'emAula'}
+                    />
                   ))}
                 </View>
               )}
@@ -62,5 +81,6 @@ const estilos = StyleSheet.create({
     gap: 8,
   },
   alunos: { gap: 4 },
-  rotulo: { color: cores.textoApagado, fontSize: 13, fontWeight: '700' },
+  rotulo: { color: cores.textoApagado, fontSize: 13, fontWeight: '700', marginTop: 8 },
+  vazio: { color: cores.textoSecundario, fontSize: 15 },
 });

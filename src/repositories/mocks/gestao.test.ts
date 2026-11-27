@@ -8,6 +8,8 @@ import { criarMotorista, listarMotoristas } from '@/repositories/motoristaReposi
 import { atualizarTurma, buscarTurma, excluirTurma } from '@/repositories/turmaRepository';
 
 jest.mock('expo-constants', () => ({ __esModule: true, default: { expoConfig: {} } }));
+// Este arquivo testa os dados falsos: liga os interruptores aqui, independente do valor no app.
+jest.mock('@/repositories/mocks/mocksAtivos', () => ({ mocksAtivos: { e4: true, e5: true } }));
 
 async function capturarErro(promessa: Promise<unknown>): Promise<ErroApi> {
   try {
