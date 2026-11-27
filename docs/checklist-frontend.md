@@ -185,7 +185,7 @@ Backend: E2 (pronta) — login; mesmo 401 para senha errada, e-mail inexistente 
 Backend: E2 (pronta) — cadastro; 409 `EMAIL_JA_CADASTRADO`.
 
 **Construção**
-- [ ] Tela A2 com nome, e-mail, senha, "Criar conta" e link "Entrar"
+- [x] Tela A2 com nome, e-mail, senha, "Criar conta" e link "Entrar"
 
 **Critérios de aceite**
 - [ ] Cadastro válido deixa o aluno logado e abre a A3 *(verificação manual)*
@@ -668,3 +668,4 @@ Registrar aqui tudo o que for decidido na implementação e não estiver no plan
 | 2026-11-15 | `ACE-01` | Acrescentado o `react-native-svg` (incluído no Expo Go) e o componente `Logo`, que desenha `assets/logo-boragora.svg`. A marcação do SVG fica em `components/marca/logoBoragoraXml.ts`, porque o Metro não lê `.svg` como texto | O app não tinha como mostrar SVG; o mesmo caminho serve para o símbolo da A3 |
 | 2026-11-15 | `ACE-01` | Na A1, campos vazios são barrados no app com as mesmas mensagens do backend; o aviso "Sua sessão expirou" aparece acima do formulário. Removido o `PainelSessaoProvisorio` (painéis de teste da `FND-05` a `FND-07`), que nenhuma tela usava mais | O painel previa sair com a A1 real |
 | 2026-11-26 | Todas | Retiradas as anotações "aguardando E4" a "aguardando E8" e marcadas como prontas as etapas E4 a E8 nas linhas "Backend" e na tabela de progresso; ondas 1 a 4 passam a "Em andamento" | O `checklist-backend.md` dá E4 a E8 como concluídas (E9 em andamento). Os critérios seguem desmarcados até serem conferidos com o backend real, com os mocks desligados |
+| 2026-11-26 | `ACE-02` | Na A2, nome vazio, e-mail vazio e senha vazia ou com menos de 6 caracteres são barrados no app com as mesmas mensagens do backend. O 409 `EMAIL_JA_CADASTRADO` marca o campo de e-mail; os demais erros sem `campos` aparecem acima do formulário. Voltar e "Entrar" retornam à A1. Removido o `TelaProvisoria`, que nenhuma rota usa mais | Critérios da `ACE-02`; decisão da `FND-01` sobre o componente provisório |
