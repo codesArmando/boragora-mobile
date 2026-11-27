@@ -556,8 +556,8 @@ Backend: E8 (pronta) — `PUT /me/push-token` e `DELETE /me/push-token`.
 Backend: E8 (pronta) — push de cancelamento tardio e lembrete, com o campo `data`.
 
 **Construção**
-- [ ] Aviso dentro do app quando a notificação chega com o app aberto
-- [ ] Tratamento do toque com o app aberto e fechado, conforme a tabela da seção 5.6 do plano
+- [x] Aviso dentro do app quando a notificação chega com o app aberto
+- [x] Tratamento do toque com o app aberto e fechado, conforme a tabela da seção 5.6 do plano
 
 **Critérios de aceite**
 - [ ] O lembrete abre a B1 da turma, e voltar leva à tela inicial do aluno *(verificação manual)*
@@ -673,3 +673,6 @@ Registrar aqui tudo o que for decidido na implementação e não estiver no plan
 | 2026-11-26 | `NOT-01` | O token aparece, só em desenvolvimento (`__DEV__`), no fim da B9 e da C6 (componente `TokenPushDev`, texto selecionável) | Critério "o app mostra o Expo push token no aparelho" sem tela nova |
 | 2026-11-26 | `NOT-01` | `android.package` = `br.com.boragora.mobile`, `eas.json` com o perfil `development` (APK interno) e `expo-dev-client` instalado. Faltam o `projectId` (`eas init`) e o `google-services.json` do Firebase, que dependem das contas da equipe | O pacote do Android precisa ser o mesmo cadastrado no Firebase |
 | 2026-11-26 | `NOT-02` | O token é enviado depois do login, do cadastro e da sessão restaurada ao abrir o app (o token do Expo pode mudar). Ao sair, o `DELETE /me/push-token` espera no máximo 3 s e as falhas são ignoradas; depois a sessão é apagada. Sem push no aparelho (Expo Go no Android, emulador), o app não chama o `DELETE` | Sem conexão, sair não pode travar; como o backend guarda um token por usuário, sair pelo Expo Go apagaria o token do development build da mesma conta |
+| 2026-11-26 | `NOT-03` | Com o app aberto, a notificação não vira banner do sistema (continua na central): o app mostra o aviso da E1 (`AvisoNotificacao`) por 6 s, no topo; tocar nele abre o mesmo destino do toque na notificação. Título e texto vêm do backend | O plano pede o aviso dentro do app; dois avisos ao mesmo tempo confundiriam |
+| 2026-11-26 | `NOT-03` | `GerenciadorNotificacoes` no layout raiz trata o toque com o app aberto, em segundo plano e fechado (`getLastNotificationResponse`), só depois de restaurar a sessão e sair do índice. A navegação usa `withAnchor`, para voltar levar à tela inicial da aba. Destino em `push/destinoDoToque.ts`, com teste; tipo de outro papel abre a tela inicial do papel | Tabela da seção 5.6; com a sessão expirada, o toque é descartado e a A1 aparece |
+| 2026-11-26 | `NOT-03` | Ícone da notificação no Android: `assets/android-icon-monochrome.png`, com a cor `#FFC800` | O Android pinta o ícone da barra de status com uma só cor |

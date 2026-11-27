@@ -4,6 +4,7 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 
+import { GerenciadorNotificacoes } from '@/components/GerenciadorNotificacoes';
 import { SessaoProvider } from '@/contexts/SessaoContext';
 
 void SplashScreen.preventAutoHideAsync();
@@ -29,6 +30,7 @@ export default function RootLayout() {
     <SessaoProvider>
       <StatusBar style="light" />
       <Stack screenOptions={{ headerShown: false }} />
+      <GerenciadorNotificacoes />
     </SessaoProvider>
   );
 }

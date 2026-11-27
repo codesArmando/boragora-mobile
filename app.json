@@ -37,6 +37,7 @@
       [
         "expo-notifications",
         {
+          "icon": "./assets/android-icon-monochrome.png",
           "color": "#FFC800",
           "defaultChannel": "default"
         }
