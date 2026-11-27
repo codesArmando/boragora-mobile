@@ -32,7 +32,13 @@
           "backgroundColor": "#FFC800"
         }
       ],
-      "expo-status-bar"
+      "expo-status-bar",
+      [
+        "expo-notifications",
+        {
+          "color": "#FFC800"
+        }
+      ]
     ]
   }
 }

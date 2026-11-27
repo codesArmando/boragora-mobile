@@ -15,6 +15,8 @@ import { ErroApi } from '@/api/ErroApi';
 import * as authRepository from '@/repositories/authRepository';
 import type { TokenResposta } from '@/types/auth';
 import type { Usuario } from '@/types/usuario';
+import { obterTokenPush } from '@/notificacoes/push';
+import { registrarTokenPush, removerTokenPush } from '@/repositories/pushRepository';
 
 // Usuário logado e token (seção 2.2 do plano). O token fica no expo-secure-store e vale
 // 1 dia, sem refresh: quando expira, a API devolve 401 e a sessão é encerrada aqui.
@@ -50,6 +52,21 @@ export function SessaoProvider({ children }: { children: ReactNode }) {
   const [sessaoExpirada, setSessaoExpirada] = useState(false);
   // Evita encerrar duas vezes quando várias requisições recebem 401 ao mesmo tempo.
   const sessaoAtiva = useRef(false);
+  // Token do Expo Push registrado nesta sessão (NOT-02); some ao sair.
+  const tokenPush = useRef<string | null>(null);
+
+  // Fora do Expo Go e com projectId do EAS, envia o token do aparelho. Falha no push só vai para
+  // o log: não pode impedir o login.
+  const ativarPush = useCallback(async () => {
+    try {
+      const token = await obterTokenPush();
+      if (token === null) return;
+      await registrarTokenPush(token);
+      tokenPush.current = token;
+    } catch (erro) {
+      console.warn('Não foi possível registrar o token de push.', erro);
+    }
+  }, []);
 
   const limpar = useCallback(async () => {
     sessaoAtiva.current = false;
@@ -58,14 +75,18 @@ export function SessaoProvider({ children }: { children: ReactNode }) {
     await SecureStore.deleteItemAsync(CHAVE_TOKEN).catch(() => undefined);
   }, []);
 
-  const iniciar = useCallback(async ({ token, usuario: novoUsuario }: TokenResposta) => {
-    await SecureStore.setItemAsync(CHAVE_TOKEN, token);
-    setAuthToken(token);
-    sessaoAtiva.current = true;
-    setUsuario(novoUsuario);
-    setSessaoExpirada(false);
-    return novoUsuario;
-  }, []);
+  const iniciar = useCallback(
+    async ({ token, usuario: novoUsuario }: TokenResposta) => {
+      await SecureStore.setItemAsync(CHAVE_TOKEN, token);
+      setAuthToken(token);
+      sessaoAtiva.current = true;
+      setUsuario(novoUsuario);
+      setSessaoExpirada(false);
+      void ativarPush();
+      return novoUsuario;
+    },
+    [ativarPush],
+  );
 
   const encerrarPorExpiracao = useCallback(() => {
     if (!sessaoAtiva.current) {
@@ -77,23 +98,27 @@ export function SessaoProvider({ children }: { children: ReactNode }) {
   }, [limpar]);
 
   // Confere com `GET /me` o token lido do expo-secure-store ao abrir o app.
-  const conferirTokenGravado = useCallback(async (token: string | null) => {
-    try {
-      if (token === null) {
-        return;
+  const conferirTokenGravado = useCallback(
+    async (token: string | null) => {
+      try {
+        if (token === null) {
+          return;
+        }
+        setAuthToken(token);
+        sessaoAtiva.current = true;
+        setUsuario(await authRepository.buscarUsuarioLogado());
+        void ativarPush();
+      } catch (erro) {
+        // O 401 já foi tratado por `encerrarPorExpiracao`.
+        if (!(erro instanceof ErroApi && erro.status === 401)) {
+          setErroRestauracao(erro instanceof ErroApi ? erro : ErroApi.semConexao());
+        }
+      } finally {
+        setRestaurando(false);
       }
-      setAuthToken(token);
-      sessaoAtiva.current = true;
-      setUsuario(await authRepository.buscarUsuarioLogado());
-    } catch (erro) {
-      // O 401 já foi tratado por `encerrarPorExpiracao`.
-      if (!(erro instanceof ErroApi && erro.status === 401)) {
-        setErroRestauracao(erro instanceof ErroApi ? erro : ErroApi.semConexao());
-      }
-    } finally {
-      setRestaurando(false);
-    }
-  }, []);
+    },
+    [ativarPush],
+  );
 
   const restaurar = useCallback(async () => {
     setRestaurando(true);
@@ -119,6 +144,11 @@ export function SessaoProvider({ children }: { children: ReactNode }) {
   );
 
   const sair = useCallback(async () => {
+    // Remove o token antes de apagar a sessão, enquanto a requisição ainda tem autorização.
+    if (tokenPush.current !== null) {
+      await removerTokenPush().catch(() => undefined);
+      tokenPush.current = null;
+    }
     await limpar();
     setSessaoExpirada(false);
   }, [limpar]);

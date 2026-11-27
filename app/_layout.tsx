@@ -5,10 +5,12 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 
 import { SessaoProvider } from '@/contexts/SessaoContext';
+import { useNotificacoes } from '@/notificacoes/useNotificacoes';
 
 void SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  useNotificacoes();
   const [fontesCarregadas, erroFontes] = useFonts({
     Barlow_400Regular: require('../assets/fonts/Barlow_400Regular.ttf'),
     Barlow_500Medium: require('../assets/fonts/Barlow_500Medium.ttf'),
