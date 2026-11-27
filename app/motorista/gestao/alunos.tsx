@@ -1,11 +1,20 @@
-import { useCallback, useMemo, useState, type Dispatch, type SetStateAction } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
+import { CampoBusca } from '@/components/CampoBusca';
 import { LinhaPessoa } from '@/components/LinhaPessoa';
 import { Selo } from '@/components/Selo';
-import type { AlunoAdmin } from '@/types/consulta';
 import { TelaDados } from '@/components/TelaDados';
 import { listarAlunosAdmin } from '@/repositories/gestaoConsultaRepository';
+import { mocksAtivos } from '@/repositories/mocks/mocksAtivos';
+import type { AlunoAdmin } from '@/types/consulta';
 import { cores } from '@/theme/cores';
 
 export default function AlunosAdmin() {
@@ -32,22 +41,26 @@ function ListaAlunos({
   busca: string;
   setBusca: Dispatch<SetStateAction<string>>;
 }) {
+  const [resultadosMock, setResultadosMock] = useState<AlunoAdmin[]>(alunos);
   const filtrados = useMemo(() => {
-    const termo = busca.trim().toLocaleLowerCase();
+    if (mocksAtivos.e5) return resultadosMock;
+    const termo = busca.trim().toLocaleLowerCase('pt-BR');
     return alunos.filter((aluno) =>
-      `${aluno.nome} ${aluno.email}`.toLocaleLowerCase().includes(termo),
+      `${aluno.nome} ${aluno.email}`.toLocaleLowerCase('pt-BR').includes(termo),
     );
-  }, [alunos, busca]);
+  }, [alunos, busca, resultadosMock]);
+
+  useEffect(() => {
+    if (!mocksAtivos.e5) return;
+    const temporizador = setTimeout(() => {
+      void listarAlunosAdmin(busca).then(setResultadosMock);
+    }, 250);
+    return () => clearTimeout(temporizador);
+  }, [busca]);
+
   return (
     <View>
-      <TextInput
-        value={busca}
-        onChangeText={setBusca}
-        placeholder="Buscar por nome ou e-mail"
-        placeholderTextColor={cores.textoApagado}
-        style={estilos.busca}
-        accessibilityLabel="Buscar aluno por nome ou e-mail"
-      />
+      <CampoBusca value={busca} onChangeText={setBusca} />
       <View style={estilos.cabecalho}>
         <Text style={estilos.total}>{filtrados.length} ALUNOS CADASTRADOS</Text>
       </View>
@@ -65,17 +78,6 @@ function ListaAlunos({
 }
 
 const estilos = StyleSheet.create({
-  busca: {
-    minHeight: 54,
-    marginTop: 10,
-    paddingHorizontal: 16,
-    color: cores.texto,
-    backgroundColor: cores.superficie,
-    borderWidth: 1.5,
-    borderColor: cores.borda,
-    borderRadius: 12,
-    fontSize: 16,
-  },
   cabecalho: { marginTop: 16, marginBottom: 4 },
   total: { color: cores.textoApagado, fontSize: 14, fontWeight: '700' },
   linha: { flexDirection: 'row', alignItems: 'center', gap: 8 },

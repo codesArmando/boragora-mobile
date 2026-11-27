@@ -145,6 +145,10 @@ docs/                 plano, checklist e protótipo das telas
 
 Regras de camadas: tela (`app/`) → repositório (`src/repositories/`) → api (`src/api/api.ts`). A tela nunca chama `fetch` direto.
 
+## Dados de demonstração
+
+As telas do motorista e as listas D3/D10 usam respostas simuladas enquanto as etapas correspondentes da API não estão prontas. Os interruptores ficam em `src/repositories/mocks/mocksAtivos.ts`: `e4` para turmas/detalhes, `e5` para alunos e `e7` para listas do dia; E3 (`GET /grupos`) usa o endpoint real. Os mocks são tipados como as respostas reais e os dados cadastrais compartilham turmas e vínculos para que D3, D10 e C4 consultem os mesmos registros.
+
 ## Documentação
 
 | Documento | Conteúdo |

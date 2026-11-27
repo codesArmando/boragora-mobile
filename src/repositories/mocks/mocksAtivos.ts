@@ -6,4 +6,8 @@ export const mocksAtivos = {
   e4: false,
   /** Vínculos: `GET /admin/alunos`, `POST`/`DELETE /admin/turmas/{id}/alunos`. */
   e5: false,
+  /** Grupos: `GET /grupos` e `GET /grupos/{id}` da etapa E3, concluída. */
+  e3: false,
+  /** Listagens do dia de motoristas, grupos e turmas (etapa E7, concluída). */
+  e7: false,
 };

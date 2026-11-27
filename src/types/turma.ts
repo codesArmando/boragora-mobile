@@ -9,7 +9,12 @@ export interface TurmaResumo {
     horarioSaidaVolta: string;
   };
   motorista: { id: number; nome: string };
-  contadores: { vaoNaIda: number; voltam: number; liberados: number; canceladosAposSaida: number };
+  contadores: {
+    vaoNaIda: number;
+    voltam: number;
+    liberados: number;
+    canceladosAposSaida: number;
+  };
   semConfirmacoes: boolean;
 }
 
@@ -33,7 +38,12 @@ export interface TurmaListaHoje {
   nome: string;
   grupo: { id: number; nome: string; horarioSaidaIda: string; horarioSaidaVolta: string };
   motorista: { id: number; nome: string };
-  contadores: { vaoNaIda: number; voltam: number; liberados: number; canceladosAposSaida: number };
+  contadores: {
+    vaoNaIda: number;
+    voltam: number;
+    liberados: number;
+    canceladosAposSaida: number;
+  };
   semConfirmacoes: boolean;
   listaIda: {
     alunoId: number;
@@ -53,7 +63,13 @@ export interface TurmaGrupoHoje {
   id: number;
   nome: string;
   minhaTurma: boolean;
-  contadores: { vaoNaIda: number; voltam: number; liberados: number; canceladosAposSaida: number };
+  contadores: {
+    vaoNaIda: number;
+    voltam: number;
+    liberados: number;
+    canceladosAposSaida: number;
+  };
+  motorista: { id: number; nome: string };
   listaIda: TurmaListaHoje['listaIda'];
   listaVolta: TurmaListaHoje['listaVolta'];
 }

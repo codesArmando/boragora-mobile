@@ -19,6 +19,7 @@ export function TelaDados<T>({
   mensagemVazia = 'Nenhum item para mostrar.',
   acaoVazia,
   recarregarAoFocar = true,
+  margemTopo = true,
 }: {
   carregar: () => Promise<T>;
   renderizar: (dados: T) => ReactNode;
@@ -28,6 +29,8 @@ export function TelaDados<T>({
   mensagemVazia?: string;
   acaoVazia?: ReactNode;
   recarregarAoFocar?: boolean;
+  /** `false` quando a tela já tem um cabeçalho próprio acima (evita a margem dobrada). */
+  margemTopo?: boolean;
 }) {
   const [dados, setDados] = useState<T | null>(null);
   const [erro, setErro] = useState<unknown>(null);
@@ -64,11 +67,11 @@ export function TelaDados<T>({
   );
 
   return (
-    <SafeAreaView style={estilos.tela} edges={['top']}>
+    <SafeAreaView style={estilos.tela} edges={margemTopo ? ['top'] : []}>
       <ListaAtualizavel atualizando={atualizando} aoAtualizar={() => void buscar(true)}>
         <View style={estilos.conteudo}>
-          <Text style={estilos.titulo}>{titulo}</Text>
-          {subtitulo && <Text style={estilos.subtitulo}>{subtitulo}</Text>}
+          {titulo !== '' ? <Text style={estilos.titulo}>{titulo}</Text> : null}
+          {subtitulo ? <Text style={estilos.subtitulo}>{subtitulo}</Text> : null}
           {carregando && dados === null ? (
             <Carregando />
           ) : erro !== null && dados === null ? (

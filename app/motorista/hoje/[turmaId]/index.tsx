@@ -1,8 +1,10 @@
-import { Link, useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
+import Feather from '@expo/vector-icons/Feather';
 import { useCallback, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Cartao } from '@/components/Cartao';
+import { Contadores } from '@/components/Contadores';
 import { LinhaAluno } from '@/components/LinhaAluno';
 import { Selo } from '@/components/Selo';
 import { TelaDados } from '@/components/TelaDados';
@@ -27,17 +29,25 @@ export default function ListaDoDia() {
         const lista = lado === 'ida' ? turma.listaIda : turma.listaVolta;
         return (
           <View style={estilos.conteudo}>
-            <View style={estilos.cabecalho}>
-              <Text style={estilos.nome}>{turma.nome}</Text>
-              <Text style={estilos.horarios}>
-                {turma.grupo.nome} · {turma.grupo.horarioSaidaIda} / {turma.grupo.horarioSaidaVolta}
-              </Text>
-              <Link href={`/motorista/hoje/${turma.id}/alunos`} asChild>
-                <Pressable style={estilos.botaoContorno}>
-                  <Text style={estilos.textoBotao}>Alunos vinculados</Text>
-                </Pressable>
-              </Link>
+            <View style={estilos.cabecalhoLinha}>
+              <View style={estilos.cabecalho}>
+                <Text style={estilos.nome}>
+                  {turma.nome} · {turma.grupo.nome}
+                </Text>
+                <Text style={estilos.horarios}>
+                  Ida {turma.grupo.horarioSaidaIda} · Volta {turma.grupo.horarioSaidaVolta}
+                </Text>
+              </View>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Alunos da turma"
+                onPress={() => router.push(`/motorista/hoje/${turma.id}/alunos`)}
+                style={estilos.atalhoAlunos}
+              >
+                <Feather name="users" size={20} color={cores.texto} />
+              </Pressable>
             </View>
+            <Contadores {...turma.contadores} />
             <View style={estilos.seletor}>
               <BotaoLado texto="Ida" ativo={lado === 'ida'} aoPressionar={() => setLado('ida')} />
               <BotaoLado
@@ -58,16 +68,19 @@ export default function ListaDoDia() {
                     <LinhaAluno
                       nome={aluno.nome}
                       selo={
-                        // Na ida só quem cancelou depois da saída tem selo (C1); "Em aula" é da volta.
                         'situacao' in aluno
-                          ? aluno.situacao === 'CANCELADO_APOS_SAIDA'
-                            ? 'cancelado'
-                            : undefined
+                          ? undefined
                           : aluno.statusVolta === 'LIBERADO'
                             ? 'liberado'
                             : 'emAula'
                       }
                     />
+                    {'situacao' in aluno && aluno.situacao === 'CANCELADO_APOS_SAIDA' ? (
+                      <Text style={estilos.cancelamento}>Cancelou depois da saída</Text>
+                    ) : null}
+                    {'situacao' in aluno && aluno.situacao === 'CANCELADO_APOS_SAIDA' ? (
+                      <Selo tipo="cancelado" />
+                    ) : null}
                   </View>
                 ))}
               </View>
@@ -97,18 +110,20 @@ function BotaoLado({
 
 const estilos = StyleSheet.create({
   conteudo: { gap: 14 },
-  cabecalho: { gap: 8 },
+  cabecalho: { gap: 8, flex: 1 },
   nome: { color: cores.texto, fontSize: 26, fontWeight: '800', fontStyle: 'italic' },
-  horarios: { color: cores.textoSecundario, fontSize: 16 },
-  botaoContorno: {
-    minHeight: medidas.areaToqueMinima,
+  horarios: { color: cores.textoApagado, fontSize: 14, fontWeight: '500' },
+  cabecalhoLinha: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  atalhoAlunos: {
+    width: medidas.areaToqueMinima,
+    height: medidas.areaToqueMinima,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: cores.bordaBotaoSecundario,
-    borderRadius: medidas.raioBotao,
+    borderColor: cores.borda,
+    borderRadius: 22,
+    backgroundColor: cores.superficie,
   },
-  textoBotao: { color: cores.texto, fontWeight: '700' },
   seletor: {
     flexDirection: 'row',
     padding: 4,
@@ -125,7 +140,8 @@ const estilos = StyleSheet.create({
   opcaoAtiva: { backgroundColor: cores.destaque },
   opcaoTexto: { color: cores.textoSecundario, fontWeight: '700' },
   opcaoTextoAtivo: { color: cores.textoSobreDestaque },
-  lista: { gap: 4 },
+  lista: { gap: 0 },
   alunoLinha: { flexDirection: 'row', alignItems: 'center' },
+  cancelamento: { color: cores.perigo, marginLeft: 52, marginBottom: 8 },
   vazio: { color: cores.textoSecundario, fontSize: 16, textAlign: 'center' },
 });
