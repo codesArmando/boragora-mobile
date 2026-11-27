@@ -23,17 +23,28 @@ export default function ContaAluno() {
   const carregar = useCallback(async () => {
     setCarregando(true);
     setErro(null);
-    try { setTurmas(await listarMinhasTurmas()); }
-    catch (falha) { setErro(falha); }
-    finally { setCarregando(false); }
+    try {
+      setTurmas(await listarMinhasTurmas());
+    } catch (falha) {
+      setErro(falha);
+    } finally {
+      setCarregando(false);
+    }
   }, []);
 
-  useFocusEffect(useCallback(() => { void carregar(); }, [carregar]));
+  useFocusEffect(
+    useCallback(() => {
+      void carregar();
+    }, [carregar]),
+  );
 
   async function encerrarSessao() {
     setSaindo(true);
-    try { await sair(); }
-    finally { setSaindo(false); }
+    try {
+      await sair();
+    } finally {
+      setSaindo(false);
+    }
   }
 
   if (usuario === null) return null;
@@ -44,7 +55,9 @@ export default function ContaAluno() {
         <Text style={estilos.titulo}>Conta</Text>
         <PerfilConta usuario={usuario} aoSair={() => void encerrarSessao()} ocupado={saindo} />
         <Text style={estilos.tituloSecao}>Minhas turmas</Text>
-        {carregando && turmas === null ? <Carregando /> : erro !== null && turmas === null ? (
+        {carregando && turmas === null ? (
+          <Carregando />
+        ) : erro !== null && turmas === null ? (
           <EstadoErro erro={erro} tentarNovamente={() => void carregar()} />
         ) : turmas?.length === 0 ? (
           <Text style={estilos.vazio}>Você ainda não está em nenhuma turma.</Text>
@@ -52,13 +65,17 @@ export default function ContaAluno() {
           <View style={estilos.lista}>
             {turmas?.map((turma) => (
               <Cartao key={turma.id}>
-                <Text style={estilos.nomeTurma}>{turma.grupo.nome} · {turma.nome}</Text>
+                <Text style={estilos.nomeTurma}>
+                  {turma.grupo.nome} · {turma.nome}
+                </Text>
                 <Text style={estilos.detalhe}>Motorista: {turma.motorista.nome}</Text>
               </Cartao>
             ))}
           </View>
         )}
-        {erro !== null && turmas !== null && <EstadoErro erro={erro} tentarNovamente={() => void carregar()} />}
+        {erro !== null && turmas !== null && (
+          <EstadoErro erro={erro} tentarNovamente={() => void carregar()} />
+        )}
       </ScrollView>
     </Tela>
   );
@@ -67,7 +84,13 @@ export default function ContaAluno() {
 const estilos = StyleSheet.create({
   conteudo: { paddingBottom: 30, gap: 12 },
   titulo: { color: cores.texto, fontFamily: tipografia.titulo, fontSize: 32, fontStyle: 'italic' },
-  tituloSecao: { color: cores.texto, fontFamily: tipografia.titulo, fontSize: 23, fontStyle: 'italic', marginTop: 10 },
+  tituloSecao: {
+    color: cores.texto,
+    fontFamily: tipografia.titulo,
+    fontSize: 23,
+    fontStyle: 'italic',
+    marginTop: 10,
+  },
   lista: { gap: 12 },
   nomeTurma: { color: cores.texto, fontFamily: tipografia.numero, fontSize: 20 },
   detalhe: { color: cores.textoSecundario, fontFamily: tipografia.texto.regular, fontSize: 15 },

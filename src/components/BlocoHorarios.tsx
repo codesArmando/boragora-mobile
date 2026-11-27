@@ -34,5 +34,9 @@ const estilos = StyleSheet.create({
     borderRadius: 12,
   },
   rotulo: { color: cores.textoSecundario, fontSize: 14 },
-  horario: { color: cores.texto, fontFamily: tipografia.numero, fontSize: tipografia.tamanhoNumero },
+  horario: {
+    color: cores.texto,
+    fontFamily: tipografia.numero,
+    fontSize: tipografia.tamanhoNumero,
+  },
 });

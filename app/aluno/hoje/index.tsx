@@ -1,7 +1,6 @@
-import { Link } from 'expo-router';
+import { Link, useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useFocusEffect } from 'expo-router';
 
 import { BlocoHorarios } from '@/components/BlocoHorarios';
 import { Carregando } from '@/components/Carregando';
