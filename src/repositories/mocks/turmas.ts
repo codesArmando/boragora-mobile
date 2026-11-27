@@ -32,14 +32,22 @@ export const turmasHojeMock: TurmaResumo[] = [
 ];
 
 const listaIdaMock: TurmaListaHoje['listaIda'] = [
-  { alunoId: 2, nome: 'Camila Rocha', situacao: 'CANCELADO_APOS_SAIDA', voce: false },
-  { alunoId: 3, nome: 'João Gabriel', situacao: 'CONFIRMADO', voce: false },
-  { alunoId: 1, nome: 'Beatriz Souza', situacao: 'CONFIRMADO', voce: false },
+  { alunoId: 1, nome: 'João Gabriel', situacao: 'CANCELADO_APOS_SAIDA', voce: false },
+  { alunoId: 2, nome: 'Mariana Alves', situacao: 'CONFIRMADO', voce: false },
+  { alunoId: 3, nome: 'Lucas Pereira', situacao: 'CONFIRMADO', voce: false },
+  { alunoId: 4, nome: 'Beatriz Souza', situacao: 'CONFIRMADO', voce: false },
+  { alunoId: 5, nome: 'Rafael Lima', situacao: 'CONFIRMADO', voce: false },
+  { alunoId: 6, nome: 'Camila Rocha', situacao: 'CONFIRMADO', voce: false },
 ];
 
 const listaVoltaMock: TurmaListaHoje['listaVolta'] = [
-  { alunoId: 1, nome: 'Beatriz Souza', statusVolta: 'LIBERADO', voce: false },
+  { alunoId: 1, nome: 'Mariana Alves', statusVolta: 'LIBERADO', voce: false },
+  { alunoId: 2, nome: 'Rafael Lima', statusVolta: 'LIBERADO', voce: false },
   { alunoId: 3, nome: 'João Gabriel', statusVolta: 'EM_AULA', voce: false },
+  { alunoId: 4, nome: 'Lucas Pereira', statusVolta: 'EM_AULA', voce: false },
+  { alunoId: 5, nome: 'Beatriz Souza', statusVolta: 'EM_AULA', voce: false },
+  { alunoId: 6, nome: 'Camila Rocha', statusVolta: 'EM_AULA', voce: false },
+  { alunoId: 7, nome: 'Larissa Costa', statusVolta: 'EM_AULA', voce: false },
 ];
 
 export const turmaListaHojeMock: TurmaListaHoje = {
@@ -66,6 +74,7 @@ export const turmasGrupoHojeMock: GrupoHoje[] = [
         id: 1,
         nome: 'Van 2',
         minhaTurma: true,
+        motorista: { id: 1, nome: 'Vanderlei Dias' },
         contadores: { vaoNaIda: 0, voltam: 0, liberados: 0, canceladosAposSaida: 0 },
         listaIda: [],
         listaVolta: [],
@@ -74,9 +83,18 @@ export const turmasGrupoHojeMock: GrupoHoje[] = [
         id: 3,
         nome: 'Van 1',
         minhaTurma: false,
+        motorista: { id: 2, nome: 'Carlos Menezes' },
         contadores: { vaoNaIda: 4, voltam: 5, liberados: 1, canceladosAposSaida: 0 },
-        listaIda: [],
-        listaVolta: [],
+        listaIda: [
+          { alunoId: 15, nome: 'Ana Clara Ribeiro', situacao: 'CONFIRMADO', voce: false },
+          { alunoId: 16, nome: 'Gustavo Nunes', situacao: 'CONFIRMADO', voce: false },
+          { alunoId: 17, nome: 'Isabela Reis', situacao: 'CONFIRMADO', voce: false },
+        ],
+        listaVolta: [
+          { alunoId: 15, nome: 'Ana Clara Ribeiro', statusVolta: 'LIBERADO', voce: false },
+          { alunoId: 16, nome: 'Gustavo Nunes', statusVolta: 'EM_AULA', voce: false },
+          { alunoId: 17, nome: 'Isabela Reis', statusVolta: 'EM_AULA', voce: false },
+        ],
       },
     ],
   },
@@ -86,12 +104,13 @@ export const turmasGrupoHojeMock: GrupoHoje[] = [
     periodo: 'NOITE',
     horarioSaidaIda: '18:10',
     horarioSaidaVolta: '22:30',
-    minhaTurma: null,
+    minhaTurma: { id: 2, nome: 'Van 2' },
     turmas: [
       {
         id: 2,
         nome: 'Van 2',
-        minhaTurma: false,
+        minhaTurma: true,
+        motorista: { id: 1, nome: 'Vanderlei Dias' },
         contadores: { vaoNaIda: 5, voltam: 7, liberados: 2, canceladosAposSaida: 1 },
         listaIda: listaIdaMock,
         listaVolta: listaVoltaMock,
@@ -100,9 +119,16 @@ export const turmasGrupoHojeMock: GrupoHoje[] = [
         id: 4,
         nome: 'Van 1',
         minhaTurma: false,
+        motorista: { id: 2, nome: 'Carlos Menezes' },
         contadores: { vaoNaIda: 3, voltam: 4, liberados: 0, canceladosAposSaida: 0 },
-        listaIda: [],
-        listaVolta: [],
+        listaIda: [
+          { alunoId: 18, nome: 'Camila Rocha', situacao: 'CONFIRMADO', voce: false },
+          { alunoId: 19, nome: 'Pedro Henrique Dias', situacao: 'CONFIRMADO', voce: false },
+        ],
+        listaVolta: [
+          { alunoId: 18, nome: 'Camila Rocha', statusVolta: 'EM_AULA', voce: false },
+          { alunoId: 19, nome: 'Pedro Henrique Dias', statusVolta: 'EM_AULA', voce: false },
+        ],
       },
     ],
   },
@@ -116,13 +142,13 @@ export const turmaDetalheMock: TurmaDetalhe = {
   grupo: { id: 2, nome: 'Noite', horarioSaidaIda: '18:10', horarioSaidaVolta: '22:30' },
   motorista: { id: 1, nome: 'Vanderlei Dias' },
   alunos: [
-    { id: 1, nome: 'Beatriz Souza' },
-    { id: 2, nome: 'Camila Rocha' },
-    { id: 3, nome: 'João Gabriel' },
-    { id: 4, nome: 'Larissa Costa' },
-    { id: 5, nome: 'Lucas Pereira' },
-    { id: 6, nome: 'Mariana Alves' },
-    { id: 7, nome: 'Pedro Henrique Dias' },
-    { id: 8, nome: 'Rafael Lima' },
+    { id: 8, nome: 'Beatriz Souza' },
+    { id: 9, nome: 'Camila Rocha' },
+    { id: 7, nome: 'João Gabriel' },
+    { id: 10, nome: 'Larissa Costa' },
+    { id: 11, nome: 'Lucas Pereira' },
+    { id: 12, nome: 'Mariana Alves' },
+    { id: 13, nome: 'Pedro Henrique Dias' },
+    { id: 14, nome: 'Rafael Lima' },
   ],
 };

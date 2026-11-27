@@ -1,5 +1,19 @@
-import { TelaProvisoria } from '@/components/TelaProvisoria';
+import { useLocalSearchParams } from 'expo-router';
+import { useCallback } from 'react';
+import { ListaDoGrupo } from '@/components/ListaDoGrupo';
+import { TelaDados } from '@/components/TelaDados';
+import { buscarGrupoHojeAluno } from '@/repositories/turmaRepository';
 
 export default function GrupoAluno() {
-  return <TelaProvisoria telas="B8 e B8b" titulo="Grupo: ida e volta" entrega="LIS-02" />;
+  const { grupoId } = useLocalSearchParams<{ grupoId: string }>();
+  const id = Number(grupoId);
+  const carregar = useCallback(() => buscarGrupoHojeAluno(id), [id]);
+  return (
+    <TelaDados
+      carregar={carregar}
+      titulo=""
+      subtitulo=""
+      renderizar={(grupo) => <ListaDoGrupo grupo={grupo} papel="aluno" />}
+    />
+  );
 }

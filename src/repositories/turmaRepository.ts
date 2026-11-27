@@ -1,5 +1,5 @@
 import { api } from '@/api/api';
-import { buscarGrupo } from '@/repositories/grupoRepository';
+import { buscarGrupo, buscarGrupoHoje as importarGrupoHoje } from '@/repositories/grupoRepository';
 import {
   atraso,
   conferirConflitoDeMotorista,
@@ -9,14 +9,8 @@ import {
   turmas,
 } from '@/repositories/mocks/gestao';
 import { mocksAtivos } from '@/repositories/mocks/mocksAtivos';
-import {
-  turmaDetalheMock,
-  turmaListaHojeMock,
-  turmasGrupoHojeMock,
-  turmasHojeMock,
-} from '@/repositories/mocks/turmas';
+import { turmaListaHojeMock, turmasHojeMock } from '@/repositories/mocks/turmas';
 import type {
-  GrupoHoje,
   TurmaCriacaoRequisicao,
   TurmaDetalhe,
   TurmaEdicaoRequisicao,
@@ -24,9 +18,8 @@ import type {
   TurmaResumo,
 } from '@/types/turma';
 
-const USAR_MOCKS_TURMAS = true;
-const USAR_MOCKS_GRUPO_HOJE = true;
-const USAR_MOCKS_DETALHE_TURMA = true;
+const USAR_MOCKS_TURMAS = mocksAtivos.e7;
+const USAR_MOCKS_DETALHE_TURMA = mocksAtivos.e4;
 
 export async function listarTurmasDoMotorista(): Promise<TurmaResumo[]> {
   if (USAR_MOCKS_TURMAS) return turmasHojeMock;
@@ -34,22 +27,35 @@ export async function listarTurmasDoMotorista(): Promise<TurmaResumo[]> {
 }
 
 export async function buscarTurmaHoje(id: number): Promise<TurmaListaHoje> {
-  if (USAR_MOCKS_TURMAS) return { ...turmaListaHojeMock, id };
+  if (USAR_MOCKS_TURMAS) {
+    if (id === 1) {
+      return {
+        ...turmaListaHojeMock,
+        id,
+        nome: 'Van 2',
+        grupo: { id: 1, nome: 'Manhã', horarioSaidaIda: '06:20', horarioSaidaVolta: '12:10' },
+        contadores: { vaoNaIda: 0, voltam: 0, liberados: 0, canceladosAposSaida: 0 },
+        semConfirmacoes: true,
+        listaIda: [],
+        listaVolta: [],
+      };
+    }
+    return { ...turmaListaHojeMock, id };
+  }
   return api.get<TurmaListaHoje>(`/turmas/${id}/hoje`);
 }
 
 export async function buscarDetalheTurma(id: number): Promise<TurmaDetalhe> {
-  if (USAR_MOCKS_DETALHE_TURMA) return { ...turmaDetalheMock, id };
+  if (USAR_MOCKS_DETALHE_TURMA) return atraso(turmaPorId(id));
   return api.get<TurmaDetalhe>(`/turmas/${id}`);
 }
 
-export async function buscarGrupoHoje(id: number): Promise<GrupoHoje> {
-  if (USAR_MOCKS_GRUPO_HOJE) {
-    const grupo = turmasGrupoHojeMock.find((item) => item.id === id);
-    if (!grupo) throw new Error('Grupo não encontrado.');
-    return grupo;
-  }
-  return api.get<GrupoHoje>(`/grupos/${id}/hoje`);
+export function buscarGrupoHoje(id: number) {
+  return importarGrupoHoje(id);
+}
+
+export function buscarGrupoHojeAluno(id: number) {
+  return importarGrupoHoje(id);
 }
 
 // Gestão de turmas pelo motorista-chefe (etapa 4 do backend): telas D4, D5, D5a e D6.

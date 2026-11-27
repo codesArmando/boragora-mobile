@@ -61,8 +61,8 @@ export function TelaDados<T>({
     <SafeAreaView style={estilos.tela} edges={['top']}>
       <ListaAtualizavel atualizando={atualizando} aoAtualizar={() => void buscar(true)}>
         <View style={estilos.conteudo}>
-          <Text style={estilos.titulo}>{titulo}</Text>
-          {subtitulo && <Text style={estilos.subtitulo}>{subtitulo}</Text>}
+          {titulo !== '' ? <Text style={estilos.titulo}>{titulo}</Text> : null}
+          {subtitulo ? <Text style={estilos.subtitulo}>{subtitulo}</Text> : null}
           {carregando && dados === null ? (
             <Carregando />
           ) : erro !== null && dados === null ? (
