@@ -29,7 +29,9 @@ export default function Turmas() {
                     {turma.grupo.nome} · {turma.nome}
                   </Text>
                   <Text style={estilos.detalhe}>Motorista · {turma.motorista.nome}</Text>
-                  <Text style={estilos.detalhe}>{turma.totalAlunos} alunos</Text>
+                  <Text style={estilos.detalhe}>
+                    {turma.totalAlunos} {turma.totalAlunos === 1 ? 'aluno' : 'alunos'}
+                  </Text>
                 </Cartao>
               </Pressable>
             </Link>

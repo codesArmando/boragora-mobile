@@ -52,7 +52,11 @@ export default function NovoMotorista() {
       await criarMotorista({ nome: nome.trim(), email: email.trim(), senha });
       router.back();
     } catch (e) {
-      if (e instanceof ErroApi) {
+      if (e instanceof ErroApi && e.codigo === 'EMAIL_JA_CADASTRADO') {
+        // A API devolve 409 sem `campos`; o critério da GES-05 pede marcar o campo de e-mail.
+        setErros({ email: e.mensagem });
+        setErroGeral(null);
+      } else if (e instanceof ErroApi) {
         setErros(e.campos ?? {});
         setErroGeral(e.campos === null ? e.mensagem : null);
       } else {

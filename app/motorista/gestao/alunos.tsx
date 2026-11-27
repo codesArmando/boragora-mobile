@@ -53,7 +53,10 @@ function ListaAlunos({
       </View>
       {filtrados.map((aluno) => (
         <View key={aluno.id} style={estilos.linha}>
-          <LinhaPessoa nome={aluno.nome} email={aluno.email} mostrarIniciais={false} />
+          {/* flex: 1 limita a linha ao espaço que sobra; sem isso o selo saía da tela. */}
+          <View style={estilos.pessoa}>
+            <LinhaPessoa nome={aluno.nome} email={aluno.email} mostrarIniciais={false} />
+          </View>
           <Selo tipo={aluno.turmas.length > 0 ? 'vinculado' : 'semTurma'} />
         </View>
       ))}
@@ -76,4 +79,5 @@ const estilos = StyleSheet.create({
   cabecalho: { marginTop: 16, marginBottom: 4 },
   total: { color: cores.textoApagado, fontSize: 14, fontWeight: '700' },
   linha: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  pessoa: { flex: 1 },
 });

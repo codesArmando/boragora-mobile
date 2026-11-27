@@ -4,12 +4,15 @@ import { Selo, type TipoSelo } from '@/components/Selo';
 import { cores } from '@/theme/cores';
 
 export function iniciais(nome: string) {
-  return nome
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((parte) => parte[0]?.toLocaleUpperCase() ?? '')
-    .join('');
+  return (
+    nome
+      .trim()
+      // Hífen também separa: "Motorista-chefe" vira "MC", como no protótipo.
+      .split(/[\s-]+/)
+      .slice(0, 2)
+      .map((parte) => parte[0]?.toLocaleUpperCase() ?? '')
+      .join('')
+  );
 }
 
 export function LinhaAluno({

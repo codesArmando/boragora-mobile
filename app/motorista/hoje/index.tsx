@@ -17,7 +17,8 @@ export default function InicioMotorista() {
   return (
     <TelaDados
       carregar={carregar}
-      titulo={usuario?.admin ? 'Olá, Vanderlei' : `Olá, ${usuario?.nome ?? ''}`}
+      // Primeiro nome de quem está logado, como no protótipo ("Olá, Vanderlei").
+      titulo={`Olá, ${usuario?.nome.trim().split(/\s+/)[0] ?? ''}`}
       subtitulo="Acompanhe a presença de hoje em cada turma."
       vazio={(turmas) => turmas.length === 0}
       mensagemVazia={

@@ -58,10 +58,11 @@ export default function ListaDoDia() {
                     <LinhaAluno
                       nome={aluno.nome}
                       selo={
+                        // Na ida só quem cancelou depois da saída tem selo (C1); "Em aula" é da volta.
                         'situacao' in aluno
                           ? aluno.situacao === 'CANCELADO_APOS_SAIDA'
                             ? 'cancelado'
-                            : 'emAula'
+                            : undefined
                           : aluno.statusVolta === 'LIBERADO'
                             ? 'liberado'
                             : 'emAula'
