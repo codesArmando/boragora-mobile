@@ -4,6 +4,7 @@ import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { FolhaInferior } from '@/components/FolhaInferior';
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 import { medidas } from '@/theme/medidas';
 
 export type OpcaoSeletor = {
@@ -160,9 +161,9 @@ const estilos = StyleSheet.create({
     gap: 8,
   },
   rotulo: {
+    fontFamily: tipografia.texto.semibold,
     color: cores.textoSecundario,
     fontSize: 14,
-    fontWeight: '600',
   },
   campo: {
     height: medidas.alturaCampo,
@@ -183,6 +184,7 @@ const estilos = StyleSheet.create({
     opacity: 0.4,
   },
   valor: {
+    fontFamily: tipografia.texto.regular,
     flex: 1,
     color: cores.texto,
     fontSize: 16,
@@ -191,20 +193,23 @@ const estilos = StyleSheet.create({
     color: cores.textoApagado,
   },
   erro: {
+    fontFamily: tipografia.texto.regular,
     color: cores.perigo,
     fontSize: 14,
   },
   dica: {
+    fontFamily: tipografia.texto.regular,
     color: cores.textoApagado,
     fontSize: 14,
   },
   titulo: {
+    fontFamily: tipografia.texto.negrito,
     marginTop: 6,
     color: cores.texto,
     fontSize: 22,
-    fontWeight: '700',
   },
   vazio: {
+    fontFamily: tipografia.texto.regular,
     color: cores.textoSecundario,
     fontSize: 16,
   },
@@ -223,15 +228,16 @@ const estilos = StyleSheet.create({
     flex: 1,
   },
   rotuloLinha: {
+    fontFamily: tipografia.texto.medio,
     color: cores.texto,
     fontSize: 17,
-    fontWeight: '500',
   },
   rotuloSelecionado: {
+    fontFamily: tipografia.texto.negrito,
     color: cores.destaque,
-    fontWeight: '700',
   },
   descricao: {
+    fontFamily: tipografia.texto.regular,
     color: cores.textoApagado,
     fontSize: 14,
   },

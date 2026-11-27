@@ -11,6 +11,7 @@ import { EstadoErro } from '@/components/EstadoErro';
 import { EstadoVazio } from '@/components/EstadoVazio';
 import { listarGrupos } from '@/repositories/grupoRepository';
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 import { medidas } from '@/theme/medidas';
 import type { Grupo } from '@/types/grupo';
 import { resumoDoGrupo } from '@/utils/grupo';
@@ -126,6 +127,7 @@ const estilos = StyleSheet.create({
     paddingHorizontal: medidas.margemTela,
   },
   textoVazio: {
+    fontFamily: tipografia.texto.regular,
     color: cores.textoApagado,
     fontSize: 15,
     textAlign: 'center',
@@ -161,15 +163,17 @@ const estilos = StyleSheet.create({
     gap: 4,
   },
   nome: {
+    fontFamily: tipografia.texto.negrito,
     color: cores.texto,
     fontSize: 20,
-    fontWeight: '700',
   },
   resumo: {
+    fontFamily: tipografia.texto.regular,
     color: cores.textoSecundario,
     fontSize: 15,
   },
   dica: {
+    fontFamily: tipografia.texto.regular,
     marginTop: 16,
     paddingHorizontal: 4,
     color: cores.textoApagado,

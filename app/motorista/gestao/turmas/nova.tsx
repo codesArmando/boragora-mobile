@@ -16,6 +16,7 @@ import { listarGrupos } from '@/repositories/grupoRepository';
 import { listarMotoristas } from '@/repositories/motoristaRepository';
 import { criarTurma } from '@/repositories/turmaRepository';
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 import { medidas } from '@/theme/medidas';
 import type { Grupo } from '@/types/grupo';
 import type { Motorista } from '@/types/motorista';
@@ -199,6 +200,7 @@ const estilos = StyleSheet.create({
     paddingHorizontal: medidas.margemTela,
   },
   textoVazio: {
+    fontFamily: tipografia.texto.regular,
     color: cores.textoApagado,
     fontSize: 15,
     textAlign: 'center',
@@ -221,6 +223,7 @@ const estilos = StyleSheet.create({
     gap: 10,
   },
   aviso: {
+    fontFamily: tipografia.texto.regular,
     color: cores.textoSecundario,
     fontSize: 15,
     textAlign: 'center',

@@ -15,6 +15,7 @@ import { EstadoVazio } from '@/components/EstadoVazio';
 import { buscarAlunosParaVincular, vincularAlunos } from '@/repositories/alunoRepository';
 import { buscarTurma } from '@/repositories/turmaRepository';
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 import { medidas } from '@/theme/medidas';
 import type { AlunoAdmin } from '@/types/aluno';
 import type { TurmaDetalhe } from '@/types/turma';
@@ -222,6 +223,7 @@ const estilos = StyleSheet.create({
     paddingHorizontal: medidas.margemTela,
   },
   textoVazio: {
+    fontFamily: tipografia.texto.regular,
     color: cores.textoApagado,
     fontSize: 15,
     textAlign: 'center',
@@ -271,14 +273,15 @@ const estilos = StyleSheet.create({
     gap: 2,
   },
   nome: {
+    fontFamily: tipografia.texto.semibold,
     color: cores.texto,
     fontSize: 18,
-    fontWeight: '600',
   },
   nomeBloqueado: {
     color: cores.textoApagado,
   },
   situacao: {
+    fontFamily: tipografia.texto.regular,
     color: cores.textoSecundario,
     fontSize: 15,
   },

@@ -16,25 +16,25 @@ export default function Gestao() {
           <CartaoAtalho
             titulo="Grupos"
             detalhe="Turnos e horários de saída"
-            icone="◷"
+            icone="clock"
             onPress={() => router.push('/motorista/gestao/grupos')}
           />
           <CartaoAtalho
             titulo="Turmas"
             detalhe="Van, motorista e alunos de cada grupo"
-            icone="▣"
+            icone="truck"
             onPress={() => router.push('/motorista/gestao/turmas')}
           />
           <CartaoAtalho
             titulo="Motoristas"
             detalhe="Contas de motorista"
-            icone="♙"
+            icone="user-check"
             onPress={() => router.push('/motorista/gestao/motoristas')}
           />
           <CartaoAtalho
             titulo="Alunos"
             detalhe="Contas criadas e vínculo com turmas"
-            icone="♧"
+            icone="users"
             onPress={() => router.push('/motorista/gestao/alunos')}
           />
         </View>

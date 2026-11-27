@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { CampoTexto } from '@/components/CampoTexto';
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 import { NOME_TURMA_MAXIMO, type ErrosDadosTurma } from '@/utils/turma';
 
 type Props = {
@@ -81,6 +82,7 @@ const estilos = StyleSheet.create({
     flex: 1,
   },
   dica: {
+    fontFamily: tipografia.texto.regular,
     marginTop: -8,
     color: cores.textoApagado,
     fontSize: 14,

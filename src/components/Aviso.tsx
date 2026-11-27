@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 import { medidas } from '@/theme/medidas';
 
 type Props = {
@@ -47,11 +48,12 @@ const estilos = StyleSheet.create({
     gap: 4,
   },
   titulo: {
+    fontFamily: tipografia.texto.negrito,
     color: cores.texto,
     fontSize: 17,
-    fontWeight: '700',
   },
   texto: {
+    fontFamily: tipografia.texto.regular,
     color: cores.textoSecundario,
     fontSize: 15,
   },

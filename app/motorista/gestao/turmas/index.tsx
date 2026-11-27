@@ -9,6 +9,7 @@ import { Cartao } from '@/components/Cartao';
 import { TelaDados } from '@/components/TelaDados';
 import { listarTurmasAdmin } from '@/repositories/gestaoConsultaRepository';
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 
 export default function Turmas() {
   const carregar = useCallback(() => listarTurmasAdmin(), []);
@@ -73,13 +74,18 @@ const estilos = StyleSheet.create({
   lista: { gap: 24 },
   grupo: { gap: 10 },
   rotuloGrupo: {
+    fontFamily: tipografia.texto.negrito,
     color: cores.textoApagado,
     fontSize: 13,
-    fontWeight: '700',
     textTransform: 'uppercase',
   },
   linhaTopo: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  nome: { color: cores.texto, fontSize: 20, fontWeight: '700' },
-  motorista: { flex: 1, color: cores.textoSecundario, fontSize: 15 },
-  detalhe: { color: cores.texto, fontSize: 15 },
+  nome: { fontFamily: tipografia.texto.negrito, color: cores.texto, fontSize: 20 },
+  motorista: {
+    fontFamily: tipografia.texto.regular,
+    flex: 1,
+    color: cores.textoSecundario,
+    fontSize: 15,
+  },
+  detalhe: { fontFamily: tipografia.texto.regular, color: cores.texto, fontSize: 15 },
 });

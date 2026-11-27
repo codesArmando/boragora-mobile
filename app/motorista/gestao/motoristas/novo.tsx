@@ -10,6 +10,7 @@ import { Cabecalho } from '@/components/Cabecalho';
 import { CampoTexto } from '@/components/CampoTexto';
 import { criarMotorista } from '@/repositories/motoristaRepository';
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 import { medidas } from '@/theme/medidas';
 
 type Campos = Partial<Record<'nome' | 'email' | 'senha' | 'confirmacao', string>>;
@@ -141,6 +142,7 @@ const estilos = StyleSheet.create({
     gap: 20,
   },
   explicacao: {
+    fontFamily: tipografia.texto.regular,
     color: cores.textoSecundario,
     fontSize: 16,
   },

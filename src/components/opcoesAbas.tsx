@@ -3,6 +3,7 @@ import type { ComponentProps } from 'react';
 import type { ColorValue } from 'react-native';
 
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 
 // Barra de abas do protótipo (C0, D1 e Tela inicial do aluno), igual para o aluno,
 // o motorista e o chefe.
@@ -11,7 +12,7 @@ export const opcoesAbas = {
   tabBarStyle: { backgroundColor: cores.fundo, borderTopColor: cores.borda },
   tabBarActiveTintColor: cores.destaque,
   tabBarInactiveTintColor: cores.textoApagado,
-  tabBarLabelStyle: { fontSize: 12, fontWeight: '600' as const },
+  tabBarLabelStyle: { fontSize: 12, fontFamily: tipografia.texto.semibold },
 };
 
 type NomeIcone = ComponentProps<typeof Feather>['name'];

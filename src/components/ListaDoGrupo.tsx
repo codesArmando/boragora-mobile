@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Feather from '@expo/vector-icons/Feather';
@@ -7,6 +8,8 @@ import { LinhaAluno } from '@/components/LinhaAluno';
 import { Selo } from '@/components/Selo';
 import type { GrupoHoje, TurmaGrupoHoje } from '@/types/turma';
 import { cores } from '@/theme/cores';
+import { medidas } from '@/theme/medidas';
+import { tipografia } from '@/theme/tipografia';
 
 export function ListaDoGrupo({ grupo, papel }: { grupo: GrupoHoje; papel: 'aluno' | 'motorista' }) {
   const [trecho, setTrecho] = useState<'ida' | 'volta'>('ida');
@@ -16,7 +19,20 @@ export function ListaDoGrupo({ grupo, papel }: { grupo: GrupoHoje; papel: 'aluno
 
   return (
     <View style={estilos.container}>
-      <Text style={estilos.titulo}>Grupo {grupo.nome}</Text>
+      <View style={estilos.tituloLinha}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Voltar"
+          onPress={() => router.back()}
+          hitSlop={8}
+          style={estilos.voltar}
+        >
+          <Feather name="arrow-left" size={24} color={cores.texto} />
+        </Pressable>
+        <Text style={estilos.titulo} numberOfLines={1}>
+          Grupo {grupo.nome}
+        </Text>
+      </View>
       <Text style={estilos.horarios}>
         Ida {grupo.horarioSaidaIda} · Volta {grupo.horarioSaidaVolta}
         {papel === 'aluno' ? ' · somente consulta' : ''}
@@ -81,20 +97,30 @@ function Turma({
   return (
     <View style={estilos.turma}>
       {recolhida ? (
-        <Cartao>
-          <View style={estilos.cabecalhoTurma}>
-            <View style={estilos.tituloGrupo}>
-              <Text style={estilos.nomeTurma}>{turma.nome}</Text>
-              <Selo tipo="suaTurma" />
+        // A turma do próprio motorista vem resumida; o toque abre a lista do dia dela (C1).
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={`${turma.nome}, sua turma. ${resumo}`}
+          onPress={() => router.push(`/motorista/hoje/${turma.id}`)}
+        >
+          <Cartao>
+            <View style={[estilos.cabecalhoTurma, estilos.cabecalhoCartao]}>
+              <View style={estilos.tituloGrupo}>
+                <Text style={estilos.nomeTurma}>{turma.nome}</Text>
+                <Selo tipo="suaTurma" />
+              </View>
+              <Feather name="chevron-right" size={22} color={cores.textoApagado} />
             </View>
-            <Feather name="chevron-right" size={22} color={cores.textoApagado} />
-          </View>
-          <Text style={estilos.resumoEsquerdo}>{resumo}</Text>
-        </Cartao>
+            <Text style={estilos.resumoEsquerdo}>{resumo}</Text>
+          </Cartao>
+        </Pressable>
       ) : (
         <>
           <View style={estilos.cabecalhoTurma}>
-            <Text style={estilos.nomeTurma}>{turma.nome}</Text>
+            <View style={estilos.tituloGrupo}>
+              <Text style={estilos.nomeTurma}>{turma.nome}</Text>
+              {turma.minhaTurma && <Selo tipo="suaTurma" />}
+            </View>
             <Text style={estilos.resumo}>
               {motoristas ? `${motoristas.nome} · ` : ''}
               {resumo}
@@ -105,18 +131,21 @@ function Turma({
               const cancelado = 'situacao' in aluno && aluno.situacao === 'CANCELADO_APOS_SAIDA';
               const liberado = 'statusVolta' in aluno && aluno.statusVolta === 'LIBERADO';
               return (
-                <View key={aluno.alunoId} style={estilos.linhaAluno}>
-                  {/* flex: 1 deixa espaço para os selos; sem isso eles saíam da tela. */}
-                  <View style={estilos.nomeAluno}>
-                    <LinhaAluno
-                      nome={aluno.nome}
-                      selo={aluno.voce ? 'voce' : undefined}
-                      avatar={false}
-                    />
-                  </View>
-                  {cancelado ? <Selo tipo="cancelado" /> : null}
-                  {trecho === 'volta' ? <Selo tipo={liberado ? 'liberado' : 'emAula'} /> : null}
-                </View>
+                <LinhaAluno
+                  key={aluno.alunoId}
+                  nome={aluno.nome}
+                  selo={aluno.voce ? 'voce' : undefined}
+                  avatar={false}
+                  seloFinal={
+                    cancelado
+                      ? 'cancelado'
+                      : trecho === 'volta'
+                        ? liberado
+                          ? 'liberado'
+                          : 'emAula'
+                        : undefined
+                  }
+                />
               );
             })
           ) : (
@@ -130,8 +159,16 @@ function Turma({
 
 const estilos = StyleSheet.create({
   container: { gap: 12 },
-  titulo: { color: cores.texto, fontSize: 28, fontWeight: '800', fontStyle: 'italic' },
-  horarios: { color: cores.textoApagado, fontSize: 14 },
+  tituloLinha: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  voltar: {
+    width: medidas.areaToqueMinima,
+    height: medidas.areaToqueMinima,
+    marginLeft: -10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  titulo: { flex: 1, color: cores.texto, fontFamily: tipografia.titulo, fontSize: 28 },
+  horarios: { fontFamily: tipografia.texto.regular, color: cores.textoApagado, fontSize: 14 },
   seletor: {
     flexDirection: 'row',
     gap: 6,
@@ -149,8 +186,8 @@ const estilos = StyleSheet.create({
     borderRadius: 10,
   },
   opcaoAtiva: { backgroundColor: cores.destaque },
-  textoOpcao: { color: cores.textoSecundario, fontSize: 15, fontWeight: '600' },
-  textoOpcaoAtiva: { color: cores.textoSobreDestaque, fontWeight: '700' },
+  textoOpcao: { fontFamily: tipografia.texto.semibold, color: cores.textoSecundario, fontSize: 15 },
+  textoOpcaoAtiva: { fontFamily: tipografia.texto.negrito, color: cores.textoSobreDestaque },
   turma: { marginTop: 4 },
   cabecalhoTurma: {
     minHeight: 52,
@@ -161,17 +198,20 @@ const estilos = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: cores.borda,
   },
-  nomeTurma: { color: cores.texto, fontSize: 20, fontWeight: '700' },
+  cabecalhoCartao: { minHeight: 0, borderBottomWidth: 0 },
+  nomeTurma: { fontFamily: tipografia.texto.negrito, color: cores.texto, fontSize: 20 },
   tituloGrupo: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  resumo: { color: cores.textoSecundario, fontSize: 14, flexShrink: 1, textAlign: 'right' },
-  resumoEsquerdo: { color: cores.textoSecundario, fontSize: 14 },
-  linhaAluno: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: cores.borda,
+  resumo: {
+    fontFamily: tipografia.texto.regular,
+    color: cores.textoSecundario,
+    fontSize: 14,
+    flexShrink: 1,
+    textAlign: 'right',
   },
-  nomeAluno: { flex: 1 },
+  resumoEsquerdo: {
+    fontFamily: tipografia.texto.regular,
+    color: cores.textoSecundario,
+    fontSize: 14,
+  },
   vazio: { paddingVertical: 16, color: cores.textoSecundario, textAlign: 'center' },
 });

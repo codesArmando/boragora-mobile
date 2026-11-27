@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 import { medidas } from '@/theme/medidas';
 
 // primario: ação principal (amarelo). contorno: ação secundária. texto: link.
@@ -88,7 +89,7 @@ const estilos = StyleSheet.create({
     paddingHorizontal: 16,
   },
   rotulo: {
+    fontFamily: tipografia.texto.negrito,
     fontSize: 17,
-    fontWeight: '700',
   },
 });

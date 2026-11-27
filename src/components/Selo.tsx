@@ -1,6 +1,7 @@
 import { StyleSheet, Text } from 'react-native';
 
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 
 export type TipoSelo =
   'voce' | 'suaTurma' | 'cancelado' | 'liberado' | 'emAula' | 'vinculado' | 'semTurma';
@@ -22,7 +23,8 @@ export function Selo({ tipo, rotulo }: { tipo: TipoSelo; rotulo?: string }) {
         estilos.selo,
         tipo === 'liberado' && estilos.liberado,
         tipo === 'cancelado' && estilos.cancelado,
-        tipo === 'semTurma' && estilos.semTurma,
+        (tipo === 'semTurma' || tipo === 'emAula') && estilos.contorno,
+        (tipo === 'suaTurma' || tipo === 'voce') && estilos.destaque,
       ]}
     >
       {rotulo ?? rotulos[tipo]}
@@ -38,12 +40,13 @@ const estilos = StyleSheet.create({
     color: cores.texto,
     backgroundColor: cores.borda,
     borderRadius: 999,
-    fontSize: 12,
-    fontWeight: '700',
+    fontFamily: tipografia.texto.negrito,
+    fontSize: 13,
   },
   liberado: { color: cores.liberadoTexto, backgroundColor: cores.liberadoFundo },
   cancelado: { color: cores.textoSobrePerigo, backgroundColor: cores.perigo },
-  semTurma: {
+  destaque: { color: cores.textoSobreDestaque, backgroundColor: cores.destaque },
+  contorno: {
     color: cores.textoSecundario,
     backgroundColor: 'transparent',
     borderWidth: 1,

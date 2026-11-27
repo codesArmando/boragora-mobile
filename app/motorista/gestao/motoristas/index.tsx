@@ -13,6 +13,7 @@ import { Selo } from '@/components/Selo';
 import { useSessao } from '@/contexts/SessaoContext';
 import { listarMotoristas } from '@/repositories/motoristaRepository';
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 import { medidas } from '@/theme/medidas';
 import type { Motorista } from '@/types/motorista';
 
@@ -98,8 +99,15 @@ export default function Motoristas() {
               turmas do mesmo grupo.
             </Text>
           }
-          renderItem={({ item }) => (
-            <View style={estilos.linha}>
+          renderItem={({ item, index }) => (
+            // As linhas formam um cartão só, como no protótipo: borda e cantos no primeiro e no último.
+            <View
+              style={[
+                estilos.linha,
+                index === 0 && estilos.primeira,
+                index === motoristas.length - 1 && estilos.ultima,
+              ]}
+            >
               <View style={estilos.pessoa}>
                 <LinhaPessoa nome={item.nome} email={item.email} />
               </View>
@@ -131,11 +139,27 @@ const estilos = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
+    paddingHorizontal: 16,
+    backgroundColor: cores.superficie,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderColor: cores.borda,
+  },
+  primeira: {
+    borderTopWidth: 1,
+    borderTopLeftRadius: medidas.raioCartao,
+    borderTopRightRadius: medidas.raioCartao,
+  },
+  ultima: {
+    borderBottomWidth: 1,
+    borderBottomLeftRadius: medidas.raioCartao,
+    borderBottomRightRadius: medidas.raioCartao,
   },
   pessoa: {
     flex: 1,
   },
   dica: {
+    fontFamily: tipografia.texto.regular,
     marginTop: 16,
     paddingHorizontal: 4,
     color: cores.textoApagado,

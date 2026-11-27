@@ -16,6 +16,7 @@ import { listarAlunosAdmin } from '@/repositories/gestaoConsultaRepository';
 import { mocksAtivos } from '@/repositories/mocks/mocksAtivos';
 import type { AlunoAdmin } from '@/types/consulta';
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 
 export default function AlunosAdmin() {
   const [busca, setBusca] = useState('');
@@ -79,7 +80,7 @@ function ListaAlunos({
 
 const estilos = StyleSheet.create({
   cabecalho: { marginTop: 16, marginBottom: 4 },
-  total: { color: cores.textoApagado, fontSize: 14, fontWeight: '700' },
+  total: { fontFamily: tipografia.texto.negrito, color: cores.textoApagado, fontSize: 14 },
   linha: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   pessoa: { flex: 1 },
 });

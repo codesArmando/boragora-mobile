@@ -16,6 +16,7 @@ import { removerAluno } from '@/repositories/alunoRepository';
 import { listarMotoristas } from '@/repositories/motoristaRepository';
 import { atualizarTurma, buscarTurma } from '@/repositories/turmaRepository';
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 import { medidas } from '@/theme/medidas';
 import type { Motorista } from '@/types/motorista';
 import type { TurmaDetalhe } from '@/types/turma';
@@ -280,13 +281,14 @@ const estilos = StyleSheet.create({
     flex: 1,
   },
   rotuloDado: {
+    fontFamily: tipografia.texto.regular,
     color: cores.textoApagado,
     fontSize: 14,
   },
   valorDado: {
+    fontFamily: tipografia.texto.semibold,
     color: cores.texto,
     fontSize: 20,
-    fontWeight: '600',
   },
   acaoDado: {
     minHeight: medidas.areaToqueMinima,
@@ -294,9 +296,9 @@ const estilos = StyleSheet.create({
     paddingHorizontal: 12,
   },
   textoAcaoDado: {
+    fontFamily: tipografia.texto.negrito,
     color: cores.destaque,
     fontSize: 17,
-    fontWeight: '700',
   },
   cabecalhoAlunos: {
     marginTop: 12,
@@ -306,14 +308,15 @@ const estilos = StyleSheet.create({
     gap: 12,
   },
   tituloAlunos: {
+    fontFamily: tipografia.texto.negrito,
     flex: 1,
     color: cores.textoApagado,
     fontSize: 14,
-    fontWeight: '700',
     letterSpacing: 0.5,
     textTransform: 'uppercase',
   },
   vazio: {
+    fontFamily: tipografia.texto.regular,
     color: cores.textoSecundario,
     fontSize: 16,
   },
@@ -326,6 +329,7 @@ const estilos = StyleSheet.create({
     borderBottomColor: cores.borda,
   },
   nomeAluno: {
+    fontFamily: tipografia.texto.regular,
     flex: 1,
     color: cores.texto,
     fontSize: 18,

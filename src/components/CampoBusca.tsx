@@ -2,6 +2,7 @@ import Feather from '@expo/vector-icons/Feather';
 import { StyleSheet, TextInput, View, type TextInputProps } from 'react-native';
 
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 import { medidas } from '@/theme/medidas';
 
 type Props = Omit<TextInputProps, 'style'> & {
@@ -42,6 +43,7 @@ const estilos = StyleSheet.create({
     backgroundColor: cores.superficie,
   },
   entrada: {
+    fontFamily: tipografia.texto.regular,
     flex: 1,
     height: '100%',
     color: cores.texto,

@@ -7,6 +7,7 @@ import { CampoTexto } from '@/components/CampoTexto';
 import { SeletorSegmentado } from '@/components/SeletorSegmentado';
 import { ErroApi } from '@/api/ErroApi';
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 import { medidas } from '@/theme/medidas';
 import type { GrupoDTO, Periodo } from '@/types/grupo';
 import { horaCompleta } from '@/utils/mascaras';
@@ -176,6 +177,7 @@ const estilos = StyleSheet.create({
     flex: 1,
   },
   explicacao: {
+    fontFamily: tipografia.texto.regular,
     color: cores.textoSecundario,
     fontSize: 15,
   },

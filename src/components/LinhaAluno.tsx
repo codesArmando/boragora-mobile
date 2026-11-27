@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { Selo, type TipoSelo } from '@/components/Selo';
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 
 export function iniciais(nome: string) {
   return (
@@ -18,21 +19,40 @@ export function iniciais(nome: string) {
 export function LinhaAluno({
   nome,
   selo,
+  seloFinal,
+  detalhe,
+  tom = 'normal',
   avatar = true,
 }: {
   nome: string;
+  /** Selo ao lado do nome (ex.: "Você"). */
   selo?: TipoSelo;
+  /** Selo na ponta direita da linha (ex.: "Cancelado", "Liberado"). */
+  seloFinal?: TipoSelo;
+  /** Texto pequeno abaixo do nome (ex.: "Cancelou depois da saída"). */
+  detalhe?: string;
+  /** `alerta` pinta o avatar e o detalhe de vermelho (C1, cancelamento tardio). */
+  tom?: 'normal' | 'alerta';
   avatar?: boolean;
 }) {
+  const alerta = tom === 'alerta';
   return (
     <View style={estilos.linha}>
       {avatar && (
-        <View style={estilos.avatar}>
-          <Text style={estilos.iniciais}>{iniciais(nome)}</Text>
+        <View style={[estilos.avatar, alerta && estilos.avatarAlerta]}>
+          <Text style={[estilos.iniciais, alerta && estilos.textoAlerta]}>{iniciais(nome)}</Text>
         </View>
       )}
-      <Text style={estilos.nome}>{nome}</Text>
-      {selo && <Selo tipo={selo} />}
+      <View style={estilos.textos}>
+        <View style={estilos.nomeLinha}>
+          <Text style={estilos.nome} numberOfLines={1}>
+            {nome}
+          </Text>
+          {selo && <Selo tipo={selo} />}
+        </View>
+        {detalhe && <Text style={[estilos.detalhe, alerta && estilos.textoAlerta]}>{detalhe}</Text>}
+      </View>
+      {seloFinal && <Selo tipo={seloFinal} />}
     </View>
   );
 }
@@ -54,6 +74,11 @@ const estilos = StyleSheet.create({
     backgroundColor: cores.superficieInterna,
     borderRadius: 20,
   },
-  iniciais: { color: cores.textoSecundario, fontSize: 14, fontWeight: '700' },
-  nome: { flex: 1, color: cores.texto, fontSize: 16 },
+  avatarAlerta: { backgroundColor: cores.alertaFundo },
+  iniciais: { color: cores.destaque, fontFamily: tipografia.numero, fontSize: 14 },
+  textos: { flex: 1, gap: 2 },
+  nomeLinha: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  nome: { flexShrink: 1, color: cores.texto, fontFamily: tipografia.texto.medio, fontSize: 17 },
+  detalhe: { color: cores.textoApagado, fontFamily: tipografia.texto.regular, fontSize: 14 },
+  textoAlerta: { color: cores.perigo },
 });

@@ -5,8 +5,10 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Cartao } from '@/components/Cartao';
 import { LinhaAluno } from '@/components/LinhaAluno';
 import { TelaDados } from '@/components/TelaDados';
+import { TituloComVoltar } from '@/components/TituloComVoltar';
 import { buscarDetalheTurma } from '@/repositories/turmaRepository';
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 
 export default function AlunosDaTurma() {
   const { turmaId } = useLocalSearchParams<{ turmaId: string }>();
@@ -16,9 +18,10 @@ export default function AlunosDaTurma() {
   return (
     <TelaDados
       carregar={carregar}
-      titulo="Alunos vinculados"
+      titulo=""
       renderizar={(turma) => (
         <View style={estilos.conteudo}>
+          <TituloComVoltar titulo={`${turma.nome} · ${turma.grupo.nome}`} />
           <Cartao>
             <LinhaInfo rotulo="Motorista" valor={turma.motorista.nome} />
             <LinhaInfo
@@ -51,7 +54,12 @@ function LinhaInfo({ rotulo, valor }: { rotulo: string; valor: string }) {
 
 const estilos = StyleSheet.create({
   conteudo: { gap: 12 },
-  rotulo: { marginTop: 16, color: cores.textoApagado, fontSize: 14, fontWeight: '700' },
+  rotulo: {
+    fontFamily: tipografia.texto.negrito,
+    marginTop: 16,
+    color: cores.textoApagado,
+    fontSize: 14,
+  },
   info: {
     minHeight: 52,
     flexDirection: 'row',
@@ -61,6 +69,17 @@ const estilos = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: cores.borda,
   },
-  infoRotulo: { flex: 1, color: cores.textoSecundario, fontSize: 16 },
-  infoValor: { flex: 1, color: cores.texto, fontSize: 16, fontWeight: '600', textAlign: 'right' },
+  infoRotulo: {
+    fontFamily: tipografia.texto.regular,
+    flex: 1,
+    color: cores.textoSecundario,
+    fontSize: 16,
+  },
+  infoValor: {
+    fontFamily: tipografia.texto.semibold,
+    flex: 1,
+    color: cores.texto,
+    fontSize: 16,
+    textAlign: 'right',
+  },
 });

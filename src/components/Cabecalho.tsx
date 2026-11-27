@@ -5,6 +5,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { BotaoAcao } from '@/components/BotaoAcao';
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 import { medidas } from '@/theme/medidas';
 
 type Acao = { rotulo: string; onPress: () => void; icone?: ComponentProps<typeof Feather>['name'] };
@@ -68,20 +69,19 @@ const estilos = StyleSheet.create({
     justifyContent: 'center',
   },
   titulo: {
+    fontFamily: tipografia.titulo,
     flex: 1,
     color: cores.texto,
     fontSize: 26,
-    fontWeight: '800',
-    fontStyle: 'italic',
     lineHeight: 30,
   },
   acao: {
     marginRight: 8,
   },
   subtitulo: {
+    fontFamily: tipografia.texto.medio,
     paddingLeft: 8,
     color: cores.textoApagado,
     fontSize: 14,
-    fontWeight: '500',
   },
 });

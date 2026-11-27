@@ -13,6 +13,7 @@ import { DialogoConfirmacao } from '@/components/DialogoConfirmacao';
 import { EstadoErro } from '@/components/EstadoErro';
 import { atualizarTurma, buscarTurma, excluirTurma } from '@/repositories/turmaRepository';
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 import { medidas } from '@/theme/medidas';
 import type { TurmaDetalhe } from '@/types/turma';
 import { validarDadosTurma, type ErrosDadosTurma } from '@/utils/turma';
@@ -230,15 +231,17 @@ const estilos = StyleSheet.create({
     backgroundColor: cores.superficie,
   },
   rotuloGrupo: {
+    fontFamily: tipografia.texto.regular,
     color: cores.textoApagado,
     fontSize: 14,
   },
   valorGrupo: {
+    fontFamily: tipografia.texto.semibold,
     color: cores.texto,
     fontSize: 18,
-    fontWeight: '600',
   },
   notaGrupo: {
+    fontFamily: tipografia.texto.regular,
     color: cores.textoApagado,
     fontSize: 15,
   },
@@ -249,6 +252,7 @@ const estilos = StyleSheet.create({
     gap: 12,
   },
   dica: {
+    fontFamily: tipografia.texto.regular,
     color: cores.textoApagado,
     fontSize: 14,
     textAlign: 'center',

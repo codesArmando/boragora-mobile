@@ -1,7 +1,10 @@
+import Feather from '@expo/vector-icons/Feather';
+import type { ComponentProps } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { cores } from '@/theme/cores';
 import { medidas } from '@/theme/medidas';
+import { tipografia } from '@/theme/tipografia';
 
 export function CartaoAtalho({
   titulo,
@@ -11,19 +14,25 @@ export function CartaoAtalho({
 }: {
   titulo: string;
   detalhe: string;
-  icone: string;
+  /** Ícone de linha do Feather, como no protótipo (clock, truck, user-check, users). */
+  icone: ComponentProps<typeof Feather>['name'];
   onPress: () => void;
 }) {
   return (
-    <Pressable onPress={onPress} style={estilos.cartao} accessibilityRole="button">
+    <Pressable
+      onPress={onPress}
+      style={estilos.cartao}
+      accessibilityRole="button"
+      accessibilityLabel={`${titulo}. ${detalhe}`}
+    >
       <View style={estilos.icone}>
-        <Text style={estilos.iconeTexto}>{icone}</Text>
+        <Feather name={icone} size={24} color={cores.destaque} />
       </View>
       <View style={estilos.textos}>
         <Text style={estilos.titulo}>{titulo}</Text>
         <Text style={estilos.detalhe}>{detalhe}</Text>
       </View>
-      <Text style={estilos.seta}>›</Text>
+      <Feather name="chevron-right" size={22} color={cores.textoApagado} />
     </Pressable>
   );
 }
@@ -36,6 +45,8 @@ const estilos = StyleSheet.create({
     alignItems: 'center',
     gap: 14,
     backgroundColor: cores.superficie,
+    borderWidth: 1,
+    borderColor: cores.borda,
     borderRadius: medidas.raioCartao,
   },
   icone: {
@@ -46,9 +57,7 @@ const estilos = StyleSheet.create({
     backgroundColor: cores.superficieInterna,
     borderRadius: 14,
   },
-  iconeTexto: { color: cores.destaque, fontSize: 22, fontWeight: '700' },
   textos: { flex: 1, gap: 3 },
-  titulo: { color: cores.texto, fontSize: 18, fontWeight: '700' },
-  detalhe: { color: cores.textoApagado, fontSize: 14 },
-  seta: { color: cores.textoApagado, fontSize: 30 },
+  titulo: { color: cores.texto, fontFamily: tipografia.numero, fontSize: 20 },
+  detalhe: { color: cores.textoApagado, fontFamily: tipografia.texto.regular, fontSize: 15 },
 });

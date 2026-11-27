@@ -50,6 +50,15 @@ export async function buscarDetalheTurma(id: number): Promise<TurmaDetalhe> {
   return api.get<TurmaDetalhe>(`/turmas/${id}`);
 }
 
+// C6: `/motorista/turmas` não traz o total de alunos; ele vem de `GET /turmas/{id}`.
+export async function listarTurmasDoMotoristaComTotal(): Promise<
+  (TurmaResumo & { totalAlunos: number })[]
+> {
+  const turmas = await listarTurmasDoMotorista();
+  const detalhes = await Promise.all(turmas.map((turma) => buscarDetalheTurma(turma.id)));
+  return turmas.map((turma, i) => ({ ...turma, totalAlunos: detalhes[i].alunos.length }));
+}
+
 export function buscarGrupoHoje(id: number) {
   return importarGrupoHoje(id);
 }

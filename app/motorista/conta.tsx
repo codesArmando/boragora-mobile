@@ -1,3 +1,4 @@
+import Feather from '@expo/vector-icons/Feather';
 import { useCallback } from 'react';
 import { router } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
@@ -6,13 +7,14 @@ import { Cartao } from '@/components/Cartao';
 import { iniciais } from '@/components/LinhaAluno';
 import { TelaDados } from '@/components/TelaDados';
 import { useSessao } from '@/contexts/SessaoContext';
-import { listarTurmasDoMotorista } from '@/repositories/turmaRepository';
+import { listarTurmasDoMotoristaComTotal } from '@/repositories/turmaRepository';
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 import { medidas } from '@/theme/medidas';
 
 export default function ContaMotorista() {
   const { usuario, sair } = useSessao();
-  const carregar = useCallback(() => listarTurmasDoMotorista(), []);
+  const carregar = useCallback(() => listarTurmasDoMotoristaComTotal(), []);
   return (
     <TelaDados
       carregar={carregar}
@@ -41,7 +43,7 @@ export default function ContaMotorista() {
                     </Text>
                     <Text style={estilos.turmaDetalhe}>
                       Ida {turma.grupo.horarioSaidaIda}, volta {turma.grupo.horarioSaidaVolta} ·{' '}
-                      {turma.contadores.vaoNaIda + turma.contadores.canceladosAposSaida} alunos
+                      {turma.totalAlunos} {turma.totalAlunos === 1 ? 'aluno' : 'alunos'}
                     </Text>
                   </View>
                 ))}
@@ -50,7 +52,12 @@ export default function ContaMotorista() {
                 Quem define a turma de cada motorista é o motorista-chefe.
               </Text>
             </>
-          ) : null}
+          ) : (
+            <Text style={estilos.nota}>
+              Você ainda não conduz nenhuma turma. Quem define a turma de cada motorista é o
+              motorista-chefe.
+            </Text>
+          )}
           <Pressable
             accessibilityRole="button"
             onPress={async () => {
@@ -59,7 +66,8 @@ export default function ContaMotorista() {
             }}
             style={estilos.sair}
           >
-            <Text style={estilos.textoSair}>↪ Sair</Text>
+            <Feather name="log-out" size={20} color={cores.texto} />
+            <Text style={estilos.textoSair}>Sair</Text>
           </Pressable>
         </View>
       )}
@@ -78,11 +86,11 @@ const estilos = StyleSheet.create({
     backgroundColor: cores.destaque,
     borderRadius: 32,
   },
-  iniciais: { color: cores.textoSobreDestaque, fontSize: 24, fontWeight: '700' },
+  iniciais: { fontFamily: tipografia.texto.negrito, color: cores.textoSobreDestaque, fontSize: 24 },
   dados: { flex: 1, gap: 2 },
-  nome: { color: cores.texto, fontSize: 20, fontWeight: '700' },
-  email: { color: cores.textoSecundario, fontSize: 15 },
-  rotulo: { color: cores.textoApagado, fontSize: 13, fontWeight: '700' },
+  nome: { fontFamily: tipografia.texto.negrito, color: cores.texto, fontSize: 20 },
+  email: { fontFamily: tipografia.texto.regular, color: cores.textoSecundario, fontSize: 15 },
+  rotulo: { fontFamily: tipografia.texto.negrito, color: cores.textoApagado, fontSize: 13 },
   turma: {
     minHeight: 74,
     justifyContent: 'center',
@@ -90,16 +98,22 @@ const estilos = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: cores.borda,
   },
-  turmaNome: { color: cores.texto, fontSize: 17, fontWeight: '600' },
-  turmaDetalhe: { color: cores.textoSecundario, fontSize: 14 },
-  nota: { color: cores.textoApagado, fontSize: 14 },
+  turmaNome: { fontFamily: tipografia.texto.semibold, color: cores.texto, fontSize: 17 },
+  turmaDetalhe: {
+    fontFamily: tipografia.texto.regular,
+    color: cores.textoSecundario,
+    fontSize: 14,
+  },
+  nota: { fontFamily: tipografia.texto.regular, color: cores.textoApagado, fontSize: 14 },
   sair: {
     minHeight: medidas.alturaBotao,
+    flexDirection: 'row',
+    gap: 10,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1.5,
     borderColor: cores.bordaBotaoSecundario,
     borderRadius: medidas.raioBotao,
   },
-  textoSair: { color: cores.texto, fontSize: 17, fontWeight: '700' },
+  textoSair: { fontFamily: tipografia.texto.negrito, color: cores.texto, fontSize: 17 },
 });

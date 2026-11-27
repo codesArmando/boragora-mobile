@@ -33,6 +33,10 @@ const estilos = StyleSheet.create({
     backgroundColor: cores.superficieInterna,
     borderRadius: 12,
   },
-  rotulo: { color: cores.textoSecundario, fontSize: 14 },
-  horario: { color: cores.texto, fontFamily: tipografia.numero, fontSize: tipografia.tamanhoNumero },
+  rotulo: { fontFamily: tipografia.texto.regular, color: cores.textoSecundario, fontSize: 14 },
+  horario: {
+    color: cores.texto,
+    fontFamily: tipografia.numero,
+    fontSize: tipografia.tamanhoNumero,
+  },
 });

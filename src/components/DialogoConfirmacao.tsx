@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Botao } from '@/components/Botao';
 import { FolhaInferior } from '@/components/FolhaInferior';
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 
 type Props = {
   visivel: boolean;
@@ -72,12 +73,13 @@ const estilos = StyleSheet.create({
     backgroundColor: '#3A1A16',
   },
   titulo: {
+    fontFamily: tipografia.texto.negrito,
     color: cores.texto,
     fontSize: 22,
-    fontWeight: '700',
     lineHeight: 26,
   },
   mensagem: {
+    fontFamily: tipografia.texto.regular,
     color: cores.textoSecundario,
     fontSize: 16,
   },

@@ -12,6 +12,7 @@ import { EstadoErro } from '@/components/EstadoErro';
 import { FormularioGrupo } from '@/components/FormularioGrupo';
 import { atualizarGrupo, buscarGrupo, excluirGrupo } from '@/repositories/grupoRepository';
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 import { medidas } from '@/theme/medidas';
 import type { Grupo } from '@/types/grupo';
 
@@ -135,6 +136,7 @@ const estilos = StyleSheet.create({
     paddingHorizontal: medidas.margemTela,
   },
   dica: {
+    fontFamily: tipografia.texto.regular,
     color: cores.textoApagado,
     fontSize: 14,
     textAlign: 'center',

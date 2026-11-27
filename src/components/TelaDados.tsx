@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useRef, useState, type ComponentProps, type ReactNode } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -9,25 +9,34 @@ import { EstadoVazio } from '@/components/EstadoVazio';
 import { ListaAtualizavel } from '@/components/ListaAtualizavel';
 import { cores } from '@/theme/cores';
 import { medidas } from '@/theme/medidas';
+import { tipografia } from '@/theme/tipografia';
 
 export function TelaDados<T>({
   carregar,
   renderizar,
   titulo,
+  sobretitulo,
   subtitulo,
   vazio,
   mensagemVazia = 'Nenhum item para mostrar.',
   acaoVazia,
+  tituloVazio,
+  iconeVazio,
   recarregarAoFocar = true,
   margemTopo = true,
 }: {
   carregar: () => Promise<T>;
   renderizar: (dados: T) => ReactNode;
   titulo: string;
+  /** Linha pequena acima do título (a data, na C0). */
+  sobretitulo?: string;
   subtitulo?: string;
   vazio?: (dados: T) => boolean;
   mensagemVazia?: string;
   acaoVazia?: ReactNode;
+  /** Estado vazio em destaque, com título e ícone (C0b). */
+  tituloVazio?: string;
+  iconeVazio?: ComponentProps<typeof EstadoVazio>['icone'];
   recarregarAoFocar?: boolean;
   /** `false` quando a tela já tem um cabeçalho próprio acima (evita a margem dobrada). */
   margemTopo?: boolean;
@@ -70,6 +79,7 @@ export function TelaDados<T>({
     <SafeAreaView style={estilos.tela} edges={margemTopo ? ['top'] : []}>
       <ListaAtualizavel atualizando={atualizando} aoAtualizar={() => void buscar(true)}>
         <View style={estilos.conteudo}>
+          {sobretitulo ? <Text style={estilos.sobretitulo}>{sobretitulo}</Text> : null}
           {titulo !== '' ? <Text style={estilos.titulo}>{titulo}</Text> : null}
           {subtitulo ? <Text style={estilos.subtitulo}>{subtitulo}</Text> : null}
           {carregando && dados === null ? (
@@ -77,7 +87,9 @@ export function TelaDados<T>({
           ) : erro !== null && dados === null ? (
             <EstadoErro erro={erro} tentarNovamente={() => void buscar()} />
           ) : dados !== null && vazio?.(dados) ? (
-            <EstadoVazio mensagem={mensagemVazia}>{acaoVazia}</EstadoVazio>
+            <EstadoVazio mensagem={mensagemVazia} titulo={tituloVazio} icone={iconeVazio}>
+              {acaoVazia}
+            </EstadoVazio>
           ) : dados !== null ? (
             <View>{renderizar(dados)}</View>
           ) : null}
@@ -93,6 +105,7 @@ export function TelaDados<T>({
 const estilos = StyleSheet.create({
   tela: { flex: 1, backgroundColor: cores.fundo },
   conteudo: { padding: medidas.margemTela, gap: 12 },
-  titulo: { color: cores.texto, fontSize: 32, fontWeight: '800', fontStyle: 'italic' },
-  subtitulo: { color: cores.textoSecundario, fontSize: 18 },
+  sobretitulo: { color: cores.textoApagado, fontFamily: tipografia.texto.medio, fontSize: 14 },
+  titulo: { color: cores.texto, fontFamily: tipografia.titulo, fontSize: 32 },
+  subtitulo: { color: cores.textoSecundario, fontFamily: tipografia.texto.regular, fontSize: 16 },
 });

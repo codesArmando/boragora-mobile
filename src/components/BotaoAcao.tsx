@@ -3,6 +3,7 @@ import type { ComponentProps } from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
 
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 import { medidas } from '@/theme/medidas';
 
 type Props = {
@@ -40,8 +41,8 @@ const estilos = StyleSheet.create({
     opacity: 0.8,
   },
   texto: {
+    fontFamily: tipografia.texto.negrito,
     color: cores.textoSobreDestaque,
     fontSize: 16,
-    fontWeight: '700',
   },
 });

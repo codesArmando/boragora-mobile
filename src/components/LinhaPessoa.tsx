@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { iniciais } from '@/components/LinhaAluno';
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 
 export function LinhaPessoa({
   nome,
@@ -44,8 +45,8 @@ const estilos = StyleSheet.create({
     backgroundColor: cores.superficieInterna,
     borderRadius: 20,
   },
-  iniciais: { color: cores.textoSecundario, fontSize: 14, fontWeight: '700' },
+  iniciais: { fontFamily: tipografia.texto.negrito, color: cores.textoSecundario, fontSize: 14 },
   textos: { flex: 1, gap: 3 },
-  nome: { color: cores.texto, fontSize: 16 },
-  email: { color: cores.textoApagado, fontSize: 14 },
+  nome: { fontFamily: tipografia.texto.regular, color: cores.texto, fontSize: 16 },
+  email: { fontFamily: tipografia.texto.regular, color: cores.textoApagado, fontSize: 14 },
 });

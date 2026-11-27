@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 
 export function Contadores({
   vaoNaIda,
@@ -48,7 +49,7 @@ const estilos = StyleSheet.create({
     borderRadius: 12,
   },
   blocoLiberado: { backgroundColor: '#194509' },
-  valor: { color: cores.texto, fontSize: 24, fontWeight: '700' },
+  valor: { fontFamily: tipografia.numero, color: cores.texto, fontSize: 26 },
   valorLiberado: { color: cores.liberadoFundo },
-  rotulo: { color: cores.textoSecundario, fontSize: 13 },
+  rotulo: { fontFamily: tipografia.texto.regular, color: cores.textoSecundario, fontSize: 13 },
 });

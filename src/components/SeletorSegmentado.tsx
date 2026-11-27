@@ -1,6 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 import { medidas } from '@/theme/medidas';
 
 export type OpcaoSegmentada<T extends string> = { valor: T; rotulo: string };
@@ -57,9 +58,9 @@ const estilos = StyleSheet.create({
     gap: 8,
   },
   rotulo: {
+    fontFamily: tipografia.texto.semibold,
     color: cores.textoSecundario,
     fontSize: 14,
-    fontWeight: '600',
   },
   caixa: {
     flexDirection: 'row',
@@ -84,12 +85,12 @@ const estilos = StyleSheet.create({
     opacity: 0.4,
   },
   texto: {
+    fontFamily: tipografia.texto.semibold,
     color: cores.textoSecundario,
     fontSize: 15,
-    fontWeight: '600',
   },
   textoSelecionado: {
+    fontFamily: tipografia.texto.negrito,
     color: cores.textoSobreDestaque,
-    fontWeight: '700',
   },
 });

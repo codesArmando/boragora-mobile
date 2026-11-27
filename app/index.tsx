@@ -3,6 +3,7 @@ import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-nati
 
 import { useSessao } from '@/contexts/SessaoContext';
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 import { medidas } from '@/theme/medidas';
 
 // Ponto de entrada: redireciona conforme a sessão e o papel (FND-07). O chefe é MOTORISTA
@@ -46,6 +47,7 @@ const estilos = StyleSheet.create({
     backgroundColor: cores.fundo,
   },
   mensagem: {
+    fontFamily: tipografia.texto.regular,
     color: cores.textoSecundario,
     fontSize: 16,
     textAlign: 'center',
@@ -58,8 +60,8 @@ const estilos = StyleSheet.create({
     borderRadius: medidas.raioBotao,
   },
   textoBotao: {
+    fontFamily: tipografia.texto.negrito,
     color: cores.textoSobreDestaque,
     fontSize: 16,
-    fontWeight: '700',
   },
 });

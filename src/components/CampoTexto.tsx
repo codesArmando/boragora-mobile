@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View, type TextInputProps } from 'react-native';
 
 import { cores } from '@/theme/cores';
+import { tipografia } from '@/theme/tipografia';
 import { medidas } from '@/theme/medidas';
 import { mascararHora } from '@/utils/mascaras';
 
@@ -86,9 +87,9 @@ const estilos = StyleSheet.create({
     gap: 8,
   },
   rotulo: {
+    fontFamily: tipografia.texto.semibold,
     color: cores.textoSecundario,
     fontSize: 14,
-    fontWeight: '600',
   },
   caixa: {
     height: medidas.alturaCampo,
@@ -106,6 +107,7 @@ const estilos = StyleSheet.create({
     borderColor: cores.perigo,
   },
   entrada: {
+    fontFamily: tipografia.texto.regular,
     flex: 1,
     height: '100%',
     paddingHorizontal: 16,
@@ -113,8 +115,8 @@ const estilos = StyleSheet.create({
     fontSize: 16,
   },
   entradaHora: {
+    fontFamily: tipografia.texto.negrito,
     fontSize: 22,
-    fontWeight: '700',
   },
   olho: {
     minWidth: medidas.areaToqueMinima,
@@ -123,10 +125,12 @@ const estilos = StyleSheet.create({
     justifyContent: 'center',
   },
   erro: {
+    fontFamily: tipografia.texto.regular,
     color: cores.perigo,
     fontSize: 14,
   },
   dica: {
+    fontFamily: tipografia.texto.regular,
     color: cores.textoApagado,
     fontSize: 14,
   },
