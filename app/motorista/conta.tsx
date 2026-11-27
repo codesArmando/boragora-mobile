@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
+import { router } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Cartao } from '@/components/Cartao';
-import { EstadoVazio } from '@/components/EstadoVazio';
 import { iniciais } from '@/components/LinhaAluno';
 import { TelaDados } from '@/components/TelaDados';
 import { useSessao } from '@/contexts/SessaoContext';
@@ -30,28 +30,36 @@ export default function ContaMotorista() {
               </View>
             </View>
           )}
-          {turmas.length > 0 && <Text style={estilos.rotulo}>MINHAS TURMAS</Text>}
-          {turmas.length ? (
-            <Cartao>
-              {turmas.map((turma) => (
-                <View key={turma.id} style={estilos.turma}>
-                  <Text style={estilos.turmaNome}>
-                    {turma.grupo.nome} · {turma.nome}
-                  </Text>
-                  <Text style={estilos.turmaDetalhe}>
-                    Ida {turma.grupo.horarioSaidaIda}, volta {turma.grupo.horarioSaidaVolta}
-                  </Text>
-                </View>
-              ))}
-            </Cartao>
-          ) : (
-            <EstadoVazio mensagem="Você ainda não conduz nenhuma turma." />
-          )}
-          <Text style={estilos.nota}>
-            Quem define a turma de cada motorista é o motorista-chefe.
-          </Text>
-          <Pressable onPress={() => void sair()} style={estilos.sair}>
-            <Text style={estilos.textoSair}>Sair</Text>
+          {turmas.length > 0 ? (
+            <>
+              <Text style={estilos.rotulo}>MINHAS TURMAS</Text>
+              <Cartao>
+                {turmas.map((turma) => (
+                  <View key={turma.id} style={estilos.turma}>
+                    <Text style={estilos.turmaNome}>
+                      {turma.grupo.nome} · {turma.nome}
+                    </Text>
+                    <Text style={estilos.turmaDetalhe}>
+                      Ida {turma.grupo.horarioSaidaIda}, volta {turma.grupo.horarioSaidaVolta} ·{' '}
+                      {turma.contadores.vaoNaIda + turma.contadores.canceladosAposSaida} alunos
+                    </Text>
+                  </View>
+                ))}
+              </Cartao>
+              <Text style={estilos.nota}>
+                Quem define a turma de cada motorista é o motorista-chefe.
+              </Text>
+            </>
+          ) : null}
+          <Pressable
+            accessibilityRole="button"
+            onPress={async () => {
+              await sair();
+              router.replace('/(auth)/entrar');
+            }}
+            style={estilos.sair}
+          >
+            <Text style={estilos.textoSair}>↪ Sair</Text>
           </Pressable>
         </View>
       )}
@@ -76,7 +84,7 @@ const estilos = StyleSheet.create({
   email: { color: cores.textoSecundario, fontSize: 15 },
   rotulo: { color: cores.textoApagado, fontSize: 13, fontWeight: '700' },
   turma: {
-    minHeight: 54,
+    minHeight: 74,
     justifyContent: 'center',
     gap: 2,
     borderBottomWidth: StyleSheet.hairlineWidth,
