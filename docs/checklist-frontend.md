@@ -174,7 +174,7 @@ Backend: E3 (pronta) — `GET /grupos`.
 Backend: E2 (pronta) — login; mesmo 401 para senha errada, e-mail inexistente e usuário inativo.
 
 **Construção**
-- [ ] Tela A1 com logo, e-mail, senha, "Entrar" e link "Criar conta"
+- [x] Tela A1 com logo, e-mail, senha, "Entrar" e link "Criar conta"
 
 **Critérios de aceite**
 - [ ] Login válido leva à tela inicial do papel *(verificação manual)*
@@ -185,7 +185,7 @@ Backend: E2 (pronta) — login; mesmo 401 para senha errada, e-mail inexistente 
 Backend: E2 (pronta) — cadastro; 409 `EMAIL_JA_CADASTRADO`.
 
 **Construção**
-- [ ] Tela A2 com nome, e-mail, senha, "Criar conta" e link "Entrar"
+- [x] Tela A2 com nome, e-mail, senha, "Criar conta" e link "Entrar"
 
 **Critérios de aceite**
 - [ ] Cadastro válido deixa o aluno logado e abre a A3 *(verificação manual)*
@@ -198,7 +198,7 @@ Backend: nenhum.
 **Construção**
 - [ ] Projeto no EAS e `projectId` na configuração do app
 - [ ] Credenciais do Firebase (FCM) para Android
-- [ ] `expo-notifications` com pedido de permissão e canal de notificações
+- [x] `expo-notifications` com pedido de permissão e canal de notificações
 - [ ] Development build instalado em um aparelho Android
 
 **Critérios de aceite**
@@ -507,7 +507,7 @@ Backend: E7 (pronta) — `GET /turmas/{id}/hoje`.
 - [x] Na volta, os liberados aparecem primeiro *(ordenação fornecida pela API; verificar integração E7)*
 - [ ] Turma sem confirmações mostra a C5 *(verificação manual)*
 
-### `LIS-02` Grupo do aluno: ida e volta (B8 e B8b) · pessoa 4 (aguardando LIS-03)
+### `LIS-02` Grupo do aluno: ida e volta (B8 e B8b) · pessoa 4
 Backend: E7 (pronta) — `GET /grupos/{id}/hoje` com `minhaTurma` e `voce`; 403 fora do grupo.
 
 **Construção**
@@ -527,7 +527,7 @@ Backend: E7 (pronta) — o mesmo endpoint.
 **Critérios de aceite**
 - [ ] O chefe abre qualquer grupo e vê todas as turmas abertas onde não conduz turma *(verificação manual)*
 
-### `ACE-04` Conta do motorista e do chefe (C6) · pessoa 3 — aguardando E7
+### `ACE-04` Conta do motorista e do chefe (C6) · pessoa 3
 Backend: E2 (pronta) para perfil e "Sair"; E7 para "Minhas turmas".
 
 **Construção**
@@ -545,8 +545,8 @@ Backend: E2 (pronta) para perfil e "Sair"; E7 para "Minhas turmas".
 Backend: E8 (pronta) — `PUT /me/push-token` e `DELETE /me/push-token`.
 
 **Construção**
-- [ ] `repositories/pushRepository.ts`
-- [ ] Envio do token depois do login; remoção antes de apagar a sessão ao sair
+- [x] `repositories/pushRepository.ts`
+- [x] Envio do token depois do login; remoção antes de apagar a sessão ao sair
 
 **Critérios de aceite**
 - [ ] Depois do login, o token aparece gravado no backend *(verificação manual)*
@@ -556,8 +556,8 @@ Backend: E8 (pronta) — `PUT /me/push-token` e `DELETE /me/push-token`.
 Backend: E8 (pronta) — push de cancelamento tardio e lembrete, com o campo `data`.
 
 **Construção**
-- [ ] Aviso dentro do app quando a notificação chega com o app aberto
-- [ ] Tratamento do toque com o app aberto e fechado, conforme a tabela da seção 5.6 do plano
+- [x] Aviso dentro do app quando a notificação chega com o app aberto
+- [x] Tratamento do toque com o app aberto e fechado, conforme a tabela da seção 5.6 do plano
 
 **Critérios de aceite**
 - [ ] O lembrete abre a B1 da turma, e voltar leva à tela inicial do aluno *(verificação manual)*
@@ -572,7 +572,7 @@ Backend: E8 (pronta) — push de cancelamento tardio e lembrete, com o campo `da
 ### `FEC-01` Roteiro de teste de ponta a ponta · todos
 Backend: E9 (em andamento) — carga de dados e `app.relogio.fixo`.
 
-- [ ] Roteiro escrito: o chefe cria grupo, motorista e turma pela aba Gestão; o aluno se cadastra e aparece na D10 como "Sem turma"; o chefe vincula; o aluno declara o plano; o motorista vê a lista; o aluno cancela depois da saída; o motorista recebe o push e cai na C1 com o aluno cancelado
+- [x] Roteiro escrito: o chefe cria grupo, motorista e turma pela aba Gestão; o aluno se cadastra e aparece na D10 como "Sem turma"; o chefe vincula; o aluno declara o plano; o motorista vê a lista; o aluno cancela depois da saída; o motorista recebe o push e cai na C1 com o aluno cancelado (`docs/roteiro-de-teste.md`)
 - [ ] Roteiro executado pela pessoa 1 *(verificação manual)*
 - [ ] Roteiro executado pela pessoa 2 *(verificação manual)*
 - [ ] Roteiro executado pela pessoa 3 *(verificação manual)*
@@ -591,17 +591,17 @@ Backend: E9 (em andamento) — API escutando em `0.0.0.0`.
 
 ### `FEC-04` README do app · todos
 
-- [ ] Instalação e configuração de `EXPO_PUBLIC_API_URL`
-- [ ] Como trocar dados falsos por reais
-- [ ] Como gerar o development build
-- [ ] Usuários de demonstração
+- [x] Instalação e configuração de `EXPO_PUBLIC_API_URL`
+- [x] Como trocar dados falsos por reais
+- [x] Como gerar o development build
+- [x] Usuários de demonstração
 
 ---
 
 ## Pendências de conferência da equipe
 
 - [ ] Confirmar com o professor se o Expo Push Service atende ao RNF04 (também listado no `checklist-backend.md`)
-- [ ] Combinar como trocar `app.relogio.fixo` durante os testes das telas B1 a B7
+- [x] Combinar como trocar `app.relogio.fixo` durante os testes das telas B1 a B7
 
 ---
 
@@ -666,3 +666,8 @@ Registrar aqui tudo o que for decidido na implementação e não estiver no plan
 | 2026-11-08 | `GES-06` a `GES-12` | Enquanto E4 e E5 não fecham, a D3 e a D10 usam os dados falsos de `mocks/consultas.ts` e a gestão usa os de `mocks/gestao.ts`: uma turma criada na D4 ou um aluno vinculado na D6 não aparecem na D3 nem na D10 | Unificar os dados falsos mudaria arquivos da pessoa 3; com a API real, todas as telas mostram os mesmos dados |
 | 2026-11-08 | `FND-03` | Removido o atalho provisório para o catálogo na A1; o catálogo continua na rota `/catalogo` | A A1 é da `ACE-01` (pessoa 1) |
 | 2026-11-26 | Todas | Retiradas as anotações "aguardando E4" a "aguardando E8" e marcadas como prontas as etapas E4 a E8 nas linhas "Backend" e na tabela de progresso; ondas 1 a 4 passam a "Em andamento" | O `checklist-backend.md` dá E4 a E8 como concluídas (E9 em andamento). Os critérios seguem desmarcados até serem conferidos com o backend real, com os mocks desligados |
+| 2026-11-26 | Todas | Projeto atualizado para o SDK 58 (o Expo Go da loja só aceita o SDK 58). NativeWind desligado no babel e no metro | O NativeWind 4.2.7 anulava o `style` em forma de função do `Pressable` no RN 0.88 (botões invisíveis); o app não usa `className` |
+| 2026-11-26 | `ACE-01`, `ACE-02` | Logo e símbolo da marca convertidos de SVG para PNG (`assets/logo-boragora.png`, `assets/simbolo-boragora.png`) | O projeto não tem biblioteca de SVG; o PNG evita uma dependência nativa nova |
+| 2026-11-26 | `NOT-01` a `NOT-03` | Código das notificações pronto (`src/notificacoes/`); no Expo Go o módulo não é carregado e o push vira no-op. Sem `projectId` do EAS, o app não pede token | O Expo Go não recebe push remoto desde o SDK 53. Falta criar o projeto no EAS, as credenciais do FCM e o development build |
+| 2026-11-26 | `ALU-02` a `ALU-06` | Texto de cada trecho por situação ("Confirmada · sai às", "a van saiu às", "Cancelada depois da saída", cadeado) e a B4 na folha inferior do app (`DialogoConfirmacao`) | O texto era sempre "marque até lá" e a B4 usava o alerta do sistema |
+| 2026-11-26 | `FND-02` | Fontes Barlow/Saira aplicadas em todas as telas e componentes | Só as telas do aluno usavam as fontes do protótipo |
