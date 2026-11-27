@@ -12,6 +12,8 @@ import {
 
 import { setAuthToken, setUnauthorizedHandler } from '@/api/api';
 import { ErroApi } from '@/api/ErroApi';
+import { pushDisponivel } from '@/push/push';
+import { registrarAparelho, removerAparelho } from '@/push/registro';
 import * as authRepository from '@/repositories/authRepository';
 import type { TokenResposta } from '@/types/auth';
 import type { Usuario } from '@/types/usuario';
@@ -64,6 +66,7 @@ export function SessaoProvider({ children }: { children: ReactNode }) {
     sessaoAtiva.current = true;
     setUsuario(novoUsuario);
     setSessaoExpirada(false);
+    void registrarAparelho();
     return novoUsuario;
   }, []);
 
@@ -85,6 +88,8 @@ export function SessaoProvider({ children }: { children: ReactNode }) {
       setAuthToken(token);
       sessaoAtiva.current = true;
       setUsuario(await authRepository.buscarUsuarioLogado());
+      // O token do Expo pode ter mudado desde o último login.
+      void registrarAparelho();
     } catch (erro) {
       // O 401 já foi tratado por `encerrarPorExpiracao`.
       if (!(erro instanceof ErroApi && erro.status === 401)) {
@@ -119,6 +124,11 @@ export function SessaoProvider({ children }: { children: ReactNode }) {
   );
 
   const sair = useCallback(async () => {
+    // Remove o token antes de apagar a sessão: a chamada precisa do token de acesso (NOT-02).
+    // Só onde há push, para um Expo Go não apagar o token de outro aparelho da mesma conta.
+    if (sessaoAtiva.current && pushDisponivel()) {
+      await removerAparelho();
+    }
     await limpar();
     setSessaoExpirada(false);
   }, [limpar]);

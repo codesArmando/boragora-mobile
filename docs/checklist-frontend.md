@@ -545,8 +545,8 @@ Backend: E2 (pronta) para perfil e "Sair"; E7 para "Minhas turmas".
 Backend: E8 (pronta) — `PUT /me/push-token` e `DELETE /me/push-token`.
 
 **Construção**
-- [ ] `repositories/pushRepository.ts`
-- [ ] Envio do token depois do login; remoção antes de apagar a sessão ao sair
+- [x] `repositories/pushRepository.ts`
+- [x] Envio do token depois do login; remoção antes de apagar a sessão ao sair
 
 **Critérios de aceite**
 - [ ] Depois do login, o token aparece gravado no backend *(verificação manual)*
@@ -672,3 +672,4 @@ Registrar aqui tudo o que for decidido na implementação e não estiver no plan
 | 2026-11-26 | `NOT-01` | Push em `src/push/push.ts` (pasta nova em `src/`, fora da seção 2.2): canal "Avisos da van", pedido de permissão e `getExpoPushTokenAsync` com o `projectId` de `extra.eas.projectId`. No Expo Go do Android e no emulador as funções devolvem `null` e o app segue sem push | O Expo Go do Android não recebe push desde o SDK 53; a equipe continua usando o Expo Go para as outras telas |
 | 2026-11-26 | `NOT-01` | O token aparece, só em desenvolvimento (`__DEV__`), no fim da B9 e da C6 (componente `TokenPushDev`, texto selecionável) | Critério "o app mostra o Expo push token no aparelho" sem tela nova |
 | 2026-11-26 | `NOT-01` | `android.package` = `br.com.boragora.mobile`, `eas.json` com o perfil `development` (APK interno) e `expo-dev-client` instalado. Faltam o `projectId` (`eas init`) e o `google-services.json` do Firebase, que dependem das contas da equipe | O pacote do Android precisa ser o mesmo cadastrado no Firebase |
+| 2026-11-26 | `NOT-02` | O token é enviado depois do login, do cadastro e da sessão restaurada ao abrir o app (o token do Expo pode mudar). Ao sair, o `DELETE /me/push-token` espera no máximo 3 s e as falhas são ignoradas; depois a sessão é apagada. Sem push no aparelho (Expo Go no Android, emulador), o app não chama o `DELETE` | Sem conexão, sair não pode travar; como o backend guarda um token por usuário, sair pelo Expo Go apagaria o token do development build da mesma conta |
