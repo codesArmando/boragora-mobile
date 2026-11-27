@@ -7,6 +7,7 @@ import { Cartao } from '@/components/Cartao';
 import { EstadoErro } from '@/components/EstadoErro';
 import { PerfilConta } from '@/components/PerfilConta';
 import { Tela } from '@/components/Tela';
+import { TokenPushDev } from '@/components/TokenPushDev';
 import { useSessao } from '@/contexts/SessaoContext';
 import { listarMinhasTurmas } from '@/repositories/planoRepository';
 import type { TurmaDoAluno } from '@/types/plano';
@@ -76,6 +77,7 @@ export default function ContaAluno() {
         {erro !== null && turmas !== null && (
           <EstadoErro erro={erro} tentarNovamente={() => void carregar()} />
         )}
+        {__DEV__ && <TokenPushDev />}
       </ScrollView>
     </Tela>
   );

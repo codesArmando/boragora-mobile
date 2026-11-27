@@ -198,7 +198,7 @@ Backend: nenhum.
 **Construção**
 - [ ] Projeto no EAS e `projectId` na configuração do app
 - [ ] Credenciais do Firebase (FCM) para Android
-- [ ] `expo-notifications` com pedido de permissão e canal de notificações
+- [x] `expo-notifications` com pedido de permissão e canal de notificações
 - [ ] Development build instalado em um aparelho Android
 
 **Critérios de aceite**
@@ -669,3 +669,6 @@ Registrar aqui tudo o que for decidido na implementação e não estiver no plan
 | 2026-11-15 | `ACE-01` | Na A1, campos vazios são barrados no app com as mesmas mensagens do backend; o aviso "Sua sessão expirou" aparece acima do formulário. Removido o `PainelSessaoProvisorio` (painéis de teste da `FND-05` a `FND-07`), que nenhuma tela usava mais | O painel previa sair com a A1 real |
 | 2026-11-26 | Todas | Retiradas as anotações "aguardando E4" a "aguardando E8" e marcadas como prontas as etapas E4 a E8 nas linhas "Backend" e na tabela de progresso; ondas 1 a 4 passam a "Em andamento" | O `checklist-backend.md` dá E4 a E8 como concluídas (E9 em andamento). Os critérios seguem desmarcados até serem conferidos com o backend real, com os mocks desligados |
 | 2026-11-26 | `ACE-02` | Na A2, nome vazio, e-mail vazio e senha vazia ou com menos de 6 caracteres são barrados no app com as mesmas mensagens do backend. O 409 `EMAIL_JA_CADASTRADO` marca o campo de e-mail; os demais erros sem `campos` aparecem acima do formulário. Voltar e "Entrar" retornam à A1. Removido o `TelaProvisoria`, que nenhuma rota usa mais | Critérios da `ACE-02`; decisão da `FND-01` sobre o componente provisório |
+| 2026-11-26 | `NOT-01` | Push em `src/push/push.ts` (pasta nova em `src/`, fora da seção 2.2): canal "Avisos da van", pedido de permissão e `getExpoPushTokenAsync` com o `projectId` de `extra.eas.projectId`. No Expo Go do Android e no emulador as funções devolvem `null` e o app segue sem push | O Expo Go do Android não recebe push desde o SDK 53; a equipe continua usando o Expo Go para as outras telas |
+| 2026-11-26 | `NOT-01` | O token aparece, só em desenvolvimento (`__DEV__`), no fim da B9 e da C6 (componente `TokenPushDev`, texto selecionável) | Critério "o app mostra o Expo push token no aparelho" sem tela nova |
+| 2026-11-26 | `NOT-01` | `android.package` = `br.com.boragora.mobile`, `eas.json` com o perfil `development` (APK interno) e `expo-dev-client` instalado. Faltam o `projectId` (`eas init`) e o `google-services.json` do Firebase, que dependem das contas da equipe | O pacote do Android precisa ser o mesmo cadastrado no Firebase |

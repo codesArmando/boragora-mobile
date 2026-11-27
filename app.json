@@ -15,7 +15,8 @@
         "backgroundColor": "#FFC800",
         "foregroundImage": "./assets/android-icon-foreground.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "br.com.boragora.mobile"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -32,7 +33,14 @@
           "backgroundColor": "#FFC800"
         }
       ],
-      "expo-status-bar"
+      "expo-status-bar",
+      [
+        "expo-notifications",
+        {
+          "color": "#FFC800",
+          "defaultChannel": "default"
+        }
+      ]
     ]
   }
 }
