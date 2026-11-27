@@ -22,6 +22,7 @@ export default function ListaDoDia() {
 
   return (
     <TelaDados
+      voltar
       carregar={carregar}
       titulo="Lista do dia"
       subtitulo="Acompanhe as confirmações da turma."

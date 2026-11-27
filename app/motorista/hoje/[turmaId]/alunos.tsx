@@ -15,6 +15,7 @@ export default function AlunosDaTurma() {
 
   return (
     <TelaDados
+      voltar
       carregar={carregar}
       titulo="Alunos vinculados"
       renderizar={(turma) => (

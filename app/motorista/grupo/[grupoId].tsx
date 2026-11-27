@@ -11,6 +11,7 @@ export default function GrupoMotorista() {
 
   return (
     <TelaDados
+      voltar
       carregar={carregar}
       titulo=""
       renderizar={(grupo) => <ListaDoGrupo grupo={grupo} papel="motorista" />}

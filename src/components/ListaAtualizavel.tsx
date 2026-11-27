@@ -15,6 +15,7 @@ export function ListaAtualizavel({
   return (
     <ScrollView
       contentContainerStyle={estilos.conteudo}
+      keyboardShouldPersistTaps="handled"
       refreshControl={
         <RefreshControl
           refreshing={atualizando}

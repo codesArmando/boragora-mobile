@@ -3,9 +3,11 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { BotaoVoltar } from '@/components/BotaoVoltar';
 import { Carregando } from '@/components/Carregando';
 import { EstadoErro } from '@/components/EstadoErro';
 import { EstadoVazio } from '@/components/EstadoVazio';
+import { EvitarTeclado } from '@/components/EvitarTeclado';
 import { ListaAtualizavel } from '@/components/ListaAtualizavel';
 import { cores } from '@/theme/cores';
 import { medidas } from '@/theme/medidas';
@@ -20,6 +22,7 @@ export function TelaDados<T>({
   acaoVazia,
   recarregarAoFocar = true,
   margemTopo = true,
+  voltar = false,
 }: {
   carregar: () => Promise<T>;
   renderizar: (dados: T) => ReactNode;
@@ -31,6 +34,8 @@ export function TelaDados<T>({
   recarregarAoFocar?: boolean;
   /** `false` quando a tela já tem um cabeçalho próprio acima (evita a margem dobrada). */
   margemTopo?: boolean;
+  /** Mostra a seta de voltar acima do conteúdo. Usar em toda tela empilhada (não inicial da aba). */
+  voltar?: boolean;
 }) {
   const [dados, setDados] = useState<T | null>(null);
   const [erro, setErro] = useState<unknown>(null);
@@ -68,30 +73,38 @@ export function TelaDados<T>({
 
   return (
     <SafeAreaView style={estilos.tela} edges={margemTopo ? ['top'] : []}>
-      <ListaAtualizavel atualizando={atualizando} aoAtualizar={() => void buscar(true)}>
-        <View style={estilos.conteudo}>
-          {titulo !== '' ? <Text style={estilos.titulo}>{titulo}</Text> : null}
-          {subtitulo ? <Text style={estilos.subtitulo}>{subtitulo}</Text> : null}
-          {carregando && dados === null ? (
-            <Carregando />
-          ) : erro !== null && dados === null ? (
-            <EstadoErro erro={erro} tentarNovamente={() => void buscar()} />
-          ) : dados !== null && vazio?.(dados) ? (
-            <EstadoVazio mensagem={mensagemVazia}>{acaoVazia}</EstadoVazio>
-          ) : dados !== null ? (
-            <View>{renderizar(dados)}</View>
-          ) : null}
-          {dados !== null && erro !== null && (
-            <EstadoErro erro={erro} tentarNovamente={() => void buscar()} />
-          )}
+      {voltar && (
+        <View style={estilos.barraVoltar}>
+          <BotaoVoltar />
         </View>
-      </ListaAtualizavel>
+      )}
+      <EvitarTeclado>
+        <ListaAtualizavel atualizando={atualizando} aoAtualizar={() => void buscar(true)}>
+          <View style={estilos.conteudo}>
+            {titulo !== '' ? <Text style={estilos.titulo}>{titulo}</Text> : null}
+            {subtitulo ? <Text style={estilos.subtitulo}>{subtitulo}</Text> : null}
+            {carregando && dados === null ? (
+              <Carregando />
+            ) : erro !== null && dados === null ? (
+              <EstadoErro erro={erro} tentarNovamente={() => void buscar()} />
+            ) : dados !== null && vazio?.(dados) ? (
+              <EstadoVazio mensagem={mensagemVazia}>{acaoVazia}</EstadoVazio>
+            ) : dados !== null ? (
+              <View>{renderizar(dados)}</View>
+            ) : null}
+            {dados !== null && erro !== null && (
+              <EstadoErro erro={erro} tentarNovamente={() => void buscar()} />
+            )}
+          </View>
+        </ListaAtualizavel>
+      </EvitarTeclado>
     </SafeAreaView>
   );
 }
 
 const estilos = StyleSheet.create({
   tela: { flex: 1, backgroundColor: cores.fundo },
+  barraVoltar: { paddingHorizontal: 12 },
   conteudo: { padding: medidas.margemTela, gap: 12 },
   titulo: { color: cores.texto, fontSize: 32, fontWeight: '800', fontStyle: 'italic' },
   subtitulo: { color: cores.textoSecundario, fontSize: 18 },

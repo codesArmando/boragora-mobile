@@ -1,6 +1,8 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+
+import { EvitarTeclado } from '@/components/EvitarTeclado';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ErroApi } from '@/api/ErroApi';
@@ -59,10 +61,7 @@ export default function Entrar() {
 
   return (
     <SafeAreaView style={estilos.tela}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        style={estilos.corpo}
-      >
+      <EvitarTeclado style={estilos.corpo}>
         <ScrollView contentContainerStyle={estilos.conteudo} keyboardShouldPersistTaps="handled">
           <View style={estilos.principal}>
             <View style={estilos.logo}>
@@ -122,7 +121,7 @@ export default function Entrar() {
             />
           </View>
         </ScrollView>
-      </KeyboardAvoidingView>
+      </EvitarTeclado>
     </SafeAreaView>
   );
 }

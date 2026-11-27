@@ -10,6 +10,7 @@ export default function GrupoAluno() {
   const carregar = useCallback(() => buscarGrupoHojeAluno(id), [id]);
   return (
     <TelaDados
+      voltar
       carregar={carregar}
       titulo=""
       subtitulo=""

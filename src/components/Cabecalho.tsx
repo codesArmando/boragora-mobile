@@ -1,13 +1,12 @@
-import Feather from '@expo/vector-icons/Feather';
 import { router } from 'expo-router';
 import type { ComponentProps } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { BotaoAcao } from '@/components/BotaoAcao';
+import { BotaoVoltar } from '@/components/BotaoVoltar';
 import { cores } from '@/theme/cores';
-import { medidas } from '@/theme/medidas';
 
-type Acao = { rotulo: string; onPress: () => void; icone?: ComponentProps<typeof Feather>['name'] };
+type Acao = ComponentProps<typeof BotaoAcao>;
 
 type Props = {
   titulo: string;
@@ -27,16 +26,7 @@ export function Cabecalho({ titulo, subtitulo, voltar, onVoltar, acao }: Props) 
   return (
     <View style={estilos.cabecalho}>
       <View style={estilos.linha}>
-        {mostrarVoltar && (
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="Voltar"
-            onPress={onVoltar ?? (() => router.back())}
-            style={estilos.voltar}
-          >
-            <Feather name="arrow-left" size={26} color={cores.texto} />
-          </Pressable>
-        )}
+        {mostrarVoltar && <BotaoVoltar onPress={onVoltar} />}
         <Text accessibilityRole="header" numberOfLines={1} style={estilos.titulo}>
           {titulo}
         </Text>
@@ -60,12 +50,6 @@ const estilos = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-  },
-  voltar: {
-    width: medidas.areaToqueMinima,
-    height: medidas.areaToqueMinima,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   titulo: {
     flex: 1,

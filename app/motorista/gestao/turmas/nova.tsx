@@ -1,6 +1,8 @@
 import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+
+import { EvitarTeclado } from '@/components/EvitarTeclado';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ErroApi } from '@/api/ErroApi';
@@ -133,10 +135,7 @@ export default function NovaTurma() {
       )}
 
       {grupos !== null && motoristas !== null && grupos.length > 0 && (
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-          style={estilos.corpo}
-        >
+        <EvitarTeclado style={estilos.corpo}>
           <ScrollView contentContainerStyle={estilos.conteudo} keyboardShouldPersistTaps="handled">
             {erroGeral !== null && <Aviso tom="alerta" titulo={erroGeral} />}
 
@@ -184,7 +183,7 @@ export default function NovaTurma() {
             <Text style={estilos.aviso}>Os alunos são vinculados no próximo passo.</Text>
             <Botao rotulo="Criar turma" carregando={salvando} onPress={criar} />
           </View>
-        </KeyboardAvoidingView>
+        </EvitarTeclado>
       )}
     </SafeAreaView>
   );

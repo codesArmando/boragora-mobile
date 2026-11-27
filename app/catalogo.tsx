@@ -7,6 +7,7 @@ import { Botao } from '@/components/Botao';
 import { Cabecalho } from '@/components/Cabecalho';
 import { CampoTexto } from '@/components/CampoTexto';
 import { DialogoConfirmacao } from '@/components/DialogoConfirmacao';
+import { EvitarTeclado } from '@/components/EvitarTeclado';
 import { SeletorModal, type OpcaoSeletor } from '@/components/SeletorModal';
 import { SeletorSegmentado } from '@/components/SeletorSegmentado';
 import { cores } from '@/theme/cores';
@@ -49,100 +50,102 @@ export default function Catalogo() {
         subtitulo="FND-03 · componentes de formulário e de ação"
         acao={{ rotulo: 'Novo grupo', icone: 'plus', onPress: () => {} }}
       />
-      <ScrollView contentContainerStyle={estilos.conteudo} keyboardShouldPersistTaps="handled">
-        <Secao titulo="Botao">
-          <Botao rotulo="Primário" onPress={() => {}} />
-          <Botao rotulo="Contorno" variante="contorno" onPress={() => {}} />
-          <Botao rotulo="Texto" variante="texto" onPress={() => {}} />
-          <Botao rotulo="Perigo" variante="perigo" onPress={() => {}} />
-          <Botao rotulo="Excluir grupo" variante="perigoContorno" onPress={() => {}} />
-          <Botao rotulo="Desabilitado" desabilitado onPress={() => {}} />
-          <Botao
-            rotulo={carregando ? 'Salvando' : 'Tocar para simular carregando'}
-            carregando={carregando}
-            onPress={simularEnvio}
-          />
-        </Secao>
+      <EvitarTeclado>
+        <ScrollView contentContainerStyle={estilos.conteudo} keyboardShouldPersistTaps="handled">
+          <Secao titulo="Botao">
+            <Botao rotulo="Primário" onPress={() => {}} />
+            <Botao rotulo="Contorno" variante="contorno" onPress={() => {}} />
+            <Botao rotulo="Texto" variante="texto" onPress={() => {}} />
+            <Botao rotulo="Perigo" variante="perigo" onPress={() => {}} />
+            <Botao rotulo="Excluir grupo" variante="perigoContorno" onPress={() => {}} />
+            <Botao rotulo="Desabilitado" desabilitado onPress={() => {}} />
+            <Botao
+              rotulo={carregando ? 'Salvando' : 'Tocar para simular carregando'}
+              carregando={carregando}
+              onPress={simularEnvio}
+            />
+          </Secao>
 
-        <Secao titulo="CampoTexto">
-          <CampoTexto rotulo="Nome do grupo" value={nome} onChangeText={setNome} />
-          <CampoTexto
-            rotulo="Saída da ida (máscara HH:mm)"
-            mascara="hora"
-            value={ida}
-            onChangeText={setIda}
-            erro={ida !== '' && !horaCompleta(ida) ? 'Use o formato HH:mm' : null}
-          />
-          <CampoTexto
-            rotulo="Senha"
-            senha
-            placeholder="Sua senha"
-            value={senha}
-            onChangeText={setSenha}
-          />
-          <CampoTexto
-            rotulo="Nome da turma"
-            value="Van 2"
-            dica="Texto livre, até 60 caracteres. Ex.: Van 2 ou Van da Zona Sul."
-          />
-          <CampoTexto rotulo="Com erro" value="x" erro="Mensagem de erro do backend" />
-        </Secao>
+          <Secao titulo="CampoTexto">
+            <CampoTexto rotulo="Nome do grupo" value={nome} onChangeText={setNome} />
+            <CampoTexto
+              rotulo="Saída da ida (máscara HH:mm)"
+              mascara="hora"
+              value={ida}
+              onChangeText={setIda}
+              erro={ida !== '' && !horaCompleta(ida) ? 'Use o formato HH:mm' : null}
+            />
+            <CampoTexto
+              rotulo="Senha"
+              senha
+              placeholder="Sua senha"
+              value={senha}
+              onChangeText={setSenha}
+            />
+            <CampoTexto
+              rotulo="Nome da turma"
+              value="Van 2"
+              dica="Texto livre, até 60 caracteres. Ex.: Van 2 ou Van da Zona Sul."
+            />
+            <CampoTexto rotulo="Com erro" value="x" erro="Mensagem de erro do backend" />
+          </Secao>
 
-        <Secao titulo="SeletorSegmentado">
-          <SeletorSegmentado
-            rotulo="Período"
-            opcoes={[
-              { valor: 'MANHA', rotulo: 'Manhã' },
-              { valor: 'TARDE', rotulo: 'Tarde' },
-              { valor: 'NOITE', rotulo: 'Noite' },
-            ]}
-            valor={periodo}
-            onChange={setPeriodo}
-          />
-          <SeletorSegmentado
-            opcoes={[
-              { valor: 'IDA', rotulo: 'Ida' },
-              { valor: 'VOLTA', rotulo: 'Volta' },
-            ]}
-            valor={trecho}
-            onChange={setTrecho}
-          />
-        </Secao>
+          <Secao titulo="SeletorSegmentado">
+            <SeletorSegmentado
+              rotulo="Período"
+              opcoes={[
+                { valor: 'MANHA', rotulo: 'Manhã' },
+                { valor: 'TARDE', rotulo: 'Tarde' },
+                { valor: 'NOITE', rotulo: 'Noite' },
+              ]}
+              valor={periodo}
+              onChange={setPeriodo}
+            />
+            <SeletorSegmentado
+              opcoes={[
+                { valor: 'IDA', rotulo: 'Ida' },
+                { valor: 'VOLTA', rotulo: 'Volta' },
+              ]}
+              valor={trecho}
+              onChange={setTrecho}
+            />
+          </Secao>
 
-        <Secao titulo="SeletorModal">
-          <SeletorModal
-            rotulo="Grupo"
-            opcoes={grupos}
-            valor={grupo}
-            onSelecionar={(opcao) => setGrupo(opcao.id)}
-          />
-          <SeletorModal
-            rotulo="Motorista responsável"
-            opcoes={motoristas}
-            valor={motorista}
-            placeholder="Escolha um motorista"
-            onSelecionar={(opcao) => setMotorista(opcao.id)}
-            dica="Um motorista não pode conduzir duas turmas do mesmo grupo."
-          />
-          <SeletorModal rotulo="Sem opções" opcoes={[]} valor={null} onSelecionar={() => {}} />
-        </Secao>
+          <Secao titulo="SeletorModal">
+            <SeletorModal
+              rotulo="Grupo"
+              opcoes={grupos}
+              valor={grupo}
+              onSelecionar={(opcao) => setGrupo(opcao.id)}
+            />
+            <SeletorModal
+              rotulo="Motorista responsável"
+              opcoes={motoristas}
+              valor={motorista}
+              placeholder="Escolha um motorista"
+              onSelecionar={(opcao) => setMotorista(opcao.id)}
+              dica="Um motorista não pode conduzir duas turmas do mesmo grupo."
+            />
+            <SeletorModal rotulo="Sem opções" opcoes={[]} valor={null} onSelecionar={() => {}} />
+          </Secao>
 
-        <Secao titulo="Aviso">
-          <Aviso
-            titulo="Não dá mais para incluir a ida pelo app"
-            texto="A van saiu às 18:10. Se ainda precisa ir, fale com o motorista pelo WhatsApp."
-          />
-          <Aviso
-            tom="alerta"
-            titulo="Ida cancelada depois da saída"
-            texto="O motorista foi avisado."
-          />
-        </Secao>
+          <Secao titulo="Aviso">
+            <Aviso
+              titulo="Não dá mais para incluir a ida pelo app"
+              texto="A van saiu às 18:10. Se ainda precisa ir, fale com o motorista pelo WhatsApp."
+            />
+            <Aviso
+              tom="alerta"
+              titulo="Ida cancelada depois da saída"
+              texto="O motorista foi avisado."
+            />
+          </Secao>
 
-        <Secao titulo="DialogoConfirmacao">
-          <Botao rotulo="Abrir diálogo" variante="contorno" onPress={() => setDialogo(true)} />
-        </Secao>
-      </ScrollView>
+          <Secao titulo="DialogoConfirmacao">
+            <Botao rotulo="Abrir diálogo" variante="contorno" onPress={() => setDialogo(true)} />
+          </Secao>
+        </ScrollView>
+      </EvitarTeclado>
 
       <DialogoConfirmacao
         visivel={dialogo}
