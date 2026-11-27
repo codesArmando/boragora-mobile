@@ -8,7 +8,7 @@ import { cores } from '@/theme/cores';
 // o motorista e o chefe.
 export const opcoesAbas = {
   headerShown: false,
-  tabBarStyle: { backgroundColor: cores.fundo, borderTopColor: cores.borda, paddingTop: 8 },
+  tabBarStyle: { backgroundColor: cores.fundo, borderTopColor: cores.borda },
   tabBarActiveTintColor: cores.destaque,
   tabBarInactiveTintColor: cores.textoApagado,
   tabBarLabelStyle: { fontSize: 12, fontWeight: '600' as const },

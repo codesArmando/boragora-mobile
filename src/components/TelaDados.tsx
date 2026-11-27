@@ -1,4 +1,4 @@
-import { useCallback, useState, type ReactNode } from 'react';
+import { useCallback, useRef, useState, type ReactNode } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -51,9 +51,15 @@ export function TelaDados<T>({
     [carregar],
   );
 
+  // Carrega sempre na primeira vez; `recarregarAoFocar` só decide se recarrega ao voltar
+  // para a tela. Antes, com `false`, a tela nunca carregava e ficava no indicador.
+  const jaCarregou = useRef(false);
   useFocusEffect(
     useCallback(() => {
-      if (recarregarAoFocar) void buscar();
+      if (recarregarAoFocar || !jaCarregou.current) {
+        jaCarregou.current = true;
+        void buscar();
+      }
     }, [buscar, recarregarAoFocar]),
   );
 
