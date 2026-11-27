@@ -1,9 +1,26 @@
 import Feather from '@expo/vector-icons/Feather';
-import { useFocusEffect, useLocalSearchParams } from 'expo-router';
-import { useCallback, useState } from 'react';
-import { Platform, Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
+import {
+  router,
+  useFocusEffect,
+  useLocalSearchParams,
+  useNavigation,
+  usePreventRemove,
+  type NavigationAction,
+} from 'expo-router';
+import { useCallback, useEffect, useState } from 'react';
+import {
+  Alert,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Switch,
+  Text,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { Botao } from '@/components/Botao';
 import { Cabecalho } from '@/components/Cabecalho';
 import { Carregando } from '@/components/Carregando';
 import { DialogoConfirmacao } from '@/components/DialogoConfirmacao';
@@ -17,32 +34,46 @@ import {
 import { cores } from '@/theme/cores';
 import { medidas } from '@/theme/medidas';
 import { tipografia } from '@/theme/tipografia';
-import type { PlanoDoDia, StatusVolta } from '@/types/plano';
+import type { EstadoPlano, PlanoDoDia, StatusVolta } from '@/types/plano';
 import { dataDaApiPorExtenso } from '@/utils/data';
 import { estadoDoPlano } from '@/utils/estadoDoPlano';
+import {
+  alteracoesDoRascunho,
+  rascunhoDe,
+  temAlteracoes,
+  type RascunhoDoPlano,
+} from '@/utils/rascunhoDoPlano';
 
-// B1 a B7: plano de hoje de uma turma (ALU-02 a ALU-06). Toda regra de horário vem da API
-// (`acoes`, `idaSaiu`, `voltaSaiu`); a tela só escolhe o texto de cada situação.
+// B1 a B7: plano de hoje de uma turma (ALU-02 a ALU-06). Os interruptores e o status da volta
+// mudam só um rascunho; o "Confirmar" grava (pedido da equipe depois dos testes manuais). Toda
+// regra de horário vem da API (`acoes`, `idaSaiu`, `voltaSaiu`); a tela só escolhe os textos.
 export default function PlanoHojeAluno() {
   const { turmaId: parametro } = useLocalSearchParams<{ turmaId: string }>();
   const turmaId = Number(parametro);
+  const navegacao = useNavigation();
   const [plano, setPlano] = useState<PlanoDoDia | null>(null);
+  const [rascunho, setRascunho] = useState<RascunhoDoPlano | null>(null);
   const [erro, setErro] = useState<unknown>(null);
   const [carregando, setCarregando] = useState(true);
   const [salvando, setSalvando] = useState(false);
   const [confirmandoCancelamento, setConfirmandoCancelamento] = useState(false);
 
+  const aplicar = useCallback((novo: PlanoDoDia) => {
+    setPlano(novo);
+    setRascunho(rascunhoDe(novo));
+  }, []);
+
   const carregar = useCallback(async () => {
     setCarregando(true);
     setErro(null);
     try {
-      setPlano(await buscarPlano(turmaId));
+      aplicar(await buscarPlano(turmaId));
     } catch (falha) {
       setErro(falha);
     } finally {
       setCarregando(false);
     }
-  }, [turmaId]);
+  }, [turmaId, aplicar]);
 
   useFocusEffect(
     useCallback(() => {
@@ -50,14 +81,81 @@ export default function PlanoHojeAluno() {
     }, [carregar]),
   );
 
-  async function atualizar(acao: () => Promise<PlanoDoDia>) {
+  const alteracoes = plano && rascunho ? alteracoesDoRascunho(plano, rascunho) : {};
+  const pendente = temAlteracoes(alteracoes);
+
+  // Sair com alterações não confirmadas pergunta antes de descartar. Ao descartar, a trava
+  // desliga primeiro e só depois a saída bloqueada é repetida (efeito abaixo).
+  const [saidaDescartada, setSaidaDescartada] = useState<NavigationAction | null>(null);
+  usePreventRemove(pendente && !salvando && saidaDescartada === null, ({ data }) => {
+    Alert.alert('Descartar as alterações?', 'Você mudou o plano de hoje e não confirmou.', [
+      { text: 'Continuar editando', style: 'cancel' },
+      { text: 'Descartar', style: 'destructive', onPress: () => setSaidaDescartada(data.action) },
+    ]);
+  });
+  useEffect(() => {
+    if (saidaDescartada !== null) navegacao.dispatch(saidaDescartada);
+  }, [saidaDescartada, navegacao]);
+
+  if (plano === null || rascunho === null) {
+    return (
+      <SafeAreaView style={estilos.tela} edges={['top']}>
+        <Cabecalho titulo="Plano de hoje" voltar />
+        <View style={estilos.conteudo}>
+          {erro !== null && !carregando ? (
+            <EstadoErro erro={erro} tentarNovamente={() => void carregar()} />
+          ) : (
+            <Carregando />
+          )}
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  const salvo = plano;
+  const atual = rascunho;
+  const estado = estadoDoPlano(salvo);
+  // Os avisos acompanham o que está na tela (rascunho), com os horários do que está salvo.
+  const estadoNaTela = estadoDoPlano({ ...salvo, ...atual });
+  const { grupo } = salvo.turma;
+  const ida = grupo.horarioSaidaIda;
+  const volta = grupo.horarioSaidaVolta;
+  const podeAlterarIda = salvo.incluiIda ? salvo.acoes.podeCancelarIda : salvo.acoes.podeIncluirIda;
+  const podeAlterarVolta = salvo.acoes.podeAlterarVolta && !salvo.voltaSaiu;
+  // Com a volta já salva vale o bloco `acoes`; marcada só no rascunho, vale poder alterar a volta.
+  const mostraStatus =
+    atual.incluiVolta &&
+    (salvo.incluiVolta ? salvo.acoes.podeAlterarStatusVolta : salvo.acoes.podeAlterarVolta);
+  const statusEditavel = mostraStatus && !salvo.voltaSaiu;
+  const podeConfirmar = podeAlterarIda || podeAlterarVolta || statusEditavel;
+
+  function confirmar() {
+    // B4: cancelar a ida depois da saída pede confirmação na folha inferior.
+    if (alteracoes.ida === false && salvo.acoes.cancelamentoIdaSeraTardio) {
+      setConfirmandoCancelamento(true);
+      return;
+    }
+    void salvar();
+  }
+
+  async function salvar() {
     setSalvando(true);
     setErro(null);
+    let resultado = salvo;
     try {
-      setPlano(await acao());
+      if (alteracoes.ida !== undefined) resultado = await alterarIda(turmaId, alteracoes.ida);
+      if (alteracoes.volta !== undefined) resultado = await alterarVolta(turmaId, alteracoes.volta);
+      if (alteracoes.statusVolta !== undefined)
+        resultado = await alterarStatusVolta(turmaId, alteracoes.statusVolta);
+      aplicar(resultado);
+      Alert.alert('Presença confirmada', resumoDoPlano(resultado), [
+        { text: 'OK', onPress: () => router.back() },
+      ]);
     } catch (falha) {
+      // O que já foi gravado vira o plano salvo; o resto continua no rascunho para tentar de novo.
+      setPlano(resultado);
       setErro(falha);
-      // O servidor revalida o horário; com 422 o estado mudou, então recarrega.
+      // O servidor revalida o horário; com 422 a tela recarrega e se corrige.
       if (falha && typeof falha === 'object' && 'status' in falha && falha.status === 422) {
         await carregar();
       }
@@ -66,52 +164,32 @@ export default function PlanoHojeAluno() {
     }
   }
 
-  if (plano === null) {
-    return (
-      <SafeAreaView style={estilos.tela} edges={['top']}>
-        <Cabecalho titulo="Plano de hoje" voltar />
-        <View style={estilos.conteudo}>
-          {carregando || erro === null ? (
-            <Carregando />
-          ) : (
-            <EstadoErro erro={erro} tentarNovamente={() => void carregar()} />
-          )}
-        </View>
-      </SafeAreaView>
-    );
-  }
-
-  const estado = estadoDoPlano(plano);
-  const { grupo } = plano.turma;
-  const ida = grupo.horarioSaidaIda;
-  const volta = grupo.horarioSaidaVolta;
-  const idaTravada = !(plano.incluiIda ? plano.acoes.podeCancelarIda : plano.acoes.podeIncluirIda);
-  const voltaTravada = !plano.acoes.podeAlterarVolta;
-
-  function alternarIda(incluir: boolean) {
-    if (!incluir && plano?.acoes.cancelamentoIdaSeraTardio) {
-      setConfirmandoCancelamento(true);
-      return;
-    }
-    void atualizar(() => alterarIda(turmaId, incluir));
-  }
-
-  const textoIda = plano.cancelouAposSaida
+  // Texto de cada trecho: o que está salvo aparece como "Confirmada"; o que mudou só no
+  // rascunho pede o "Confirmar".
+  const idaMudou = atual.incluiIda !== salvo.incluiIda;
+  const voltaMudou = atual.incluiVolta !== salvo.incluiVolta;
+  const textoIda = salvo.cancelouAposSaida
     ? 'Cancelada depois da saída'
-    : plano.idaSaiu && plano.incluiIda
-      ? `Confirmada · ${plano.voltaSaiu ? 'saiu' : 'a van saiu'} às ${ida}`
-      : plano.idaSaiu
-        ? `Encerrada às ${ida}`
-        : plano.incluiIda
-          ? `Confirmada · sai às ${ida}`
-          : `Sai às ${ida} · marque até lá`;
-
-  const textoVolta =
-    plano.voltaSaiu && plano.incluiVolta
+    : idaMudou
+      ? atual.incluiIda
+        ? 'Marcada · toque em Confirmar'
+        : 'Desmarcada · toque em Confirmar'
+      : salvo.idaSaiu && salvo.incluiIda
+        ? `Confirmada · ${salvo.voltaSaiu ? 'saiu' : 'a van saiu'} às ${ida}`
+        : salvo.idaSaiu
+          ? `Encerrada às ${ida}`
+          : salvo.incluiIda
+            ? `Confirmada · sai às ${ida}`
+            : `Sai às ${ida} · marque até lá`;
+  const textoVolta = voltaMudou
+    ? atual.incluiVolta
+      ? 'Marcada · toque em Confirmar'
+      : 'Desmarcada · toque em Confirmar'
+    : salvo.voltaSaiu && salvo.incluiVolta
       ? `Confirmada · saiu às ${volta}`
-      : plano.voltaSaiu
+      : salvo.voltaSaiu
         ? `Encerrada às ${volta}`
-        : plano.incluiVolta
+        : salvo.incluiVolta
           ? `Confirmada · sai às ${volta}`
           : `Sai às ${volta} · marque até lá`;
 
@@ -119,18 +197,19 @@ export default function PlanoHojeAluno() {
     <SafeAreaView style={estilos.tela} edges={['top']}>
       <Cabecalho
         titulo="Plano de hoje"
-        subtitulo={`${dataDaApiPorExtenso(plano.data)} · ${grupo.nome} · ${plano.turma.nome}`}
+        subtitulo={`${dataDaApiPorExtenso(salvo.data)} · ${grupo.nome} · ${salvo.turma.nome}`}
         voltar
       />
       <ScrollView contentContainerStyle={estilos.conteudo}>
         <CartaoTrecho
           titulo="Ida"
           texto={textoIda}
-          marcado={plano.incluiIda}
-          travado={idaTravada}
-          cancelado={plano.cancelouAposSaida}
+          marcado={atual.incluiIda}
+          confirmado={atual.incluiIda && !idaMudou}
+          travado={!podeAlterarIda}
+          cancelado={salvo.cancelouAposSaida}
           desabilitado={salvando}
-          onChange={alternarIda}
+          onChange={(incluir) => setRascunho({ ...atual, incluiIda: incluir })}
         />
 
         {estado === 'IDA_CANCELADA' && (
@@ -153,28 +232,26 @@ export default function PlanoHojeAluno() {
         <CartaoTrecho
           titulo="Volta"
           texto={textoVolta}
-          marcado={plano.incluiVolta}
-          travado={voltaTravada}
+          marcado={atual.incluiVolta}
+          confirmado={atual.incluiVolta && !voltaMudou}
+          travado={!podeAlterarVolta}
           desabilitado={salvando}
-          onChange={(incluir) => void atualizar(() => alterarVolta(turmaId, incluir))}
+          onChange={(incluir) => setRascunho({ ...atual, incluiVolta: incluir })}
         />
 
-        {plano.incluiVolta && (
+        {mostraStatus && (
           <View style={estilos.status}>
             <Text style={estilos.rotuloStatus}>STATUS DA VOLTA</Text>
             <View style={estilos.opcoesStatus} accessibilityRole="radiogroup">
               {(['EM_AULA', 'LIBERADO'] as StatusVolta[]).map((status) => {
-                const ativo = plano.statusVolta === status;
+                const ativo = atual.statusVolta === status;
                 return (
                   <Pressable
                     key={status}
                     accessibilityRole="radio"
-                    accessibilityState={{
-                      selected: ativo,
-                      disabled: !plano.acoes.podeAlterarStatusVolta,
-                    }}
-                    onPress={() => void atualizar(() => alterarStatusVolta(turmaId, status))}
-                    disabled={salvando || ativo || !plano.acoes.podeAlterarStatusVolta}
+                    accessibilityState={{ selected: ativo, disabled: !statusEditavel }}
+                    onPress={() => setRascunho({ ...atual, statusVolta: status })}
+                    disabled={salvando || !statusEditavel}
                     style={[
                       estilos.opcao,
                       ativo &&
@@ -196,17 +273,31 @@ export default function PlanoHojeAluno() {
                 );
               })}
             </View>
-            {plano.acoes.podeAlterarStatusVolta && (
-              <Text style={estilos.dicaStatus}>Pode mudar até {volta}.</Text>
-            )}
+            {statusEditavel && <Text style={estilos.dica}>Pode mudar até {volta}.</Text>}
           </View>
         )}
 
-        <Text style={estilos.aviso}>{avisoDaSituacao(plano, estado, ida, volta)}</Text>
+        <Text style={estilos.aviso}>{avisoDaSituacao(estadoNaTela, atual, ida, volta)}</Text>
         {erro !== null && <EstadoErro erro={erro} tentarNovamente={() => void carregar()} />}
+
+        {estado !== 'ENCERRADO' && podeConfirmar && (
+          <View style={estilos.rodape}>
+            <Botao
+              rotulo="Confirmar"
+              onPress={confirmar}
+              carregando={salvando}
+              desabilitado={!pendente}
+            />
+            <Text style={estilos.dicaRodape}>
+              {pendente
+                ? 'Toque em Confirmar para salvar as alterações.'
+                : 'Mude a ida ou a volta e toque em Confirmar.'}
+            </Text>
+          </View>
+        )}
       </ScrollView>
 
-      {/* B4: cancelamento da ida depois da saída. */}
+      {/* B4: cancelamento da ida depois da saída, no "Confirmar". */}
       <DialogoConfirmacao
         visivel={confirmandoCancelamento}
         titulo="Cancelar a ida depois da saída?"
@@ -214,10 +305,13 @@ export default function PlanoHojeAluno() {
         rotuloConfirmar="Cancelar a ida"
         rotuloCancelar="Manter a ida"
         carregando={salvando}
-        onCancelar={() => setConfirmandoCancelamento(false)}
-        onConfirmar={async () => {
-          await atualizar(() => alterarIda(turmaId, false));
+        onCancelar={() => {
           setConfirmandoCancelamento(false);
+          setRascunho((r) => (r ? { ...r, incluiIda: true } : r));
+        }}
+        onConfirmar={async () => {
+          setConfirmandoCancelamento(false);
+          await salvar();
         }}
       />
     </SafeAreaView>
@@ -225,8 +319,8 @@ export default function PlanoHojeAluno() {
 }
 
 function avisoDaSituacao(
-  plano: PlanoDoDia,
-  estado: ReturnType<typeof estadoDoPlano>,
+  estado: EstadoPlano,
+  atual: RascunhoDoPlano,
   ida: string,
   volta: string,
 ): string {
@@ -234,14 +328,14 @@ function avisoDaSituacao(
     case 'SEM_PLANO':
       return 'Sem nada marcado, você fica como ausente hoje e não aparece na lista do motorista.';
     case 'DECLARADO':
-      return plano.incluiIda
-        ? `Para cancelar a ida, é só desmarcar. Depois das ${ida} o motorista é avisado na hora.`
+      return atual.incluiIda
+        ? `Para cancelar a ida, desmarque e confirme. Depois das ${ida} o motorista é avisado na hora.`
         : `Você pode marcar a ida até ${ida}.`;
     case 'APOS_SAIDA':
       return 'Se desmarcar a ida agora, o motorista é avisado na hora e não dá para marcar de novo pelo app.';
     case 'IDA_CANCELADA':
     case 'IDA_BLOQUEADA':
-      return plano.incluiVolta
+      return atual.incluiVolta
         ? 'Se também não for voltar, desmarque a volta.'
         : `Você ainda pode marcar a volta até ${volta}.`;
     case 'ENCERRADO':
@@ -249,10 +343,21 @@ function avisoDaSituacao(
   }
 }
 
+function resumoDoPlano(plano: PlanoDoDia): string {
+  const ida = plano.incluiIda ? 'vou' : 'não vou';
+  const volta = !plano.incluiVolta
+    ? 'não vou'
+    : plano.statusVolta === 'LIBERADO'
+      ? 'vou (liberado)'
+      : 'vou (em aula)';
+  return `Seu plano de hoje foi salvo.\nIda: ${ida}\nVolta: ${volta}`;
+}
+
 function CartaoTrecho({
   titulo,
   texto,
   marcado,
+  confirmado,
   travado,
   cancelado = false,
   desabilitado,
@@ -261,18 +366,21 @@ function CartaoTrecho({
   titulo: string;
   texto: string;
   marcado: boolean;
+  /** Marcado e já gravado: fica amarelo, como no protótipo. */
+  confirmado: boolean;
   travado: boolean;
   cancelado?: boolean;
   desabilitado: boolean;
   onChange: (valor: boolean) => void;
 }) {
   // Amarelo quando confirmado e ainda dá para mudar; escuro com cadeado quando o horário passou.
-  const destaque = marcado && !travado;
+  const destaque = confirmado && !travado;
   return (
     <View
       style={[
         estilos.cartao,
         destaque && estilos.cartaoMarcado,
+        marcado && !confirmado && !travado && estilos.cartaoPendente,
         cancelado && estilos.cartaoCancelado,
       ]}
     >
@@ -295,8 +403,13 @@ function CartaoTrecho({
           value={marcado}
           onValueChange={onChange}
           disabled={desabilitado}
-          trackColor={{ false: cores.bordaBotaoSecundario, true: cores.textoSobreDestaque }}
-          thumbColor={marcado ? cores.destaque : cores.textoSecundario}
+          trackColor={{
+            false: cores.bordaBotaoSecundario,
+            true: destaque ? cores.textoSobreDestaque : cores.destaque,
+          }}
+          thumbColor={
+            destaque ? cores.destaque : marcado ? cores.textoSobreDestaque : cores.textoSecundario
+          }
           accessibilityLabel={`Presença na ${titulo.toLowerCase()}`}
           // O switch nativo do Android é menor que o do protótipo.
           style={Platform.OS === 'android' ? estilos.switchAndroid : undefined}
@@ -322,6 +435,7 @@ const estilos = StyleSheet.create({
     borderRadius: medidas.raioCartao,
   },
   cartaoMarcado: { backgroundColor: cores.destaque, borderColor: cores.destaque },
+  cartaoPendente: { borderColor: cores.destaque },
   cartaoCancelado: { borderColor: cores.perigo },
   textosCartao: { flex: 1, gap: 6 },
   tituloCartao: { color: cores.texto, fontFamily: tipografia.titulo, fontSize: 30 },
@@ -331,8 +445,8 @@ const estilos = StyleSheet.create({
     fontSize: 15,
   },
   textoSobreDestaque: { color: cores.textoSobreDestaque },
-  switchAndroid: { transform: [{ scale: 1.3 }] },
   textoCancelado: { color: cores.perigo },
+  switchAndroid: { transform: [{ scale: 1.3 }] },
   status: { gap: 10, marginTop: 6 },
   rotuloStatus: {
     color: cores.textoApagado,
@@ -361,7 +475,7 @@ const estilos = StyleSheet.create({
   textoOpcao: { color: cores.textoSecundario, fontFamily: tipografia.texto.semibold, fontSize: 16 },
   textoOpcaoEmAula: { color: cores.textoSobreDestaque, fontFamily: tipografia.texto.negrito },
   textoOpcaoLiberado: { color: cores.liberadoTexto, fontFamily: tipografia.texto.negrito },
-  dicaStatus: { color: cores.textoApagado, fontFamily: tipografia.texto.regular, fontSize: 14 },
+  dica: { color: cores.textoApagado, fontFamily: tipografia.texto.regular, fontSize: 14 },
   aviso: {
     marginTop: 6,
     color: cores.textoSecundario,
@@ -381,5 +495,12 @@ const estilos = StyleSheet.create({
     fontFamily: tipografia.texto.regular,
     fontSize: 15,
     lineHeight: 21,
+  },
+  rodape: { gap: 8, marginTop: 16 },
+  dicaRodape: {
+    color: cores.textoApagado,
+    fontFamily: tipografia.texto.regular,
+    fontSize: 14,
+    textAlign: 'center',
   },
 });

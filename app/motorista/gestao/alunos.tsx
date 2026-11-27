@@ -23,6 +23,7 @@ export default function AlunosAdmin() {
   const carregar = useCallback(() => listarAlunosAdmin(), []);
   return (
     <TelaDados
+      voltar
       carregar={carregar}
       titulo="Alunos"
       subtitulo="Somente consulta. Os alunos criam a própria conta, e o vínculo é feito dentro de cada turma."

@@ -1,8 +1,8 @@
 import { api } from '@/api/api';
+import type { PushTokenRequisicao } from '@/types/push';
 
-// Token do Expo Push do aparelho (NOT-02, etapa E8 do backend).
-export function registrarTokenPush(token: string) {
-  return api.put<void>('/me/push-token', { token });
+export function registrarTokenPush(requisicao: PushTokenRequisicao) {
+  return api.put<void>('/me/push-token', requisicao);
 }
 
 export function removerTokenPush() {

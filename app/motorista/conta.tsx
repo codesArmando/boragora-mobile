@@ -6,6 +6,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Cartao } from '@/components/Cartao';
 import { iniciais } from '@/components/LinhaAluno';
 import { TelaDados } from '@/components/TelaDados';
+import { TokenPushDev } from '@/components/TokenPushDev';
 import { useSessao } from '@/contexts/SessaoContext';
 import { listarTurmasDoMotoristaComTotal } from '@/repositories/turmaRepository';
 import { cores } from '@/theme/cores';
@@ -69,6 +70,7 @@ export default function ContaMotorista() {
             <Feather name="log-out" size={20} color={cores.texto} />
             <Text style={estilos.textoSair}>Sair</Text>
           </Pressable>
+          {__DEV__ && <TokenPushDev />}
         </View>
       )}
     />

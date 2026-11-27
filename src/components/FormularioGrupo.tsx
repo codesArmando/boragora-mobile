@@ -1,5 +1,7 @@
 import { useState, type ReactNode } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+
+import { EvitarTeclado } from '@/components/EvitarTeclado';
 
 import { Aviso } from '@/components/Aviso';
 import { Botao } from '@/components/Botao';
@@ -94,10 +96,7 @@ export function FormularioGrupo({
   const aviso = erroGeral ?? erroExterno;
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      style={estilos.tela}
-    >
+    <EvitarTeclado style={estilos.tela}>
       <ScrollView contentContainerStyle={estilos.conteudo} keyboardShouldPersistTaps="handled">
         {aviso !== null && <Aviso tom="alerta" titulo={aviso} />}
 
@@ -156,7 +155,7 @@ export function FormularioGrupo({
         />
         {rodape}
       </View>
-    </KeyboardAvoidingView>
+    </EvitarTeclado>
   );
 }
 

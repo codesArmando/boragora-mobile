@@ -1,6 +1,8 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+
+import { EvitarTeclado } from '@/components/EvitarTeclado';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ErroApi } from '@/api/ErroApi';
@@ -71,10 +73,7 @@ export default function NovoMotorista() {
   return (
     <SafeAreaView style={estilos.tela}>
       <Cabecalho titulo="Novo motorista" />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        style={estilos.corpo}
-      >
+      <EvitarTeclado style={estilos.corpo}>
         <ScrollView contentContainerStyle={estilos.conteudo} keyboardShouldPersistTaps="handled">
           {erroGeral !== null && <Aviso tom="alerta" titulo={erroGeral} />}
           <Text style={estilos.explicacao}>
@@ -123,7 +122,7 @@ export default function NovoMotorista() {
         <View style={estilos.rodape}>
           <Botao rotulo="Cadastrar motorista" carregando={salvando} onPress={cadastrar} />
         </View>
-      </KeyboardAvoidingView>
+      </EvitarTeclado>
     </SafeAreaView>
   );
 }

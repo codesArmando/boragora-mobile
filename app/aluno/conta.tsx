@@ -5,6 +5,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Cartao } from '@/components/Cartao';
 import { iniciais } from '@/components/LinhaAluno';
 import { TelaDados } from '@/components/TelaDados';
+import { TokenPushDev } from '@/components/TokenPushDev';
 import { useSessao } from '@/contexts/SessaoContext';
 import { listarMinhasTurmas } from '@/repositories/planoRepository';
 import { cores } from '@/theme/cores';
@@ -75,6 +76,7 @@ export default function ContaAluno() {
             <Feather name="log-out" size={20} color={cores.texto} />
             <Text style={estilos.textoSair}>{saindo ? 'Saindo…' : 'Sair'}</Text>
           </Pressable>
+          {__DEV__ && <TokenPushDev />}
         </View>
       )}
     />

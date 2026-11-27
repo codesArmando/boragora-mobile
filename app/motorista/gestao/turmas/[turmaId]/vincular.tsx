@@ -8,6 +8,7 @@ import { ErroApi } from '@/api/ErroApi';
 import { Aviso } from '@/components/Aviso';
 import { Botao } from '@/components/Botao';
 import { Cabecalho } from '@/components/Cabecalho';
+import { EvitarTeclado } from '@/components/EvitarTeclado';
 import { CampoBusca } from '@/components/CampoBusca';
 import { Carregando } from '@/components/Carregando';
 import { EstadoErro } from '@/components/EstadoErro';
@@ -112,102 +113,104 @@ export default function VincularAlunos() {
         subtitulo={turma === null ? undefined : tituloDaTurma(turma)}
       />
 
-      <View style={estilos.busca}>
-        <CampoBusca value={busca} onChangeText={setBusca} editable={!salvando} />
-      </View>
-
-      {alunos === null && (
-        <View style={estilos.estado}>
-          {erro === null ? (
-            <Carregando />
-          ) : (
-            <EstadoErro
-              erro={erro}
-              tentarNovamente={() => {
-                setErro(null);
-                void carregar(buscaAplicada);
-              }}
-            />
-          )}
+      <EvitarTeclado>
+        <View style={estilos.busca}>
+          <CampoBusca value={busca} onChangeText={setBusca} editable={!salvando} />
         </View>
-      )}
 
-      {alunos !== null && (
-        <>
-          {erroVinculo !== null && (
-            <View style={estilos.aviso}>
-              <Aviso tom="alerta" titulo={erroVinculo} />
-            </View>
-          )}
+        {alunos === null && (
+          <View style={estilos.estado}>
+            {erro === null ? (
+              <Carregando />
+            ) : (
+              <EstadoErro
+                erro={erro}
+                tentarNovamente={() => {
+                  setErro(null);
+                  void carregar(buscaAplicada);
+                }}
+              />
+            )}
+          </View>
+        )}
 
-          {alunos.length === 0 ? (
-            <View style={estilos.estado}>
-              <EstadoVazio
-                mensagem={
-                  buscaAplicada === '' ? 'Nenhum aluno para vincular' : 'Nenhum aluno encontrado'
-                }
-              >
-                <Text style={estilos.textoVazio}>
-                  {buscaAplicada === ''
-                    ? 'Todos os alunos cadastrados já estão nesta turma.'
-                    : 'Tente buscar por outro nome ou e-mail.'}
-                </Text>
-              </EstadoVazio>
-            </View>
-          ) : (
-            <FlatList
-              data={alunos}
-              keyExtractor={(aluno) => String(aluno.id)}
-              contentContainerStyle={estilos.lista}
-              keyboardShouldPersistTaps="handled"
-              ItemSeparatorComponent={() => <View style={estilos.separador} />}
-              renderItem={({ item }) => {
-                const bloqueado = item.situacao === 'CONFLITO_NO_GRUPO';
-                const marcado = marcados.includes(item.id);
-                return (
-                  <Pressable
-                    accessibilityRole="checkbox"
-                    accessibilityLabel={`${item.nome}. ${rotuloDaSituacao(item)}`}
-                    accessibilityState={{ checked: marcado, disabled: bloqueado }}
-                    disabled={bloqueado || salvando}
-                    onPress={() => alternar(item)}
-                    style={estilos.linha}
-                  >
-                    <View
-                      style={[
-                        estilos.caixa,
-                        marcado && estilos.caixaMarcada,
-                        bloqueado && estilos.caixaBloqueada,
-                      ]}
+        {alunos !== null && (
+          <>
+            {erroVinculo !== null && (
+              <View style={estilos.aviso}>
+                <Aviso tom="alerta" titulo={erroVinculo} />
+              </View>
+            )}
+
+            {alunos.length === 0 ? (
+              <View style={estilos.estado}>
+                <EstadoVazio
+                  mensagem={
+                    buscaAplicada === '' ? 'Nenhum aluno para vincular' : 'Nenhum aluno encontrado'
+                  }
+                >
+                  <Text style={estilos.textoVazio}>
+                    {buscaAplicada === ''
+                      ? 'Todos os alunos cadastrados já estão nesta turma.'
+                      : 'Tente buscar por outro nome ou e-mail.'}
+                  </Text>
+                </EstadoVazio>
+              </View>
+            ) : (
+              <FlatList
+                data={alunos}
+                keyExtractor={(aluno) => String(aluno.id)}
+                contentContainerStyle={estilos.lista}
+                keyboardShouldPersistTaps="handled"
+                ItemSeparatorComponent={() => <View style={estilos.separador} />}
+                renderItem={({ item }) => {
+                  const bloqueado = item.situacao === 'CONFLITO_NO_GRUPO';
+                  const marcado = marcados.includes(item.id);
+                  return (
+                    <Pressable
+                      accessibilityRole="checkbox"
+                      accessibilityLabel={`${item.nome}. ${rotuloDaSituacao(item)}`}
+                      accessibilityState={{ checked: marcado, disabled: bloqueado }}
+                      disabled={bloqueado || salvando}
+                      onPress={() => alternar(item)}
+                      style={estilos.linha}
                     >
-                      {marcado && (
-                        <Feather name="check" size={20} color={cores.textoSobreDestaque} />
-                      )}
-                    </View>
-                    <View style={estilos.textos}>
-                      <Text style={[estilos.nome, bloqueado && estilos.nomeBloqueado]}>
-                        {item.nome}
-                      </Text>
-                      <Text style={[estilos.situacao, bloqueado && estilos.situacaoConflito]}>
-                        {rotuloDaSituacao(item)}
-                      </Text>
-                    </View>
-                  </Pressable>
-                );
-              }}
-            />
-          )}
-        </>
-      )}
+                      <View
+                        style={[
+                          estilos.caixa,
+                          marcado && estilos.caixaMarcada,
+                          bloqueado && estilos.caixaBloqueada,
+                        ]}
+                      >
+                        {marcado && (
+                          <Feather name="check" size={20} color={cores.textoSobreDestaque} />
+                        )}
+                      </View>
+                      <View style={estilos.textos}>
+                        <Text style={[estilos.nome, bloqueado && estilos.nomeBloqueado]}>
+                          {item.nome}
+                        </Text>
+                        <Text style={[estilos.situacao, bloqueado && estilos.situacaoConflito]}>
+                          {rotuloDaSituacao(item)}
+                        </Text>
+                      </View>
+                    </Pressable>
+                  );
+                }}
+              />
+            )}
+          </>
+        )}
 
-      <View style={estilos.rodape}>
-        <Botao
-          rotulo={rotuloBotao}
-          carregando={salvando}
-          desabilitado={quantidade === 0}
-          onPress={vincular}
-        />
-      </View>
+        <View style={estilos.rodape}>
+          <Botao
+            rotulo={rotuloBotao}
+            carregando={salvando}
+            desabilitado={quantidade === 0}
+            onPress={vincular}
+          />
+        </View>
+      </EvitarTeclado>
     </SafeAreaView>
   );
 }
