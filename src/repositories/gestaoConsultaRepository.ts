@@ -6,9 +6,15 @@ const USAR_MOCKS_ALUNOS = true;
 const USAR_MOCKS_TURMAS = true;
 const USAR_MOCKS_MOTORISTAS = true;
 
-export async function listarAlunosAdmin(): Promise<AlunoAdmin[]> {
-  if (USAR_MOCKS_ALUNOS) return alunosMock;
-  return api.get<AlunoAdmin[]>('/admin/alunos');
+export async function listarAlunosAdmin(busca = ''): Promise<AlunoAdmin[]> {
+  if (USAR_MOCKS_ALUNOS) {
+    const termo = busca.trim().toLocaleLowerCase('pt-BR');
+    return alunosMock.filter((aluno) =>
+      `${aluno.nome} ${aluno.email}`.toLocaleLowerCase('pt-BR').includes(termo),
+    );
+  }
+  const query = busca ? `?busca=${encodeURIComponent(busca)}` : '';
+  return api.get<AlunoAdmin[]>(`/admin/alunos${query}`);
 }
 
 export async function listarTurmasAdmin(): Promise<TurmaCadastro[]> {

@@ -30,11 +30,13 @@ Valores de status: Não iniciada, Em andamento, Aguardando backend, Concluída.
 
 ## Progresso por pessoa
 
+A trilha da pessoa 3 tem a construção das telas, tipos, repositórios e mocks concluída. O backend E4/E5/E7 ainda está pendente; aceite real e revisão visual em aparelho continuam por fazer.
+
 | Pessoa | Entregas | Concluídas |
 |---|---|---|
 | 1 — Acesso, sessão, navegação e notificações | `FND-01`, `FND-05`, `FND-06`, `FND-07`, `ACE-01`, `ACE-02`, `NOT-01` a `NOT-03` | 4 de 9 |
 | 2 — Gestão do motorista-chefe | `FND-03`, `GES-01` a `GES-11` | 0 de 12 (`FND-03` e `GES-01` a `GES-11` construídas; faltam validar no aparelho, e `GES-05` a `GES-11` aguardam E4 e E5) |
-| 3 — Motorista e listas de consulta | `FND-04`, `FND-08`, `LIS-01`, `LIS-03` a `LIS-06`, `GES-12`, `GES-13`, `ACE-04` | 1 de 10 concluídas; 7 com construção parcial e backend/critério pendente |
+| 3 — Motorista e listas de consulta | `FND-04`, `FND-08`, `LIS-01`, `LIS-03` a `LIS-06`, `GES-12`, `GES-13`, `ACE-04` | Construção das entregas atribuídas implementada; aceite real/manual de E4/E5/E7 ainda pendente |
 | 4 — Aluno | `FND-02`, `ALU-01` a `ALU-06`, `LIS-02`, `ACE-03` | 0 de 9 concluídas; FND-02 construída e ALU/ACE com mocks |
 | Todos | `FEC-01` a `FEC-04` | 0 de 4 |
 
@@ -101,6 +103,7 @@ Backend: nenhum.
 - [x] `Selo` (Você, Sua turma, Cancelado, Liberado, Em aula, Vinculado, Sem turma)
 - [x] `EstadoVazio`, `EstadoErro` (com "Tentar de novo") e `Carregando`
 - [x] `ListaAtualizavel` (puxar para atualizar)
+- [x] `app/catalogo.tsx` demonstra cartão, lista e cartões de atalho em catálogo visual
 
 **Critérios de aceite**
 - [x] A tela de catálogo reproduz um cartão da C0, a lista da C2 e os quatro cartões da D1 *(verificação manual)*
@@ -156,11 +159,11 @@ Backend: E3 (pronta) — `GET /grupos`.
 **Construção**
 - [x] `repositories/grupoRepository.ts` com `listarGrupos` e `buscarGrupo`, e `types/grupo.ts`
 - [x] Componente `TelaDados` com os quatro estados (carregando, erro, vazio, com dados), recarga ao focar e atualização por gesto
-- [x] `repositories/mocks/` com os grupos do protótipo, tipados com `types/` (cada trilha acrescenta os dados falsos dos seus endpoints)
-- [x] Padrão de troca de mocks por chamada real adotado nos repositórios (constantes `USAR_MOCKS_*`)
+- [x] `repositories/mocks/` com grupos, turmas/listas diárias e cadastros tipados; cadastros de D3/D10 derivam do mesmo estado falso da gestão
+- [x] Padrão de troca de mocks por chamada real adotado por etapa em `mocksAtivos.ts`; E3 usa API real, E4/E5/E7 seguem mock até integração
 
 **Critérios de aceite**
-- [ ] A tela de modelo lista os grupos reais da API *(verificação manual; grupo real usado nas telas de grupo e gestão)*
+- [ ] A tela de modelo lista os grupos reais da API *(verificação manual ainda pendente)*
 - [ ] A tela de modelo foi revisada por toda a equipe *(verificação manual)*
 
 ---
@@ -252,9 +255,9 @@ Backend: E3 (pronta) — `GET /grupos/{id}`, `PUT` e `DELETE /admin/grupos/{id}`
 Backend: E3 (pronta) — `GET /grupos` com `minhaTurma`. Dados reais de aluno e motorista comum dependem de E4 e E5.
 
 **Construção**
-- [ ] Componente único para B8a (aluno) e C3a (motorista e chefe), mudando só o texto de apoio
-- [x] Tela C3a com grupo, "Sua turma: nome · N turmas no grupo" (ou só "N turmas no grupo" quando `minhaTurma` é nulo) e horários
-- [ ] Estado vazio "Você ainda não está em nenhum grupo"
+- [x] Componente compartilhado `ListaMeusGrupos` para B8a e C3a, com texto de apoio por perfil
+- [x] Grupo, "Sua turma: nome · N turmas no grupo" (ou só "N turmas no grupo" quando `minhaTurma` é nulo) e horários
+- [x] Estado vazio "Você ainda não está em nenhum grupo"
 
 **Critérios de aceite**
 - [ ] O chefe vê todos os grupos *(verificação manual)*
@@ -280,13 +283,13 @@ Backend: E4 — `GET /admin/motoristas` e `POST /admin/motoristas`.
 - [ ] E-mail repetido marca o campo de e-mail *(verificação manual)*
 - [ ] O motorista criado entra no app e vê as abas de motorista, sem Gestão *(verificação manual)*
 
-### `GES-13` Lista de turmas (D3) · pessoa 3
+### `GES-13` Lista de turmas (D3) · pessoa 3 — aguardando E4/E5
 Backend: E4 — `GET /admin/turmas`; E5 para `totalAlunos` maior que zero.
 
 **Construção**
-- [x] `listarTurmasAdmin` em `repositories/gestaoConsultaRepository.ts` (E4/E5 pendentes; usando mock)
-- [ ] Tela D3 com voltar, título "Turmas" e botão "Nova turma"
-- [x] Lista provisória com nome do grupo e da turma, motorista e "N alunos"; agrupamento/horários ainda pendentes
+- [x] `listarTurmasAdmin` em `repositories/gestaoConsultaRepository.ts` (E4/E5 pendentes; usando dados demonstrativos alinhados à gestão)
+- [x] Tela D3 com voltar, título "Turmas" e botão de ação "Nova turma"
+- [x] Lista agrupada por grupo e horários, com nome da turma, motorista, total de alunos e acesso à D5
 - [x] Estado vazio "Nenhuma turma cadastrada"
 
 **Critérios de aceite**
@@ -363,24 +366,25 @@ Backend: E5 — `DELETE /admin/turmas/{id}/alunos/{alunoId}`.
 **Critérios de aceite**
 - [ ] O aluno removido some da D5 e passa a aparecer como disponível na D6 *(verificação manual)*
 
-### `GES-12` Lista de alunos (D10) · pessoa 3
+### `GES-12` Lista de alunos (D10) · pessoa 3 — aguardando E5
 Backend: E5 — `GET /admin/alunos` sem `turmaId`.
 
 **Construção**
-- [x] `listarAlunosAdmin` no repositório (sem `turmaId`; E5 pendente, usando mock)
-- [x] Tela D10 com texto de "somente consulta", busca e total de alunos
+- [x] `listarAlunosAdmin` no repositório (sem `turmaId`; E5 pendente, mock baseado nos dados compartilhados)
+- [x] Tela D10 com texto de "somente consulta", busca por nome/e-mail com espera curta e total de alunos
 - [x] Linhas com nome, e-mail e selo "Vinculado" (quando `turmas` não está vazia) ou "Sem turma"
+- [x] Mock de D10 compartilha vínculos e alunos com os cadastros simulados de turmas da D3/C4
 - [x] Nenhuma ação ao tocar na linha
 
 **Critérios de aceite**
 - [ ] Aparecem alunos com e sem vínculo *(verificação manual)*
 - [ ] Um aluno recém-cadastrado aparece como "Sem turma" e passa a "Vinculado" depois da D6 *(verificação manual)*
 
-### `LIS-06` Alunos da turma (C4) · pessoa 3
+### `LIS-06` Alunos da turma (C4) · pessoa 3 — aguardando E4/E5
 Backend: E4 — `GET /turmas/{id}`; E5 para a lista ter alunos.
 
 **Construção**
-- [x] Tela C4 com motorista, horários, capacidade (quando houver) e alunos vinculados com o total (E4/E5 pendentes; usando mock)
+- [x] Tela C4 com nome da turma e grupo, motorista, horários, capacidade quando informada e alunos vinculados em ordem alfabética (E4/E5 pendentes; usando mock compartilhado)
 
 **Critérios de aceite**
 - [ ] A lista confere com a D5 da mesma turma *(verificação manual)*
@@ -479,9 +483,9 @@ Backend: E2 (pronta) para perfil e "Sair"; E6 para "Minhas turmas".
 Backend: E7 — `GET /motorista/turmas` com contadores; lista vazia para o chefe sem turma.
 
 **Construção**
-- [x] `listarTurmasDoMotorista` em `repositories/turmaRepository.ts` (E7 ainda pendente; usando mock)
-- [x] C0: cartão por turma com horários e contadores, "Hoje: ninguém confirmou ainda" e o destaque de cancelamento tardio (mock)
-- [x] C0b: estado vazio do chefe sem turma, com o botão "Ver grupos" (mock vazio; aguardando E7)
+- [x] `listarTurmasDoMotorista` em `repositories/turmaRepository.ts` (E7 ainda pendente; mock controlado por `mocksAtivos.e7`)
+- [x] C0: cartão por turma com horários e contadores, "Hoje: ninguém confirmou ainda" e destaque de cancelamento tardio
+- [x] C0b: estado vazio do chefe sem turma, com o botão "Ver grupos" quando a lista vem vazia
 
 **Critérios de aceite**
 - [ ] Os contadores conferem com a lista do dia da turma *(verificação manual)*
@@ -491,8 +495,10 @@ Backend: E7 — `GET /motorista/turmas` com contadores; lista vazia para o chefe
 Backend: E7 — `GET /turmas/{id}/hoje`.
 
 **Construção**
-- [x] `buscarTurmaHoje` em `repositories/turmaRepository.ts` (E7 ainda pendente; usando mock)
+- [x] `buscarTurmaHoje` em `repositories/turmaRepository.ts` (E7 ainda pendente; mock controlado por `mocksAtivos.e7`)
 - [x] Cabeçalho com `turma.nome · grupo.nome` e atalho para a C4; contadores; seletor Ida/Volta
+- [x] Cancelados tardios apresentados primeiro na Ida, com selo e destaque textual, sem confundir com confirmação presente
+- [x] Mock da lista compatível com os contadores e com os cenários do protótipo
 - [x] Estado C5 quando `semConfirmacoes`
 - [x] Abre com o trecho Ida e funciona pela rota direta (destino da notificação de cancelamento tardio)
 
@@ -505,27 +511,27 @@ Backend: E7 — `GET /turmas/{id}/hoje`.
 Backend: E7 — `GET /grupos/{id}/hoje` com `minhaTurma` e `voce`; 403 fora do grupo.
 
 **Construção**
-- [ ] `buscarGrupoHoje` no repositório
-- [ ] Tela com o componente `ListaDoGrupo` da `LIS-03`: turma do aluno primeiro com "Sua turma"; o próprio aluno com "Você"; cabeçalho "somente consulta"
+- [x] `buscarGrupoHoje` no repositório, usando o mock E7 até o endpoint ficar disponível
+- [x] Tela com o componente `ListaDoGrupo` da `LIS-03`: turma do aluno primeiro com "Sua turma"; o próprio aluno com "Você"; cabeçalho "somente consulta"
 
 **Critérios de aceite**
 - [ ] Os nomes e contagens conferem com a lista do motorista da mesma turma *(verificação manual)*
 
-### `LIS-03` Grupo do motorista e do chefe (C3) · pessoa 3
+### `LIS-03` Grupo do motorista e do chefe (C3) · pessoa 3 — aguardando E7
 Backend: E7 — o mesmo endpoint.
 
 **Construção**
-- [ ] Componente `ListaDoGrupo` (seletor Ida/Volta, turmas e selos), reutilizado pela `LIS-02`
-- [x] Versão inicial de `motorista/` da tela de grupo com horários, turmas e contadores (E7 pendente; usando mock)
+- [x] Componente `ListaDoGrupo` (seletor Ida/Volta, turmas, alunos e selos), reutilizado pela `LIS-02`
+- [x] Tela de grupo do motorista e do chefe com turma própria recolhida no início e demais turmas abertas (E7 pendente; mock controlado por `mocksAtivos.e7`)
 
 **Critérios de aceite**
 - [ ] O chefe abre qualquer grupo e vê todas as turmas abertas onde não conduz turma *(verificação manual)*
 
-### `ACE-04` Conta do motorista e do chefe (C6) · pessoa 3
+### `ACE-04` Conta do motorista e do chefe (C6) · pessoa 3 — aguardando E7
 Backend: E2 (pronta) para perfil e "Sair"; E7 para "Minhas turmas".
 
 **Construção**
-- [x] Tela C6 com perfil, turmas e ação "Sair" (E7 pendente; usando mock; componente da B9 ainda não disponível)
+- [x] Tela C6 com perfil, turmas, contagem de alunos e ação "Sair"; a lista de turmas some quando vazia (E7 pendente; usando mock)
 
 **Critérios de aceite**
 - [ ] Para o chefe sem turma, "Minhas turmas" não aparece *(verificação manual)*
